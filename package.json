@@ -1,0 +1,46 @@
+{
+  "name": "sprint",
+  "version": "1.0.0",
+  "description": "Welcome to your new CAP project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch-asset-admin": "cds watch --open asset.admin.assetadmin/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-project1": "cds watch --open project1/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-project2": "cds watch --open project2/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-project3": "cds watch --open project3/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-project4": "cds watch --open project4/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-asset": "cds watch --open asset/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-project5": "cds watch --open project5/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-project6": "cds watch --open project6/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-admin-asset": "cds watch --open adminasset/index.html?sap-ui-xx-viewCache=false --livereload false"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@cap-js/hana": "^3.1.2",
+    "@sap/cds": "^10.1.1",
+    "hana": "^0.0.2"
+  },
+  "workspaces": [
+    "app/*"
+  ],
+  "devDependencies": {
+    "cds-plugin-ui5": "^0.17.0"
+  },
+  "sapux": [
+    "app/asset-admin",
+    "app/project1",
+    "app/project2",
+    "app/project3",
+    "app/project4",
+    "app/asset",
+    "app/project5",
+    "app/project5",
+    "app/project6",
+    "app/project1",
+    "app/admin-asset"
+  ]
+}
