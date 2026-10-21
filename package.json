@@ -13,7 +13,10 @@
     "watch-asset": "cds watch --open asset/index.html?sap-ui-xx-viewCache=false --livereload false",
     "watch-project5": "cds watch --open project5/index.html?sap-ui-xx-viewCache=false --livereload false",
     "watch-project6": "cds watch --open project6/index.html?sap-ui-xx-viewCache=false --livereload false",
-    "watch-admin-asset": "cds watch --open adminasset/index.html?sap-ui-xx-viewCache=false --livereload false"
+    "watch-admin-asset": "cds watch --open adminasset/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-project7": "cds watch --open project7/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-admin-dashboard": "cds watch --open asset.lifecycle.dashboard.admindashboard/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-admin-portal": "cds watch --open asset.lifecycle.portal.adminportal/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
   "keywords": [],
   "author": "",
@@ -41,6 +44,8 @@
     "app/project5",
     "app/project6",
     "app/project1",
-    "app/admin-asset"
+    "app/admin-asset",
+    "app/project7",
+    "app/project1"
   ]
 }

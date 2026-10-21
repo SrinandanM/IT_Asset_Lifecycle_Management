@@ -1,0 +1,308 @@
+<mvc:View
+    controllerName="asset.lifecycle.dashboard.admindashboard.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
+
+    <Page
+        id="dashboardPage"
+        title="Admin Dashboard">
+
+        <content>
+
+            <!-- HEADER -->
+
+            <VBox
+                id="headerBox"
+                class="dashboardHeader">
+
+                <Title
+                    id="dashboardTitle"
+                    text="Enterprise Asset Management Dashboard"
+                    level="H1"/>
+
+                <Text
+                    id="dashboardSubTitle"
+                    text="Real-Time Asset Lifecycle Monitoring"/>
+
+            </VBox>
+
+            <!-- KPI SECTION -->
+
+            <VBox
+                id="dashboardVBox"
+                class="sapUiMediumMargin">
+
+                <Title
+                    id="overviewTitle"
+                    text="Asset Overview"
+                    level="H2"/>
+
+                <HBox
+                    id="kpiHBox"
+                    justifyContent="Center"
+                    wrap="Wrap">
+
+                    <GenericTile
+                        id="tileTotal"
+                        header="Total Assets">
+                        <TileContent>
+                            <NumericContent value="{kpi>/totalAssets}" />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        id="tileAvailable"
+                        header="Available Assets">
+                        <TileContent>
+                            <NumericContent value="{kpi>/availableAssets}" />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        id="tileAssigned"
+                        header="Assigned Assets">
+                        <TileContent>
+                            <NumericContent value="{kpi>/assignedAssets}" />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        id="tileMaintenance"
+                        header="Maintenance Assets">
+                        <TileContent>
+                            <NumericContent value="{kpi>/maintenanceAssets}" />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        id="tileRetired"
+                        header="Retired Assets">
+                        <TileContent>
+                            <NumericContent value="{kpi>/retiredAssets}" />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        id="tileArchived"
+                        header="Archived Assets">
+                        <TileContent>
+                            <NumericContent value="{kpi>/archivedAssets}" />
+                        </TileContent>
+                    </GenericTile>
+
+                </HBox>
+
+            </VBox>
+
+            <!-- CHART ROW -->
+
+            <HBox
+                id="chartRow"
+                justifyContent="SpaceAround"
+                wrap="Wrap">
+
+                <!-- STATUS CHART -->
+
+                <VBox
+                    id="statusBox"
+                    width="48%">
+
+                    <Title
+                        id="statusTitle"
+                        text="Assets By Status"
+                        level="H2" />
+
+                    <viz:VizFrame
+                        id="statusChart"
+                        vizType="donut"
+                        width="100%"
+                        height="400px">
+
+                        <viz:dataset>
+
+                            <viz.data:FlattenedDataset
+                                id="statusDataset"
+                                data="{status>/}">
+
+                                <viz.data:dimensions>
+
+                                    <viz.data:DimensionDefinition
+                                        id="statusDimension"
+                                        name="Status"
+                                        value="{status>status}" />
+
+                                </viz.data:dimensions>
+
+                                <viz.data:measures>
+
+                                    <viz.data:MeasureDefinition
+                                        id="statusMeasure"
+                                        name="Assets"
+                                        value="{status>assetCount}" />
+
+                                </viz.data:measures>
+
+                            </viz.data:FlattenedDataset>
+
+                        </viz:dataset>
+
+                        <viz:feeds>
+
+                            <viz.feeds:FeedItem
+                                id="statusSizeFeed"
+                                uid="size"
+                                type="Measure"
+                                values="Assets" />
+
+                            <viz.feeds:FeedItem
+                                id="statusColorFeed"
+                                uid="color"
+                                type="Dimension"
+                                values="Status" />
+
+                        </viz:feeds>
+
+                    </viz:VizFrame>
+
+                </VBox>
+
+                <!-- CATEGORY CHART -->
+
+                <VBox
+                    id="categoryBox"
+                    width="48%">
+
+                    <Title
+                        id="categoryTitle"
+                        text="Assets By Category"
+                        level="H2" />
+
+                    <viz:VizFrame
+                        id="categoryChart"
+                        vizType="column"
+                        width="100%"
+                        height="400px">
+
+                        <viz:dataset>
+
+                            <viz.data:FlattenedDataset
+                                id="categoryDataset"
+                                data="{category>/}">
+
+                                <viz.data:dimensions>
+
+                                    <viz.data:DimensionDefinition
+                                        id="categoryDimension"
+                                        name="Category"
+                                        value="{category>categoryName}" />
+
+                                </viz.data:dimensions>
+
+                                <viz.data:measures>
+
+                                    <viz.data:MeasureDefinition
+                                        id="categoryMeasure"
+                                        name="Assets"
+                                        value="{category>assetCount}" />
+
+                                </viz.data:measures>
+
+                            </viz.data:FlattenedDataset>
+
+                        </viz:dataset>
+
+                        <viz:feeds>
+
+                            <viz.feeds:FeedItem
+                                id="categoryValueFeed"
+                                uid="valueAxis"
+                                type="Measure"
+                                values="Assets" />
+
+                            <viz.feeds:FeedItem
+                                id="categoryDimensionFeed"
+                                uid="categoryAxis"
+                                type="Dimension"
+                                values="Category" />
+
+                        </viz:feeds>
+
+                    </viz:VizFrame>
+
+                </VBox>
+
+            </HBox>
+
+            <!-- DEPARTMENT -->
+
+            <VBox
+                id="departmentBox"
+                class="sapUiMediumMarginTop">
+
+                <Title
+                    id="departmentTitle"
+                    text="Assets By Department"
+                    level="H2" />
+
+                <viz:VizFrame
+                    id="departmentChart"
+                    vizType="bar"
+                    width="100%"
+                    height="400px">
+
+                    <viz:dataset>
+
+                        <viz.data:FlattenedDataset
+                            id="departmentDataset"
+                            data="{department>/}">
+
+                            <viz.data:dimensions>
+
+                                <viz.data:DimensionDefinition
+                                    id="departmentDimension"
+                                    name="Department"
+                                    value="{department>departmentName}" />
+
+                            </viz.data:dimensions>
+
+                            <viz.data:measures>
+
+                                <viz.data:MeasureDefinition
+                                    id="departmentMeasure"
+                                    name="Assets"
+                                    value="{department>assetCount}" />
+
+                            </viz.data:measures>
+
+                        </viz.data:FlattenedDataset>
+
+                    </viz:dataset>
+
+                    <viz:feeds>
+
+                        <viz.feeds:FeedItem
+                            id="departmentValueFeed"
+                            uid="valueAxis"
+                            type="Measure"
+                            values="Assets" />
+
+                        <viz.feeds:FeedItem
+                            id="departmentCategoryFeed"
+                            uid="categoryAxis"
+                            type="Dimension"
+                            values="Department" />
+
+                    </viz:feeds>
+
+                </viz:VizFrame>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

@@ -779,7 +779,14 @@ annotate AssetEmployeeService.Assets with @(
     ]
 );
 annotate AssetAdminService.AssetKPIs with @(
-
+    UI.Identification : [
+        {
+            $Type  : 'UI.DataFieldForAction',
+            Label  : 'Refresh Dashboard',
+            Action : 'AssetAdminService.RefreshDashboard'
+        }
+    ],
+    
     UI.LineItem : [
 
         {

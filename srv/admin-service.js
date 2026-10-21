@@ -308,4 +308,261 @@ this.on('AssignAsset', async (req) => {
     return 'Asset Assigned Successfully';
 });
 
+this.on('RefreshDashboard', async () => {
+
+    console.log('REFRESH DASHBOARD CLICKED');
+
+    const totalAssets =
+        await SELECT.from(Assets);
+
+    const availableAssets =
+        await SELECT.from(Assets)
+            .where({ status: 'AVAILABLE' });
+
+    const assignedAssets =
+        await SELECT.from(Assets)
+            .where({ status: 'ASSIGNED' });
+
+    const maintenanceAssets =
+        await SELECT.from(Assets)
+            .where({ status: 'MAINTENANCE' });
+
+    const retiredAssets =
+        await SELECT.from(Assets)
+            .where({ status: 'RETIRED' });
+
+    const archivedAssets =
+        await SELECT.from(Assets)
+            .where({ status: 'ARCHIVED' });
+
+    // KPI TABLE
+    await DELETE.from('asset.lifecycle.db.AssetKPIs');
+
+    await INSERT.into('asset.lifecycle.db.AssetKPIs').entries({
+        KPI_ID: cds.utils.uuid(),
+        totalAssets: totalAssets.length,
+        availableAssets: availableAssets.length,
+        assignedAssets: assignedAssets.length,
+        maintenanceAssets: maintenanceAssets.length,
+        retiredAssets: retiredAssets.length,
+        archivedAssets: archivedAssets.length
+    });
+
+    // STATUS CHART
+    await DELETE.from('asset.lifecycle.db.AssetStatusChart');
+
+    const statuses = [
+        'AVAILABLE',
+        'ASSIGNED',
+        'MAINTENANCE',
+        'RETIRED',
+        'ARCHIVED'
+    ];
+
+    for (const status of statuses) {
+
+        const assets = await SELECT.from(Assets)
+            .where({ status });
+
+        await INSERT
+            .into('asset.lifecycle.db.AssetStatusChart')
+            .entries({
+                status,
+                assetCount: assets.length
+            });
+    }
+
+    // CATEGORY CHART
+    await DELETE.from('asset.lifecycle.db.AssetCategoryChart');
+
+    const categories = await SELECT.from(
+        'asset.lifecycle.db.AssetCategories'
+    );
+
+    for (const category of categories) {
+
+        const assets = await SELECT.from(Assets)
+            .where({
+                category_ID: category.ID
+            });
+
+        await INSERT
+            .into('asset.lifecycle.db.AssetCategoryChart')
+            .entries({
+                categoryName: category.categoryName,
+                assetCount: assets.length
+            });
+    }
+
+    // DEPARTMENT CHART
+    await DELETE.from('asset.lifecycle.db.DepartmentAssetChart');
+
+    const departments = await SELECT.from(
+        'asset.lifecycle.db.Departments'
+    );
+
+    for (const department of departments) {
+
+        const employees = await SELECT.from(
+            'asset.lifecycle.db.Employees'
+        ).where({
+            department_ID: department.ID
+        });
+
+        let assetCount = 0;
+
+        for (const employee of employees) {
+
+            const assets = await SELECT.from(Assets)
+                .where({
+                    currentHolder_ID: employee.ID
+                });
+
+            assetCount += assets.length;
+        }
+
+        await INSERT
+            .into('asset.lifecycle.db.DepartmentAssetChart')
+            .entries({
+                departmentName: department.departmentName,
+                assetCount
+            });
+    }
+
+    console.log('DASHBOARD REFRESHED');
+
+    return {
+        message: 'Dashboard Refreshed Successfully'
+    };
+});
+
+this.on('READ', 'AssetStatusChart', async () => {
+
+    const statuses = [
+        'AVAILABLE',
+        'ASSIGNED',
+        'MAINTENANCE',
+        'RETIRED',
+        'ARCHIVED'
+    ];
+
+    const result = [];
+
+    for (const status of statuses) {
+
+        const assets = await SELECT.from(Assets)
+            .where({ status });
+
+        result.push({
+            status,
+            assetCount: assets.length
+        });
+    }
+
+    return result;
+});
+
+this.on('READ', 'AssetCategoryChart', async () => {
+
+    const categories = await SELECT.from(
+        'asset.lifecycle.db.AssetCategories'
+    );
+
+    const result = [];
+
+    for (const category of categories) {
+
+        const assets = await SELECT.from(Assets)
+            .where({
+                category_ID: category.ID
+            });
+
+        result.push({
+            categoryName: category.categoryName,
+            assetCount: assets.length
+        });
+    }
+
+    return result;
+});
+
+this.on('READ', 'DepartmentAssetChart', async () => {
+
+    const departments = await SELECT.from(
+        'asset.lifecycle.db.Departments'
+    );
+
+    const result = [];
+
+    for (const department of departments) {
+
+        const employees = await SELECT.from(
+            'asset.lifecycle.db.Employees'
+        ).where({
+            department_ID: department.ID
+        });
+
+        let assetCount = 0;
+
+        for (const employee of employees) {
+
+            const assets = await SELECT.from(Assets)
+                .where({
+                    currentHolder_ID: employee.ID
+                });
+
+            assetCount += assets.length;
+        }
+
+        result.push({
+            departmentName: department.departmentName,
+            assetCount
+        });
+    }
+
+    return result;
+});
+
+
+
+cds.on('served', async () => {
+
+    const totalAssets =
+        await SELECT.from(Assets);
+
+    const availableAssets =
+        await SELECT.from(Assets)
+            .where({ status: 'AVAILABLE' });
+
+    const assignedAssets =
+        await SELECT.from(Assets)
+            .where({ status: 'ASSIGNED' });
+
+    const maintenanceAssets =
+        await SELECT.from(Assets)
+            .where({ status: 'MAINTENANCE' });
+
+    const retiredAssets =
+        await SELECT.from(Assets)
+            .where({ status: 'RETIRED' });
+
+    const archivedAssets =
+        await SELECT.from(Assets)
+            .where({ status: 'ARCHIVED' });
+
+    await DELETE.from('asset.lifecycle.db.AssetKPIs');
+
+    await INSERT.into('asset.lifecycle.db.AssetKPIs').entries({
+        KPI_ID: cds.utils.uuid(),
+        totalAssets: totalAssets.length,
+        availableAssets: availableAssets.length,
+        assignedAssets: assignedAssets.length,
+        maintenanceAssets: maintenanceAssets.length,
+        retiredAssets: retiredAssets.length,
+        archivedAssets: archivedAssets.length
+    });
+
+    console.log('KPI DATA GENERATED');
+});
+
 });

@@ -1,0 +1,78 @@
+<mvc:View
+    controllerName="asset.lifecycle.portal.adminportal.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        id="portalPage"
+        title="Admin Portal">
+
+        <content>
+
+            <HBox
+                id="mainLayout"
+                width="100%">
+
+                <!-- Left Navigation -->
+
+                <List
+                    id="navigationMenu"
+                    width="250px"
+                    mode="SingleSelectMaster"
+                    selectionChange=".onMenuSelect">
+
+                    <StandardListItem
+                        id="dashboardItem"
+                        title="Dashboard" />
+
+                    <StandardListItem
+                        id="assetItem"
+                        title="Assets" />
+
+                    <StandardListItem
+                        id="requestItem"
+                        title="Asset Requests" />
+
+                    <StandardListItem
+                        id="employeeItem"
+                        title="Employees" />
+
+                    <StandardListItem
+                        id="departmentItem"
+                        title="Departments" />
+
+                    <StandardListItem
+                        id="vendorItem"
+                        title="Vendors" />
+
+                    <StandardListItem
+                        id="categoryItem"
+                        title="Categories" />
+
+                </List>
+
+                <!-- Right Content -->
+
+                <VBox
+                    id="contentArea"
+                    width="100%"
+                    class="sapUiMediumMargin">
+
+                    <Title
+                        id="contentTitle"
+                        text="Enterprise Asset Management Portal"
+                        level="H1"/>
+
+                    <Text
+                        id="contentText"
+                        text="Select a module from the left menu."/>
+
+                </VBox>
+
+            </HBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

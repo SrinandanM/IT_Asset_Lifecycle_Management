@@ -464,6 +464,14 @@ this.on('CreateAssetRequest', async (req) => {
 
     this.on('RefreshDashboard', async () => {
 
+        console.log('REFRESH DASHBOARD CLICKED');
+
+        cds.on('served', async () => {
+        const admin = await cds.connect.to('AssetAdminService');
+        await admin.send('RefreshDashboard');
+        console.log('Dashboard Refreshed');
+        });
+
         const totalAssets =
             await SELECT.from(Assets);
 
