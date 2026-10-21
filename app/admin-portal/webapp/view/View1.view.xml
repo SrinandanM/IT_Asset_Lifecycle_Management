@@ -1,7 +1,8 @@
 <mvc:View
     controllerName="asset.lifecycle.portal.adminportal.controller.View1"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
 
     <Page
         id="portalPage"
@@ -13,7 +14,7 @@
                 id="mainLayout"
                 width="100%">
 
-                <!-- Left Navigation -->
+                <!-- LEFT NAVIGATION -->
 
                 <List
                     id="navigationMenu"
@@ -22,36 +23,32 @@
                     selectionChange=".onMenuSelect">
 
                     <StandardListItem
-                        id="dashboardItem"
-                        title="Dashboard" />
-
-                    <StandardListItem
-                        id="assetItem"
+                        id="assetsItem"
                         title="Assets" />
 
                     <StandardListItem
-                        id="requestItem"
+                        id="requestsItem"
                         title="Asset Requests" />
 
                     <StandardListItem
-                        id="employeeItem"
+                        id="employeesItem"
                         title="Employees" />
 
                     <StandardListItem
-                        id="departmentItem"
+                        id="departmentsItem"
                         title="Departments" />
 
                     <StandardListItem
-                        id="vendorItem"
+                        id="vendorsItem"
                         title="Vendors" />
 
                     <StandardListItem
-                        id="categoryItem"
+                        id="categoriesItem"
                         title="Categories" />
 
                 </List>
 
-                <!-- Right Content -->
+                <!-- RIGHT CONTENT -->
 
                 <VBox
                     id="contentArea"
@@ -60,12 +57,539 @@
 
                     <Title
                         id="contentTitle"
-                        text="Enterprise Asset Management Portal"
-                        level="H1"/>
+                        text="Dashboard"
+                        level="H1" />
 
                     <Text
                         id="contentText"
-                        text="Select a module from the left menu."/>
+                        text="Enterprise Asset Management Dashboard" />
+
+                    <Panel
+                        id="contentPanel"
+                        headerText="Dashboard"
+                        width="100%">
+
+                        <!-- DASHBOARD -->
+
+                        <VBox
+                            id="dashboardContainer"
+                            visible="true">
+
+                            <core:HTML
+                                id="dashboardHtml"
+                                content="&lt;iframe src='/asset.lifecycle.dashboard.admindashboard/index.html' style='width:100%;height:1200px;border:none;'&gt;&lt;/iframe&gt;" />
+
+                        </VBox>
+
+                        <!-- EMPLOYEES -->
+
+                        <VBox
+                            id="employeesContainer"
+                            visible="false">
+
+                            <Title
+                                id="employeesTitle"
+                                text="Employee Management" />
+
+<Toolbar id="employeeToolbar">
+
+    <Button
+        id="createEmployeeBtn"
+        text="Create Employee"
+        type="Emphasized"
+        press=".onCreateEmployee" />
+
+    <Button
+        id="editEmployeeBtn"
+        text="Edit Selected"
+        press=".onEditEmployee" />
+
+    <Button
+        id="deleteEmployeeBtn"
+        text="Delete Selected"
+        type="Negative"
+        press=".onDeleteEmployee" />
+
+    <ToolbarSpacer
+        id="employeeToolbarSpacer" />
+
+    <SearchField
+        id="employeeSearch"
+        width="250px"
+        liveChange=".onEmployeeSearch"
+        placeholder="Search Employee" />
+
+</Toolbar>
+
+
+                            <Table
+                                id="employeeTable"
+                                mode="SingleSelectMaster"
+                                includeItemInSelection="true"
+                                items="{employees>/}">
+
+
+                                <columns>
+
+                                    <Column id="empCol1">
+                                        <Text
+                                            id="empHdr1"
+                                            text="Employee Number" />
+                                    </Column>
+
+                                    <Column id="empCol2">
+                                        <Text
+                                            id="empHdr2"
+                                            text="Full Name" />
+                                    </Column>
+
+                                    <Column id="empCol3">
+                                        <Text
+                                            id="empHdr3"
+                                            text="Email" />
+                                    </Column>
+
+                                    <Column id="empCol4">
+                                        <Text
+                                            id="empHdr4"
+                                            text="Role" />
+                                    </Column>
+
+                                    <Column id="empCol5">
+                                        <Text
+                                            id="empHdr5"
+                                            text="Status" />
+                                    </Column>
+
+                                </columns>
+
+                                <items>
+
+                                    <ColumnListItem id="empRowTemplate">
+
+                                        <cells>
+
+                                            <Text
+                                                id="empCell1"
+                                                text="{employees>employeeNumber}" />
+
+                                            <Text
+                                                id="empCell2"
+                                                text="{employees>fullName}" />
+
+                                            <Text
+                                                id="empCell3"
+                                                text="{employees>email}" />
+
+                                            <Text
+                                                id="empCell4"
+                                                text="{employees>role}" />
+
+                                            <Text
+                                                id="empCell5"
+                                                text="{employees>status}" />
+
+                                        </cells>
+
+                                    </ColumnListItem>
+
+                                </items>
+
+                            </Table>
+
+                        </VBox>
+
+                        <!-- DEPARTMENTS -->
+
+                        <VBox
+                            id="departmentsContainer"
+                            visible="false">
+
+                            <Title
+                                id="departmentsTitle"
+                                text="Department Management" />
+
+                                <Toolbar id="departmentToolbar">
+
+    <Button
+        id="createDepartmentBtn"
+        text="Create Department"
+        type="Emphasized"
+        press=".onCreateDepartment" />
+
+    <Button
+        id="editDepartmentBtn"
+        text="Edit Selected"
+        press=".onEditDepartment" />
+
+    <Button
+        id="deleteDepartmentBtn"
+        text="Delete Selected"
+        type="Negative"
+        press=".onDeleteDepartment" />
+
+    <ToolbarSpacer />
+
+    <SearchField
+        id="departmentSearch"
+        width="250px"
+        liveChange=".onDepartmentSearch"
+        placeholder="Search Department" />
+
+</Toolbar>
+
+                            <Table
+                                id="departmentTable"
+                                mode="SingleSelectMaster"
+                                includeItemInSelection="true"
+                                items="{departments>/}">
+
+                                <columns>
+
+                                    <Column id="deptCol1">
+                                        <Text
+                                            id="deptHdr1"
+                                            text="Department" />
+                                    </Column>
+
+                                    <Column id="deptCol2">
+                                        <Text
+                                            id="deptHdr2"
+                                            text="Cost Center" />
+                                    </Column>
+
+                                    <Column id="deptCol3">
+                                        <Text
+                                            id="deptHdr3"
+                                            text="Active" />
+                                    </Column>
+
+                                </columns>
+
+                                <items>
+
+                                    <ColumnListItem id="deptRowTemplate">
+
+                                        <cells>
+
+                                            <Text
+                                                id="deptCell1"
+                                                text="{departments>departmentName}" />
+
+                                            <Text
+                                                id="deptCell2"
+                                                text="{departments>costCenter}" />
+
+                                            <Text
+                                                id="deptCell3"
+                                                text="{departments>isActive}" />
+
+                                        </cells>
+
+                                    </ColumnListItem>
+
+                                </items>
+
+                            </Table>
+
+                        </VBox>
+
+                        <!-- VENDORS -->
+
+                        <VBox
+                            id="vendorsContainer"
+                            visible="false">
+
+                            <Title
+                                id="vendorsTitle"
+                                text="Vendor Management" />
+
+                                <Toolbar id="vendorToolbar">
+
+    <Button
+        id="createVendorBtn"
+        text="Create Vendor"
+        type="Emphasized"
+        press=".onCreateVendor" />
+
+    <Button
+        id="editVendorBtn"
+        text="Edit Selected"
+        press=".onEditVendor" />
+
+    <Button
+        id="deleteVendorBtn"
+        text="Delete Selected"
+        type="Negative"
+        press=".onDeleteVendor" />
+
+    <ToolbarSpacer />
+
+    <SearchField
+        id="vendorSearch"
+        width="250px"
+        liveChange=".onVendorSearch"
+        placeholder="Search Vendor" />
+
+</Toolbar>
+
+                            <Table
+                                id="vendorTable"
+                                mode="SingleSelectMaster"
+                                includeItemInSelection="true"
+                                items="{vendors>/}">
+
+
+                                <columns>
+
+                                    <Column id="vendorCol1">
+                                        <Text
+                                            id="vendorHdr1"
+                                            text="Vendor Name" />
+                                    </Column>
+
+                                    <Column id="vendorCol2">
+                                        <Text
+                                            id="vendorHdr2"
+                                            text="Email" />
+                                    </Column>
+
+                                    <Column id="vendorCol3">
+                                        <Text
+                                            id="vendorHdr3"
+                                            text="Phone" />
+                                    </Column>
+
+                                </columns>
+
+                                <items>
+
+                                    <ColumnListItem id="vendorRowTemplate">
+
+                                        <cells>
+
+                                            <Text
+                                                id="vendorCell1"
+                                                text="{vendors>vendorName}" />
+
+                                            <Text
+                                                id="vendorCell2"
+                                                text="{vendors>email}" />
+
+                                            <Text
+                                                id="vendorCell3"
+                                                text="{vendors>phone}" />
+
+                                        </cells>
+
+                                    </ColumnListItem>
+
+                                </items>
+
+                            </Table>
+
+                        </VBox>
+
+                        <!-- CATEGORIES -->
+
+                        <VBox
+                            id="categoriesContainer"
+                            visible="false">
+
+                            <Title
+                                id="categoriesTitle"
+                                text="Category Management" />
+
+                            <Toolbar id="categoryToolbar">
+
+    <Button
+        id="createCategoryBtn"
+        text="Create Category"
+        type="Emphasized"
+        press=".onCreateCategory" />
+
+    <Button
+        id="editCategoryBtn"
+        text="Edit Selected"
+        press=".onEditCategory" />
+
+    <Button
+        id="deleteCategoryBtn"
+        text="Delete Selected"
+        type="Negative"
+        press=".onDeleteCategory" />
+
+    <ToolbarSpacer />
+
+    <SearchField
+        id="categorySearch"
+        width="250px"
+        liveChange=".onCategorySearch"
+        placeholder="Search Category" />
+
+</Toolbar>
+
+
+                            <Table
+                                id="categoryTable"
+                                mode="SingleSelectMaster"
+                                includeItemInSelection="true"
+                                items="{categories>/}">
+
+                                <columns>
+
+                                    <Column id="categoryCol1">
+                                        <Text
+                                            id="categoryHdr1"
+                                            text="Category Name" />
+                                    </Column>
+
+                                    <Column id="categoryCol2">
+                                        <Text
+                                            id="categoryHdr2"
+                                            text="Lifespan" />
+                                    </Column>
+
+                                    <Column id="categoryCol3">
+                                        <Text
+                                            id="categoryHdr3"
+                                            text="Active" />
+                                    </Column>
+
+                                </columns>
+
+                                <items>
+
+                                    <ColumnListItem id="categoryRowTemplate">
+
+                                        <cells>
+
+                                            <Text
+                                                id="categoryCell1"
+                                                text="{categories>categoryName}" />
+
+                                            <Text
+                                                id="categoryCell2"
+                                                text="{categories>lifespanMonths}" />
+
+                                            <Text
+                                                id="categoryCell3"
+                                                text="{categories>active}" />
+
+                                        </cells>
+
+                                    </ColumnListItem>
+
+                                </items>
+
+                            </Table>
+
+                        </VBox>
+
+                        <!-- REQUESTS -->
+
+<VBox
+    id="requestsContainer"
+    visible="false">
+
+    <Title
+        text="Asset Request Management" />
+
+    <Toolbar>
+
+        <Button
+            text="Approve"
+            type="Accept"
+            press=".onApproveRequest" />
+
+        <Button
+            text="Reject"
+            type="Negative"
+            press=".onRejectRequest" />
+
+        <Button
+            text="Refresh"
+            press=".onRefreshRequests" />
+
+        <ToolbarSpacer />
+
+        <SearchField
+            width="250px"
+            liveChange=".onRequestSearch"
+            placeholder="Search Request" />
+
+    </Toolbar>
+
+    <Table
+        id="requestTable"
+        mode="SingleSelectMaster"
+        includeItemInSelection="true"
+        items="{requests>/}">
+
+        <columns>
+
+            <Column>
+                <Text text="Employee" />
+            </Column>
+
+            <Column>
+                <Text text="Category" />
+            </Column>
+
+            <Column>
+                <Text text="Justification" />
+            </Column>
+
+            <Column>
+                <Text text="Status" />
+            </Column>
+
+            <Column>
+                <Text text="Approval Date" />
+            </Column>
+
+        </columns>
+
+        <items>
+
+            <ColumnListItem>
+
+                <cells>
+
+                    <Text text="{requests>employeeName}" />
+
+                    <Text text="{requests>categoryName}" />
+
+                    <Text text="{requests>justification}" />
+
+                    <ObjectStatus
+                        text="{requests>status}" />
+
+                    <Text text="{requests>approvalDate}" />
+
+                </cells>
+
+            </ColumnListItem>
+
+        </items>
+
+    </Table>
+
+</VBox>
+
+                        <!-- ASSETS -->
+
+                        <VBox
+                            id="assetsContainer"
+                            visible="false">
+
+                            <core:HTML
+                                    id="assetsHtml"
+                                    content="&lt;iframe src='/adminasset/index.html' style='width:100%;height:1200px;border:none;'&gt;&lt;/iframe&gt;" />
+
+                        </VBox>
+
+                    </Panel>
 
                 </VBox>
 

@@ -6,16 +6,12 @@ service AssetAdminService {
        MASTER DATA
        ========================================= */
 
-@odata.draft.enabled
 entity Departments as projection on db.Departments;
 
-@odata.draft.enabled
 entity Employees as projection on db.Employees;
 
-@odata.draft.enabled
 entity AssetCategories as projection on db.AssetCategories;
 
-@odata.draft.enabled
 entity Vendors as projection on db.Vendors;
 
     /* =========================================
