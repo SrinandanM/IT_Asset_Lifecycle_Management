@@ -4,9 +4,9 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core">
 
-    <Page
-        id="portalPage"
-        title="Admin Portal">
+<Page
+    id="portalPage"
+    title="Enterprise Asset Lifecycle Management">
 
         <content>
 
@@ -16,49 +16,63 @@
 
                 <!-- LEFT NAVIGATION -->
 
-                <List
-                    id="navigationMenu"
-                    width="250px"
-                    mode="SingleSelectMaster"
-                    selectionChange=".onMenuSelect">
+ <List
+    id="navigationMenu"
+    width="450px"
+    mode="SingleSelectMaster"
+    selectionChange=".onMenuSelect">
 
-                    <StandardListItem
-                        id="assetsItem"
-                        title="Assets" />
+    <StandardListItem
+        id="assetsItem"
+        title="Assets"
+        icon="sap-icon://laptop"
+        type="Active" />
 
-                    <StandardListItem
-                        id="requestsItem"
-                        title="Asset Requests" />
+    <StandardListItem
+        id="requestsItem"
+        title="Asset Requests"
+        icon="sap-icon://workflow-tasks"
+        type="Active" />
 
-                    <StandardListItem
-                        id="employeesItem"
-                        title="Employees" />
+    <StandardListItem
+        id="employeesItem"
+        title="Employees"
+        icon="sap-icon://employee"
+        type="Active" />
 
-                    <StandardListItem
-                        id="departmentsItem"
-                        title="Departments" />
+    <StandardListItem
+        id="departmentsItem"
+        title="Departments"
+        icon="sap-icon://building"
+        type="Active" />
 
-                    <StandardListItem
-                        id="vendorsItem"
-                        title="Vendors" />
+    <StandardListItem
+        id="vendorsItem"
+        title="Vendors"
+        icon="sap-icon://supplier"
+        type="Active" />
 
-                    <StandardListItem
-                        id="categoriesItem"
-                        title="Categories" />
+    <StandardListItem
+        id="categoriesItem"
+        title="Categories"
+        icon="sap-icon://tag"
+        type="Active" />
 
-                </List>
+</List>
 
                 <!-- RIGHT CONTENT -->
 
                 <VBox
                     id="contentArea"
                     width="100%"
-                    class="sapUiMediumMargin">
+                    class="sapUiResponsiveContentPadding">
 
-                    <Title
+                   <Title
                         id="contentTitle"
                         text="Dashboard"
-                        level="H1" />
+                        level="H1"
+                        titleStyle="H1"
+                        class="sapUiLargeMarginBottom sapUiSmallMarginTop" />
 
                     <Text
                         id="contentText"
@@ -89,7 +103,9 @@
 
                             <Title
                                 id="employeesTitle"
-                                text="Employee Management" />
+                                text="Employee Administration"
+                                level="H2"
+                                titleStyle="H2" />
 
 <Toolbar id="employeeToolbar">
 
@@ -99,23 +115,24 @@
         type="Emphasized"
         press=".onCreateEmployee" />
 
-    <Button
-        id="editEmployeeBtn"
-        text="Edit Selected"
-        press=".onEditEmployee" />
+   <Button
+    text="Edit Selected"
+    type="Attention"
+    icon="sap-icon://edit"
+    press=".onEditEmployee" />
 
     <Button
-        id="deleteEmployeeBtn"
-        text="Delete Selected"
-        type="Negative"
-        press=".onDeleteEmployee" />
+    text="Delete Selected"
+    type="Negative"
+    icon="sap-icon://delete"
+    press=".onDeleteEmployee" />
 
     <ToolbarSpacer
         id="employeeToolbarSpacer" />
 
     <SearchField
         id="employeeSearch"
-        width="250px"
+width="320px"
         liveChange=".onEmployeeSearch"
         placeholder="Search Employee" />
 
@@ -232,7 +249,7 @@
 
     <SearchField
         id="departmentSearch"
-        width="250px"
+width="320px"
         liveChange=".onDepartmentSearch"
         placeholder="Search Department" />
 
@@ -327,7 +344,7 @@
 
     <SearchField
         id="vendorSearch"
-        width="250px"
+width="320px"
         liveChange=".onVendorSearch"
         placeholder="Search Vendor" />
 
@@ -423,7 +440,7 @@
 
     <SearchField
         id="categorySearch"
-        width="250px"
+width="320px"
         liveChange=".onCategorySearch"
         placeholder="Search Category" />
 
@@ -514,8 +531,8 @@
         <ToolbarSpacer />
 
         <SearchField
-            width="250px"
-            liveChange=".onRequestSearch"
+    width="320px"
+                liveChange=".onRequestSearch"
             placeholder="Search Request" />
 
     </Toolbar>

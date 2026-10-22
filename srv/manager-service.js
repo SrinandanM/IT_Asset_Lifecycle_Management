@@ -29,6 +29,42 @@ this.before(['NEW', 'CREATE', 'PATCH'], 'AssetRequests.drafts', async (req) => {
     AssetRequests
 } = this.entities;
 
+this.before('CREATE', 'Employees', async (req) => {
+
+    const existingEmployee =
+        await SELECT.one
+            .from(Employees)
+            .where({
+                employeeNumber:
+                req.data.employeeNumber
+            });
+
+    if (existingEmployee) {
+
+req.reject(
+    400,
+    'Employee Number already exists'
+);
+
+    }
+
+    const existingEmail =
+        await SELECT.one
+            .from(Employees)
+            .where({
+                email: req.data.email
+            });
+
+    if (existingEmail) {
+
+req.reject(
+    400,
+    'Email already exists'
+);
+
+    }
+
+});
 
     /* =====================================================
        ASSET VALIDATIONS

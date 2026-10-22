@@ -11,6 +11,42 @@ const {
     MaintenanceRecords,
     ArchiveRecords
 } = this.entities;
+
+this.before('CREATE', 'Employees', async (req) => {
+
+    const existingEmployee =
+        await SELECT.one
+            .from(Employees)
+            .where({
+                employeeNumber:
+                req.data.employeeNumber
+            });
+
+    if (existingEmployee) {
+
+        req.error(
+            'Employee Number already exists'
+        );
+
+    }
+
+    const existingEmail =
+        await SELECT.one
+            .from(Employees)
+            .where({
+                email: req.data.email
+            });
+
+    if (existingEmail) {
+
+        req.error(
+            'Email already exists'
+        );
+
+    }
+
+});
+
 this.on('ApproveAssetRequest', async (req) => {
 
     console.log('APPROVE CLICKED');

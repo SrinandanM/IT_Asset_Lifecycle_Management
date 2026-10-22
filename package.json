@@ -16,7 +16,8 @@
     "watch-admin-asset": "cds watch --open adminasset/index.html?sap-ui-xx-viewCache=false --livereload false",
     "watch-project7": "cds watch --open project7/index.html?sap-ui-xx-viewCache=false --livereload false",
     "watch-admin-dashboard": "cds watch --open asset.lifecycle.dashboard.admindashboard/index.html?sap-ui-xx-viewCache=false --livereload false",
-    "watch-admin-portal": "cds watch --open asset.lifecycle.portal.adminportal/index.html?sap-ui-xx-viewCache=false --livereload false"
+    "watch-admin-portal": "cds watch --open asset.lifecycle.portal.adminportal/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-manager-portal": "cds watch --open asset.lifecycle.portal.managerportal.managerportal/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
   "keywords": [],
   "author": "",

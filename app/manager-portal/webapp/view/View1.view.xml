@@ -1,0 +1,363 @@
+<mvc:View
+    controllerName="asset.lifecycle.portal.managerportal.managerportal.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Page
+        id="managerPage"
+        title="Manager Portal">
+
+        <content>
+
+    <HBox
+        id="mainLayout"
+        width="100%">
+
+                <!-- NAVIGATION -->
+
+                <List
+                    id="navigationMenu"
+                    width="300px"
+                    mode="SingleSelectMaster"
+                    selectionChange=".onMenuSelect">
+
+                    <StandardListItem
+                        title="Dashboard"
+                        icon="sap-icon://home" />
+
+                    <StandardListItem
+                        title="Employees"
+                        icon="sap-icon://employee" />
+
+                    <StandardListItem
+                        title="Asset Requests"
+                        icon="sap-icon://workflow-tasks" />
+
+                    <StandardListItem
+                        title="Assets"
+                        icon="sap-icon://laptop" />
+
+                </List>
+
+                <!-- CONTENT -->
+
+                <VBox
+                    width="100%"
+                    class="sapUiResponsiveContentPadding">
+
+                    <Title
+                        id="contentTitle"
+                        text="Dashboard"
+                        level="H1" />
+
+                    <Text
+                        id="contentText"
+                        text="Manager Dashboard" />
+
+                    <Panel width="100%">
+
+                        <!-- DASHBOARD -->
+
+                        <VBox
+                            id="dashboardContainer"
+                            visible="true">
+
+                            <core:HTML
+                                id="dashboardHtml" />
+                        </VBox>
+
+                        <!-- EMPLOYEES -->
+
+<!-- EMPLOYEES -->
+
+<VBox
+    id="employeesContainer"
+    visible="false">
+
+    <Title
+        text="Employee Management" />
+
+    <Toolbar>
+
+        <Button
+            text="Create Employee"
+            icon="sap-icon://add"
+            type="Emphasized"
+            press=".onCreateEmployee" />
+
+        <ToolbarSpacer />
+
+        <SearchField
+            width="300px"
+            liveChange=".onEmployeeSearch"
+            placeholder="Search Employee" />
+
+    </Toolbar>
+
+    <Table
+        id="employeeTable"
+        growing="true"
+        sticky="ColumnHeaders"
+        items="{employees>/}">
+
+        <columns>
+
+            <Column>
+                <Text text="Employee Number" />
+            </Column>
+
+            <Column>
+                <Text text="Full Name" />
+            </Column>
+
+            <Column>
+                <Text text="Email" />
+            </Column>
+
+            <Column>
+                <Text text="Role" />
+            </Column>
+
+        </columns>
+
+        <items>
+
+            <ColumnListItem>
+
+                <cells>
+
+                    <Text
+                        text="{employees>employeeNumber}" />
+
+                    <Text
+                        text="{employees>fullName}" />
+
+                    <Text
+                        text="{employees>email}" />
+
+                    <Text
+                        text="{employees>role}" />
+
+                </cells>
+
+            </ColumnListItem>
+
+        </items>
+
+    </Table>
+
+</VBox>
+
+                        <!-- REQUESTS -->
+
+<VBox
+    id="requestsContainer"
+    visible="false">
+
+    <Title
+        id="requestTitle"
+        text="Asset Requests" />
+
+    <Toolbar
+        id="requestToolbar">
+
+        <Button
+            id="createRequestBtn"
+            text="Create Request"
+            icon="sap-icon://add"
+            type="Emphasized"
+            press=".onCreateRequest" />
+
+        <Button
+            id="refreshRequestBtn"
+            text="Refresh"
+            icon="sap-icon://refresh"
+            press=".onRefreshRequests" />
+
+        <ToolbarSpacer
+            id="requestToolbarSpacer" />
+
+        <SearchField
+            id="requestSearch"
+            width="300px"
+            liveChange=".onRequestSearch"
+            placeholder="Search Request" />
+
+    </Toolbar>
+
+    <Table
+        id="requestTable"
+        growing="true"
+        sticky="ColumnHeaders"
+        items="{requests>/}">
+
+        <columns>
+
+            <Column id="requestCol1">
+                <Text id="requestHdr1" text="Employee" />
+            </Column>
+
+            <Column id="requestCol2">
+                <Text id="requestHdr2" text="Category" />
+            </Column>
+
+            <Column id="requestCol3">
+                <Text id="requestHdr3" text="Justification" />
+            </Column>
+
+            <Column id="requestCol4">
+                <Text id="requestHdr4" text="Status" />
+            </Column>
+
+            <Column id="requestCol5">
+                <Text id="requestHdr5" text="Approval Date" />
+            </Column>
+
+        </columns>
+
+        <items>
+
+            <ColumnListItem id="requestRowTemplate">
+
+                <cells>
+
+                    <Text
+                        id="requestCell1"
+                        text="{requests>employeeName}" />
+
+                    <Text
+                        id="requestCell2"
+                        text="{requests>categoryName}" />
+
+                    <Text
+                        id="requestCell3"
+                        text="{requests>justification}" />
+
+<ObjectStatus
+    id="requestCell4"
+    text="{requests>status}"
+    state="{= ${requests>status} === 'APPROVED' ? 'Success' : ${requests>status} === 'REJECTED' ? 'Error' : 'Warning' }" />
+
+                    <Text
+                        id="requestCell5"
+                        text="{requests>approvalDate}" />
+
+                </cells>
+
+            </ColumnListItem>
+
+        </items>
+
+    </Table>
+
+</VBox>
+
+                        <!-- ASSETS -->
+
+<VBox
+    id="assetsContainer"
+    visible="false">
+
+    <Title
+        id="assetsTitle"
+        text="Asset Inventory" />
+
+    <Toolbar
+        id="assetToolbar">
+
+        <Button
+            id="refreshAssetsBtn"
+            text="Refresh"
+            icon="sap-icon://refresh"
+            press=".onRefreshAssets" />
+
+        <ToolbarSpacer
+            id="assetToolbarSpacer" />
+
+        <SearchField
+            id="assetSearch"
+            width="300px"
+            liveChange=".onAssetSearch"
+            placeholder="Search Asset" />
+
+    </Toolbar>
+
+    <Table
+        id="assetTable"
+        growing="true"
+        sticky="ColumnHeaders"
+        items="{assets>/}">
+
+        <columns>
+
+            <Column id="assetCol1">
+                <Text id="assetHdr1" text="Asset Tag" />
+            </Column>
+
+            <Column id="assetCol2">
+                <Text id="assetHdr2" text="Model" />
+            </Column>
+
+            <Column id="assetCol3">
+                <Text id="assetHdr3" text="Status" />
+            </Column>
+
+            <Column id="assetCol4">
+                <Text id="assetHdr4" text="Serial Number" />
+            </Column>
+
+        </columns>
+
+        <items>
+
+            <ColumnListItem id="assetRowTemplate">
+
+                <cells>
+
+                    <Text
+                        id="assetCell1"
+                        text="{assets>assetTag}" />
+
+                    <Text
+                        id="assetCell2"
+                        text="{assets>model}" />
+
+                    <ObjectStatus
+                        id="assetCell3"
+                        text="{assets>status}"
+                        state="{
+                            = ${assets>status} === 'AVAILABLE'
+                            ? 'Success'
+                            : ${assets>status} === 'ASSIGNED'
+                            ? 'Information'
+                            : ${assets>status} === 'MAINTENANCE'
+                            ? 'Warning'
+                            : 'Error'
+                        }" />
+
+                    <Text
+                        id="assetCell4"
+                        text="{assets>serialNumber}" />
+
+                </cells>
+
+            </ColumnListItem>
+
+        </items>
+
+    </Table>
+
+</VBox>
+
+                    </Panel>
+
+                </VBox>
+
+            </HBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

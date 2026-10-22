@@ -1,1 +1,37 @@
-/* Enter your custom styles here */
+.sapMLIB {
+    min-height: 3.5rem !important;
+}
+
+.sapMSLITitleOnly {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+}
+
+.sapUiIcon {
+    font-size: 1.2rem !important;
+}
+#navigationMenu .sapMLIB {
+    min-height: 4.5rem !important;
+}
+
+#navigationMenu .sapMSLITitleOnly {
+    font-size: 1.15rem !important;
+    font-weight: 700 !important;
+}
+
+#navigationMenu .sapUiIcon {
+    font-size: 1.5rem !important;
+}
+#navigationMenu .sapMLIB {
+    min-height: 5rem !important;
+}
+
+#navigationMenu .sapMSLITitleOnly {
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+}
+
+#navigationMenu .sapUiIcon {
+    font-size: 1.5rem !important;
+    margin-right: 1rem !important;
+}
