@@ -5,26 +5,27 @@ service AssetAdminService {
     /* =========================================
        MASTER DATA
        ========================================= */
-
 entity Departments as projection on db.Departments;
 
 entity Employees as projection on db.Employees;
 
-entity AssetCategories as projection on db.AssetCategories;
-
 entity Vendors as projection on db.Vendors;
+
+entity AssetCategories as projection on db.AssetCategories;
 
     /* =========================================
        ASSET MANAGEMENT
        ========================================= */
-
 @odata.draft.enabled
-entity Assets as projection on db.Assets actions {
+entity Assets as projection on db.Assets {
+    *,
+    currentHolder.fullName as currentHolderName,
+} actions {
 
-    action AssignAsset(
-        employeeID   : UUID,
-        assignedDate : Date
-    );
+action AssignAsset(
+    employeeID   : UUID,
+    assignedDate : Date
+);
 
     action TransferAsset(
         toEmployeeID : UUID,

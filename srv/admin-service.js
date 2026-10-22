@@ -125,6 +125,26 @@ this.on('CompleteMaintenance', async (req) => {
 
     const assetID = req.params[0].ID;
 
+    const asset = await SELECT.one
+    .from(Assets)
+    .where({ ID: assetID });
+
+if (!asset) {
+    req.reject(
+        400,
+        'Asset not found'
+    );
+}
+
+if (asset.status !== 'MAINTENANCE') {
+
+    req.reject(
+        400,
+        'Only assets in MAINTENANCE status can complete maintenance'
+    );
+
+}
+
     const maintenance = await SELECT.one
         .from(MaintenanceRecords)
         .where({
@@ -168,10 +188,11 @@ this.on('RetireAsset', async (req) => {
         req.error('Assigned Assets cannot be retired');
     }
 
-    await UPDATE(Assets)
-        .set({
-            status: 'RETIRED'
-        })
+await UPDATE(Assets)
+    .set({
+        status: 'RETIRED',
+        currentHolder_ID: null
+    })
         .where({ ID: assetID });
 
     await INSERT.into(OwnershipLedgers).entries({
@@ -205,10 +226,11 @@ this.on('ArchiveAsset', async (req) => {
         req.error('Only retired assets can be archived');
     }
 
-    await UPDATE(Assets)
-        .set({
-            status: 'ARCHIVED'
-        })
+await UPDATE(Assets)
+    .set({
+        status: 'ARCHIVED',
+        currentHolder_ID: null
+    })
         .where({ ID: assetID });
 
     await INSERT.into(ArchiveRecords).entries({
@@ -295,30 +317,41 @@ this.on('AssignAsset', async (req) => {
 
     const assetID = req.params[0].ID;
 
-    const {
-        employeeID,
-        assignedDate
-    } = req.data;
+const employeeID =
+    req.data.employeeID;
+
+const{ assignedDate } =
+    req.data;
 
     const asset = await SELECT.one
         .from(Assets)
         .where({ ID: assetID });
 
-    if (!asset) {
-        req.error('Asset not found');
-    }
+if (!asset) {
+    req.reject(
+        400,
+        'Asset not found'
+    );
+}
 
     if (asset.status !== 'AVAILABLE') {
         req.error('Asset is not available');
     }
 
-    const employee = await SELECT.one
-        .from(Employees)
-        .where({ ID: employeeID });
+console.log("EMPLOYEE ID RECEIVED =", employeeID);
 
-    if (!employee) {
-        req.error('Employee not found');
-    }
+const employee = await SELECT.one
+    .from(Employees)
+    .where({ ID: employeeID });
+
+console.log("EMPLOYEE FOUND =", employee);
+
+if (!employee) {
+    req.reject(
+        400,
+        'Employee not found'
+    );
+}
 
     await INSERT.into(AssetAssignments).entries({
         asset_ID: assetID,

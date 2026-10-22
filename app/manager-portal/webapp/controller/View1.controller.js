@@ -379,6 +379,252 @@ MessageBox.success(
     oDialog.open();
 },
 
+onEditEmployee: async function () {
+
+    const oTable =
+        this.byId("employeeTable");
+
+    const oItem =
+        oTable.getSelectedItem();
+
+    if (!oItem) {
+
+        MessageBox.warning(
+            "Please select an employee first."
+        );
+
+        return;
+    }
+
+    const employee =
+        oItem.getBindingContext("employees")
+            .getObject();
+
+    const departments =
+        await this._loadDepartments();
+
+    const oDepartmentSelect =
+        new Select({
+            id: "editDepartmentSelect"
+        });
+
+    departments.forEach(dept => {
+
+        oDepartmentSelect.addItem(
+            new Item({
+                key: dept.ID,
+                text: dept.departmentName
+            })
+        );
+
+    });
+
+    oDepartmentSelect.setSelectedKey(
+        employee.department_ID
+    );
+
+    const oDialog = new Dialog({
+
+        title: "Edit Employee",
+
+        contentWidth: "600px",
+
+        content: [
+
+            new VBox({
+
+                items: [
+
+                    new Label({
+                        text: "Employee Number"
+                    }),
+
+                    new Input({
+                        id: "editEmpNumber",
+                        value:
+                            employee.employeeNumber,
+                        editable: false,
+                        enabled: false
+                    }),
+
+                    new Label({
+                        text: "Full Name"
+                    }),
+
+                    new Input({
+                        id: "editFullName",
+                        value:
+                            employee.fullName
+                    }),
+
+                    new Label({
+                        text: "Email"
+                    }),
+
+                    new Input({
+                        id: "editEmail",
+                        value:
+                            employee.email
+                    }),
+
+                    new Label({
+                        text: "Phone"
+                    }),
+
+                    new Input({
+                        id: "editPhone",
+                        value:
+                            employee.phone
+                    }),
+
+                    new Label({
+                        text: "Location"
+                    }),
+
+                    new Input({
+                        id: "editLocation",
+                        value:
+                            employee.location
+                    }),
+
+                    new Label({
+                        text: "Role"
+                    }),
+
+                    new Input({
+                        id: "editRole",
+                        value:
+                            employee.role
+                    }),
+
+                    new Label({
+                        text: "Status"
+                    }),
+
+                    new Input({
+                        id: "editStatus",
+                        value:
+                            employee.status
+                    }),
+
+                    new Label({
+                        text: "Department"
+                    }),
+
+                    oDepartmentSelect
+
+                ]
+
+            })
+
+        ],
+
+        beginButton: new Button({
+
+            text: "Save",
+
+            type: "Emphasized",
+
+            press: async () => {
+
+                const payload = {
+
+                    fullName:
+                        sap.ui.getCore()
+                            .byId(
+                                "editFullName"
+                            )
+                            .getValue(),
+
+                    email:
+                        sap.ui.getCore()
+                            .byId(
+                                "editEmail"
+                            )
+                            .getValue(),
+
+                    phone:
+                        sap.ui.getCore()
+                            .byId(
+                                "editPhone"
+                            )
+                            .getValue(),
+
+                    location:
+                        sap.ui.getCore()
+                            .byId(
+                                "editLocation"
+                            )
+                            .getValue(),
+
+                    role:
+                        sap.ui.getCore()
+                            .byId(
+                                "editRole"
+                            )
+                            .getValue(),
+
+                    status:
+                        sap.ui.getCore()
+                            .byId(
+                                "editStatus"
+                            )
+                            .getValue(),
+
+                    department_ID:
+                        sap.ui.getCore()
+                            .byId(
+                                "editDepartmentSelect"
+                            )
+                            .getSelectedKey()
+
+                };
+
+                await fetch(
+                    "/odata/v4/asset-manager/Employees(" +
+                    employee.ID +
+                    ")",
+                    {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+                        body:
+                            JSON.stringify(
+                                payload
+                            )
+                    }
+                );
+
+                MessageBox.success(
+                    "Employee updated successfully."
+                );
+
+                await this._loadEmployees();
+
+                oDialog.close();
+
+            }
+
+        }),
+
+        endButton: new Button({
+
+            text: "Cancel",
+
+            press: function () {
+                oDialog.close();
+            }
+
+        })
+
+    });
+
+    oDialog.open();
+
+},
+
             onMenuSelect: function (oEvent) {
 
                 const sTitle =

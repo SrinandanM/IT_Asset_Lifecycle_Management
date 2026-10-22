@@ -109,11 +109,12 @@ annotate AssetAdminService.Assets with @(
             Value : purchaseDate
         },
 
-        {
-            $Type : 'UI.DataField',
-            Label : 'Current Holder',
-            Value : currentHolder
-        }
+{
+    $Type : 'UI.DataField',
+    Label : 'Current Holder',
+    Value : currentHolderName
+}
+
     ],
 
     UI.Facets : [
@@ -168,7 +169,8 @@ UI.FieldGroup #General : {
             $Type : 'UI.DataField',
             Label : 'Category',
             Value : category_ID
-        }
+        },
+        
     ]
 },
 

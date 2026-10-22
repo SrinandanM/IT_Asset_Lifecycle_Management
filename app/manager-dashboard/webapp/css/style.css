@@ -1,0 +1,109 @@
+/* ===================================================
+   DASHBOARD HEADER
+   =================================================== */
+
+.dashboardHeader {
+    background: linear-gradient(135deg,#0A6ED1,#4F46E5);
+    padding: 2.5rem;
+    margin: 1rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.dashboardHeader .sapMTitle {
+    color: white !important;
+    font-size: 2rem !important;
+    font-weight: bold;
+}
+
+.dashboardHeader .sapMText {
+    color: white !important;
+    font-size: 1rem;
+}
+
+/* ===================================================
+   KPI CARDS
+   =================================================== */
+
+.sapMGT {
+    margin: 0.75rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    transition: all 0.3s ease;
+}
+
+.sapMGT:hover {
+    transform: translateY(-5px);
+}
+
+.sapMNCValue {
+    font-size: 3rem !important;
+    font-weight: bold;
+}
+
+/* TOTAL */
+
+#tileTotal {
+    background: #0A6ED1;
+}
+
+/* AVAILABLE */
+
+#tileAvailable {
+    background: #107E3E;
+}
+
+/* ASSIGNED */
+
+#tileAssigned {
+    background: #5D36FF;
+}
+
+/* MAINTENANCE */
+
+#tileMaintenance {
+    background: #E9730C;
+}
+
+/* RETIRED */
+
+#tileRetired {
+    background: #6A6D70;
+}
+
+/* ARCHIVED */
+
+#tileArchived {
+    background: #8E44AD;
+}
+
+#tileTotal *,
+#tileAvailable *,
+#tileAssigned *,
+#tileMaintenance *,
+#tileRetired *,
+#tileArchived * {
+    color: white !important;
+}
+
+/* ===================================================
+   CHART AREA
+   =================================================== */
+
+#statusBox,
+#categoryBox,
+#departmentBox {
+    background: white;
+    border-radius: 20px;
+    padding: 1rem;
+    margin: 0.5rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+}
+
+/* ===================================================
+   PAGE
+   =================================================== */
+
+.sapMPage {
+    background: #F5F7FA;
+}

@@ -378,10 +378,13 @@ onDepartmentSearch: function (oEvent) {
 _loadVendors: async function () {
 
     const response = await fetch(
-        "/odata/v4/asset-admin/Vendors"
+        "/odata/v4/asset-admin/Vendors?$count=true"
     );
 
     const data = await response.json();
+
+    console.log("VENDORS DATA");
+    console.log(data);
 
     const oModel = new JSONModel(
         data.value
@@ -393,7 +396,6 @@ _loadVendors: async function () {
     );
 
 },
-
 onCreateVendor: function () {
 
     const oDialog = new Dialog({
@@ -473,21 +475,43 @@ onCreateVendor: function () {
                             .getValue()
                 };
 
-                await fetch(
-                    "/odata/v4/asset-admin/Vendors",
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(payload)
-                    }
-                );
+const response = await fetch(
+    "/odata/v4/asset-admin/Vendors",
+    {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+    }
+);
 
-                await this._loadVendors();
+const result = await response.text();
 
-                oDialog.close();
-            }
+console.log("VENDOR STATUS =", response.status);
+console.log("VENDOR RESPONSE =", result);
+
+if (!response.ok) {
+
+    MessageBox.error(
+        result || "Vendor creation failed."
+    );
+
+    return;
+}
+
+await this._loadVendors();
+
+this.byId("vendorTable")
+    .invalidate();
+
+MessageBox.success(
+    "Vendor created successfully."
+);
+
+oDialog.close();
+oDialog.destroy();
+           }
 
         }),
 
@@ -624,8 +648,8 @@ onEditVendor: function () {
 
                 await this._loadVendors();
 
-                oDialog.close();
-            }
+oDialog.close();
+oDialog.destroy();            }
 
         }),
 
@@ -1042,18 +1066,21 @@ onCreateCategory: function () {
                     }
                 );
 
-                await this._loadCategories();
+await this._loadCategories();
 
-                oDialog.close();
+oDialog.close();
+oDialog.destroy();
+
             }
 
         }),
 
         endButton: new Button({
             text: "Cancel",
-            press: function () {
-                oDialog.close();
-            }
+ press: function () {
+    oDialog.close();
+    oDialog.destroy();
+}
         })
 
     });

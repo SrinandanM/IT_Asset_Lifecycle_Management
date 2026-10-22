@@ -12,4 +12,8 @@ service AssetEmployeeService {
 
     entity AssetCategories as projection on db.AssetCategories;
 
+    entity AssetRequests as projection on db.AssetRequests;
+
+    entity Employees as projection on db.Employees;
+
 }

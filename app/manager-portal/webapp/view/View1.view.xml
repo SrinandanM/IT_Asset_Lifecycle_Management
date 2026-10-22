@@ -86,6 +86,12 @@
             type="Emphasized"
             press=".onCreateEmployee" />
 
+        <Button
+            text="Edit Selected"
+            icon="sap-icon://edit"
+            type="Attention"
+            press=".onEditEmployee" />
+
         <ToolbarSpacer />
 
         <SearchField
@@ -97,6 +103,8 @@
 
     <Table
         id="employeeTable"
+        mode="SingleSelectMaster"
+        includeItemInSelection="true"
         growing="true"
         sticky="ColumnHeaders"
         items="{employees>/}">

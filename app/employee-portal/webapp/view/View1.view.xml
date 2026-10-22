@@ -1,0 +1,274 @@
+<mvc:View
+    controllerName="employeeportal.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        id="employeePage"
+        title="Employee Portal">
+
+        <content>
+
+            <HBox
+                id="mainLayout"
+                width="100%">
+
+                <!-- MENU -->
+
+                <List
+                    id="navigationMenu"
+                    width="300px"
+                    mode="SingleSelectMaster"
+                    selectionChange=".onMenuSelect">
+
+                    <StandardListItem
+                        id="dashboardItem"
+                        title="Dashboard"
+                        icon="sap-icon://home" />
+
+                    <StandardListItem
+                        id="assetsItem"
+                        title="My Assets"
+                        icon="sap-icon://laptop" />
+
+                    <StandardListItem
+                        id="requestsItem"
+                        title="My Requests"
+                        icon="sap-icon://workflow-tasks" />
+
+                    <StandardListItem
+                        id="profileItem"
+                        title="My Profile"
+                        icon="sap-icon://employee" />
+
+                </List>
+
+                <!-- CONTENT -->
+
+                <VBox
+                    id="contentArea"
+                    width="100%"
+                    class="sapUiResponsiveContentPadding">
+
+                    <Title
+                        id="contentTitle"
+                        text="Dashboard"
+                        level="H1" />
+
+                    <Text
+                        id="contentText"
+                        text="Employee Self Service Dashboard" />
+
+                    <Panel
+                        id="contentPanel"
+                        width="100%">
+
+                        <!-- DASHBOARD -->
+
+                        <VBox
+                            id="dashboardContainer"
+                            visible="true">
+
+                            <Title
+                                id="dashboardTitle"
+                                text="Employee Dashboard" />
+
+                            <Text
+                                id="dashboardText"
+                                text="Employee self service overview" />
+
+                        </VBox>
+
+                        <!-- ASSETS -->
+
+<VBox
+    id="assetsContainer"
+    visible="false">
+
+    <Title
+        id="assetsTitle"
+        text="My Assets" />
+
+    <Table
+        id="assetTable"
+        growing="true"
+        sticky="ColumnHeaders"
+        items="{assets>/}">
+
+        <columns>
+
+            <Column>
+                <Text text="Asset Tag" />
+            </Column>
+
+            <Column>
+                <Text text="Model" />
+            </Column>
+
+            <Column>
+                <Text text="Status" />
+            </Column>
+
+            <Column>
+                <Text text="Serial Number" />
+            </Column>
+
+        </columns>
+
+        <items>
+
+            <ColumnListItem>
+
+                <cells>
+
+                    <Text
+                        text="{assets>assetTag}" />
+
+                    <Text
+                        text="{assets>model}" />
+
+                    <ObjectStatus
+                        text="{assets>status}" />
+
+                    <Text
+                        text="{assets>serialNumber}" />
+
+                </cells>
+
+            </ColumnListItem>
+
+        </items>
+
+    </Table>
+
+</VBox>
+
+                        <!-- REQUESTS -->
+
+<VBox
+    id="requestsContainer"
+    visible="false">
+
+    <Title
+        id="requestsTitle"
+        text="My Requests" />
+
+    <Table
+        id="requestTable"
+        growing="true"
+        sticky="ColumnHeaders"
+        items="{requests>/}">
+
+        <columns>
+
+            <Column>
+                <Text text="Category" />
+            </Column>
+
+            <Column>
+                <Text text="Justification" />
+            </Column>
+
+            <Column>
+                <Text text="Status" />
+            </Column>
+
+            <Column>
+                <Text text="Approval Date" />
+            </Column>
+
+            <Column>
+                <Text text="Remarks" />
+            </Column>
+
+        </columns>
+
+        <items>
+
+            <ColumnListItem>
+
+                <cells>
+
+                    <Text
+                        text="{requests>categoryName}" />
+
+                    <Text
+                        text="{requests>justification}" />
+
+                    <ObjectStatus
+                        text="{requests>status}"
+                        state="{=
+                            ${requests>status} === 'APPROVED'
+                            ? 'Success'
+                            : ${requests>status} === 'REJECTED'
+                            ? 'Error'
+                            : 'Warning'
+                        }" />
+
+                    <Text
+                        text="{requests>approvalDate}" />
+
+                    <Text
+                        text="{requests>remarks}" />
+
+                </cells>
+
+            </ColumnListItem>
+
+        </items>
+
+    </Table>
+
+</VBox>
+
+                        <!-- PROFILE -->
+
+<VBox
+    id="profileContainer"
+    visible="false">
+
+    <Title
+        id="profileTitle"
+        text="My Profile" />
+
+<VBox
+    id="profileDetailsBox"
+    class="sapUiMediumMargin">
+
+    <Label text="Employee Number" />
+    <Text text="{profile>/employeeNumber}" />
+
+    <Label text="Full Name" />
+    <Text text="{profile>/fullName}" />
+
+    <Label text="Email" />
+    <Text text="{profile>/email}" />
+
+    <Label text="Phone" />
+    <Text text="{profile>/phone}" />
+
+    <Label text="Location" />
+    <Text text="{profile>/location}" />
+
+    <Label text="Role" />
+    <Text text="{profile>/role}" />
+
+    <Label text="Status" />
+    <ObjectStatus
+        text="{profile>/status}" />
+
+</VBox>
+
+</VBox>
+
+                    </Panel>
+
+                </VBox>
+
+            </HBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>
