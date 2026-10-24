@@ -33,8 +33,376 @@ sap.ui.define([
 
 onInit() {
 
-    this.byId("dashboardHtml").setContent(
-        "<iframe src='/asset.lifecycle.dashboard.admindashboard/index.html' style='width:100%;height:1200px;border:none;'></iframe>"
+    this._loadDashboard();
+
+},
+
+_loadDashboard: async function () {
+
+    await this._loadDashboardKPIs();
+    await this._loadStatusChart();
+    await this._loadCategoryChart();
+    await this._loadDepartmentChart();
+
+},
+
+_loadDashboardKPIs: async function () {
+
+    const employeesResponse =
+        await fetch(
+            "/odata/v4/asset-manager/Employees"
+        );
+
+    const employeesData =
+        await employeesResponse.json();
+
+    const requestsResponse =
+        await fetch(
+            "/odata/v4/asset-manager/AssetRequests"
+        );
+
+    const requestsData =
+        await requestsResponse.json();
+
+    const assetsResponse =
+        await fetch(
+            "/odata/v4/asset-manager/Assets"
+        );
+
+    const assetsData =
+        await assetsResponse.json();
+
+    const pending =
+        requestsData.value.filter(
+            r => r.status === "PENDING"
+        ).length;
+
+    const approved =
+        requestsData.value.filter(
+            r => r.status === "APPROVED"
+        ).length;
+
+    const rejected =
+        requestsData.value.filter(
+            r => r.status === "REJECTED"
+        ).length;
+
+    const availableAssets =
+        assetsData.value.filter(
+            a => a.status === "AVAILABLE"
+        ).length;
+
+    const assignedAssets =
+        assetsData.value.filter(
+            a => a.status === "ASSIGNED"
+        ).length;
+
+    const oModel = new JSONModel({
+
+        totalAssets:
+            employeesData.value.length,
+
+        availableAssets:
+            pending,
+
+        assignedAssets:
+            approved,
+
+        maintenanceAssets:
+            rejected,
+
+        retiredAssets:
+            availableAssets,
+
+        archivedAssets:
+            assignedAssets
+
+    });
+
+    this.getView().setModel(
+        oModel,
+        "kpi"
+    );
+
+},
+
+_loadStatusChart: async function () {
+
+    const response = await fetch(
+        "/odata/v4/asset-manager/AssetRequests"
+    );
+
+    const data = await response.json();
+
+    const requests = data.value;
+
+    const chartData = [
+
+        {
+            status: "PENDING",
+            assetCount:
+                requests.filter(
+                    r => r.status === "PENDING"
+                ).length
+        },
+
+        {
+            status: "APPROVED",
+            assetCount:
+                requests.filter(
+                    r => r.status === "APPROVED"
+                ).length
+        },
+
+        {
+            status: "REJECTED",
+            assetCount:
+                requests.filter(
+                    r => r.status === "REJECTED"
+                ).length
+        }
+
+    ];
+
+    const oModel =
+        new JSONModel(chartData);
+
+    this.getView().setModel(
+        oModel,
+        "status"
+    );
+
+    const oChart = this.byId("statusChart");
+    if (oChart) {
+        oChart.setVizProperties({
+            title: {
+                visible: true,
+                text: "Requests By Status"
+            },
+            legend: {
+                visible: true
+            }
+        });
+    }
+
+},
+
+_loadCategoryChart: async function () {
+
+    const response = await fetch(
+        "/odata/v4/asset-manager/AssetRequests"
+    );
+
+    const data = await response.json();
+
+    const requests = data.value;
+
+    const categoryMap = {};
+
+    requests.forEach(req => {
+
+        if (!categoryMap[req.categoryName]) {
+
+            categoryMap[
+                req.categoryName
+            ] = 0;
+
+        }
+
+        categoryMap[
+            req.categoryName
+        ]++;
+
+    });
+
+    const chartData =
+        Object.keys(categoryMap)
+            .map(key => ({
+
+                categoryName: key,
+
+                assetCount:
+                    categoryMap[key]
+
+            }));
+
+    const model =
+        new JSONModel(
+            chartData
+        );
+
+    this.getView().setModel(
+        model,
+        "category"
+    );
+
+    const oChart = this.byId("categoryChart");
+    if (oChart) {
+        oChart.setVizProperties({
+            title: {
+                visible: true,
+                text: "Requests By Category"
+            },
+            legend: {
+                visible: true
+            }
+        });
+    }
+
+},
+
+_loadDepartmentChart: async function () {
+
+    const deptResponse =
+        await fetch(
+            "/odata/v4/asset-manager/Departments"
+        );
+
+    const deptData =
+        await deptResponse.json();
+
+    const empResponse =
+        await fetch(
+            "/odata/v4/asset-manager/Employees"
+        );
+
+    const empData =
+        await empResponse.json();
+
+    const reqResponse =
+        await fetch(
+            "/odata/v4/asset-manager/AssetRequests"
+        );
+
+    const reqData =
+        await reqResponse.json();
+
+    const departments =
+        deptData.value;
+
+    const employees =
+        empData.value;
+
+    const requests =
+        reqData.value;
+
+    const result = [];
+
+    departments.forEach(dept => {
+
+        const deptEmployees =
+            employees.filter(
+                e =>
+                    e.department_ID ===
+                    dept.ID
+            );
+
+        let count = 0;
+
+        deptEmployees.forEach(emp => {
+
+            count += requests.filter(
+                req =>
+                    req.employee_ID ===
+                    emp.ID
+            ).length;
+
+        });
+
+        result.push({
+
+            departmentName:
+                dept.departmentName,
+
+            assetCount: count
+
+        });
+
+    });
+
+    const model =
+        new JSONModel(result);
+
+    this.getView().setModel(
+        model,
+        "department"
+    );
+
+    const oChart = this.byId("departmentChart");
+    if (oChart) {
+        oChart.setVizProperties({
+            title: {
+                visible: true,
+                text: "Requests By Department"
+            },
+            legend: {
+                visible: true
+            }
+        });
+    }
+
+},
+
+onEmployeesTilePress: async function () {
+
+    const response =
+        await fetch(
+            "/odata/v4/asset-manager/Employees"
+        );
+
+    const data =
+        await response.json();
+
+    const names =
+        data.value
+            .map(e => e.fullName)
+            .join("\n");
+
+    MessageBox.information(
+        names,
+        {
+            title: "Employees"
+        }
+    );
+
+},
+
+onPendingTilePress: function () {
+
+    MessageBox.information(
+        "Pending Requests Clicked"
+    );
+
+},
+
+onApprovedTilePress: function () {
+
+    MessageBox.information(
+        "Approved Requests Clicked"
+    );
+
+},
+
+onRejectedTilePress: function () {
+
+    MessageBox.information(
+        "Rejected Requests Clicked"
+    );
+
+},
+
+onAvailableAssetsPress: function () {
+
+    MessageBox.information(
+        "Available Assets Clicked"
+    );
+
+},
+
+onAssignedAssetsPress: function () {
+
+    MessageBox.information(
+        "Assigned Assets Clicked"
     );
 
 },
@@ -683,6 +1051,8 @@ onEditEmployee: async function () {
                             .setText(
                                 "Manager Dashboard"
                             );
+
+                        this._loadDashboard();
 
                         this.byId("dashboardContainer")
                             .setVisible(true);
