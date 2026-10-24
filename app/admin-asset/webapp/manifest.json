@@ -127,10 +127,7 @@
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/Assets",
-              "controllerExtensions": [
-                "adminasset/ext/AssetsObjectPageExt"
-              ]
+              "contextPath": "/Assets"
             }
           }
         }
