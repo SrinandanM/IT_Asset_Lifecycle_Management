@@ -471,7 +471,7 @@
                                                 }"
                                                 class="tableCell statusBadge" />
                                             <Text
-                                                text="{requests>createdDate}"
+                                                text="{requests>requestedDate}"
                                                 class="tableCell" />
                                             <Text
                                                 text="{requests>approvalDate}"
