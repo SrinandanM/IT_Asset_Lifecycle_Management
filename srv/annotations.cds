@@ -253,21 +253,14 @@ annotate AssetAdminService.Assets with {
 };
 
 annotate AssetAdminService.AssignAsset with @(
-    Common.ValueList : {
-        CollectionPath : 'Employees',
-        Parameters : [
-            {
-                $Type : 'Common.ValueListParameterInOut',
-                LocalDataProperty : employeeID,
-                ValueListProperty : 'ID'
-            },
-            {
-                $Type : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'fullName'
-            }
-        ]
-    }
+    cds.odata.bindingparameter.collection: true
 );
+
+annotate AssetAdminService.TransferAsset with @(
+    cds.odata.bindingparameter.collection: true
+);
+
+
 /* ===========================================================
    EMPLOYEES - ADMIN
    =========================================================== */
