@@ -6,14 +6,18 @@ service AssetEmployeeService {
        EMPLOYEE SELF SERVICE
        ========================================= */
 
-    entity Assets as projection on db.Assets;
-
+entity Assets as projection on db.Assets;
     entity AssetAssignments as projection on db.AssetAssignments;
 
     entity AssetCategories as projection on db.AssetCategories;
 
-    entity AssetRequests as projection on db.AssetRequests;
-
-    entity Employees as projection on db.Employees;
-
+entity AssetRequests as projection on db.AssetRequests {
+    *,
+    employee.fullName as employeeName,
+    requestedCategory.categoryName as categoryName
+};
+entity Employees as projection on db.Employees {
+    *,
+    department.departmentName as departmentName
+};
 }

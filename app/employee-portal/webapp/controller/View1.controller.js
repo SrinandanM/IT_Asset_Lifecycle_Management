@@ -29,6 +29,9 @@ sap.ui.define([
                         const employee = data.value[0];
                         this._currentEmployeeId = employee.ID;
 
+                        console.log("LOGGED EMPLOYEE");
+                        console.log(employee);
+
                         const oProfileModel = new JSONModel(employee);
                         this.getView().setModel(oProfileModel, "profile");
 
@@ -60,9 +63,9 @@ sap.ui.define([
                 try {
                     const employeeId = this._currentEmployeeId;
 
-                    const assetsResponse = await fetch(
-                        `/odata/v4/asset-employee/Assets?$filter=employee_ID eq '${employeeId}'`
-                    );
+const assetsResponse = await fetch(
+    `/odata/v4/asset-employee/Assets?$filter=currentHolder_ID eq '${employeeId}'`
+);
                     const assetsData = await assetsResponse.json();
                     const assets = assetsData.value || [];
 
@@ -87,9 +90,9 @@ sap.ui.define([
                         },
                         myApprovedRequests: {
                             total: requests.filter(r => r.status === "APPROVED").length,
-                            readyToAssign: requests.filter(
-                                r => r.status === "APPROVED" && r.asset_ID === null
-                            ).length
+readyToAssign: requests.filter(
+    r => r.status === "APPROVED"
+).length
                         },
                         myAssignedAssets: {
                             total: assets.filter(a => a.status === "ASSIGNED").length,
@@ -114,11 +117,18 @@ sap.ui.define([
                 if (!this._currentEmployeeId) return;
 
                 try {
-                    const employeeId = this._currentEmployeeId;
-                    const response = await fetch(
-                        `/odata/v4/asset-employee/Assets?$filter=employee_ID eq '${employeeId}'`
-                    );
-                    const data = await response.json();
+const employeeId = this._currentEmployeeId;
+
+const response = await fetch(
+    `/odata/v4/asset-employee/Assets?$filter=currentHolder_ID eq '${employeeId}'`
+);
+
+const data = await response.json();
+console.log("CURRENT EMPLOYEE");
+console.log(employeeId);
+
+console.log("ASSETS");
+console.log(data);
                     const oModel = new JSONModel(data.value || []);
                     this.getView().setModel(oModel, "assets");
                 } catch (error) {

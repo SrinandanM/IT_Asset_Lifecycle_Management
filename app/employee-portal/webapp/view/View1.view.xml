@@ -3,7 +3,6 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:core="sap.ui.core">
-
     <Page
         id="employeePage"
         title="Employee Self-Service Portal"
@@ -111,7 +110,7 @@
                                             text="MY ASSETS"
                                             level="H3"
                                             class="kpiCardTitle" />
-                                        <Icon
+                                        <core:Icon
                                             src="sap-icon://laptop"
                                             class="kpiCardIcon" />
                                     </HBox>
@@ -172,7 +171,7 @@
                                             text="PENDING REQUESTS"
                                             level="H3"
                                             class="kpiCardTitle" />
-                                        <Icon
+                                        <core:Icon 
                                             src="sap-icon://hourglass"
                                             class="kpiCardIcon" />
                                     </HBox>
@@ -210,7 +209,7 @@
                                             text="APPROVED REQUESTS"
                                             level="H3"
                                             class="kpiCardTitle" />
-                                        <Icon
+                                        <core:Icon
                                             src="sap-icon://status-positive"
                                             class="kpiCardIcon" />
                                     </HBox>
@@ -252,7 +251,7 @@
                                             text="MY ASSIGNED ASSETS"
                                             level="H3"
                                             class="kpiCardTitle" />
-                                        <Icon
+                                        <core:Icon
                                             src="sap-icon://product"
                                             class="kpiCardIcon" />
                                     </HBox>
@@ -367,7 +366,7 @@
                                                 text="{assets>model}"
                                                 class="tableCell" />
                                             <Text
-                                                text="{assets>categoryName}"
+text="{assets>category_ID}"
                                                 class="tableCell" />
                                             <ObjectStatus
                                                 text="{assets>status}"
@@ -379,11 +378,10 @@
                                                 }"
                                                 class="tableCell statusBadge" />
                                             <Text
-                                                text="{assets>assignedDate}"
-                                                class="tableCell" />
+text="{assets>createdAt}"                                                class="tableCell" />
                                             <Text
-                                                text="{assets>vendor}"
-                                                class="tableCell" />
+text="{assets>vendor_ID}"
+   class="tableCell" />
                                         </cells>
                                     </ColumnListItem>
                                 </items>
@@ -471,7 +469,7 @@
                                                 }"
                                                 class="tableCell statusBadge" />
                                             <Text
-                                                text="{requests>requestedDate}"
+text="{requests>createdAt}"
                                                 class="tableCell" />
                                             <Text
                                                 text="{requests>approvalDate}"
@@ -522,7 +520,7 @@
 
                                     <!-- Employee Number -->
                                     <HBox class="profileRow">
-                                        <Icon
+                                        <core:Icon
                                             src="sap-icon://customer"
                                             class="profileRowIcon" />
                                         <VBox class="profileRowContent">
@@ -537,7 +535,7 @@
 
                                     <!-- Full Name -->
                                     <HBox class="profileRow">
-                                        <Icon
+                                        <core:Icon
                                             src="sap-icon://person-placeholder"
                                             class="profileRowIcon" />
                                         <VBox class="profileRowContent">
@@ -552,7 +550,7 @@
 
                                     <!-- Email -->
                                     <HBox class="profileRow">
-                                        <Icon
+                                        <core:Icon
                                             src="sap-icon://email"
                                             class="profileRowIcon" />
                                         <VBox class="profileRowContent">
@@ -567,7 +565,7 @@
 
                                     <!-- Phone -->
                                     <HBox class="profileRow">
-                                        <Icon
+                                        <core:Icon
                                             src="sap-icon://phone"
                                             class="profileRowIcon" />
                                         <VBox class="profileRowContent">
@@ -582,8 +580,8 @@
 
                                     <!-- Department -->
                                     <HBox class="profileRow">
-                                        <Icon
-                                            src="sap-icon://department"
+                                        <core:Icon
+                                        src="sap-icon://group"
                                             class="profileRowIcon" />
                                         <VBox class="profileRowContent">
                                             <Text
@@ -597,7 +595,7 @@
 
                                     <!-- Location -->
                                     <HBox class="profileRow">
-                                        <Icon
+                                        <core:Icon
                                             src="sap-icon://map-2"
                                             class="profileRowIcon" />
                                         <VBox class="profileRowContent">
@@ -612,9 +610,9 @@
 
                                     <!-- Role -->
                                     <HBox class="profileRow">
-                                        <Icon
-                                            src="sap-icon://role"
-                                            class="profileRowIcon" />
+                                        <core:Icon
+                                        src="sap-icon://person-placeholder"
+                                        class="profileRowIcon" />
                                         <VBox class="profileRowContent">
                                             <Text
                                                 text="Role"
@@ -627,7 +625,7 @@
 
                                     <!-- Status -->
                                     <HBox class="profileRow">
-                                        <Icon
+                                        <core:Icon
                                             src="sap-icon://status-active"
                                             class="profileRowIcon" />
                                         <VBox class="profileRowContent">
@@ -648,7 +646,7 @@
 
                                 <!-- Read-Only Indicator -->
                                 <VBox class="profileReadOnly">
-                                    <Icon
+                                    <core:Icon
                                         src="sap-icon://locked"
                                         class="readOnlyIcon" />
                                     <Text
