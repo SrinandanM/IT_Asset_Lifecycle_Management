@@ -38,6 +38,10 @@
                         title="Assets"
                         icon="sap-icon://laptop" />
 
+                    <StandardListItem
+                        title="Asset Allocation"
+                        icon="sap-icon://employee" />
+
                 </List>
 
                 <!-- CONTENT -->
@@ -176,6 +180,7 @@
             icon="sap-icon://add"
             type="Emphasized"
             press=".onCreateRequest" />
+
 
         <Button
             id="refreshRequestBtn"
@@ -347,6 +352,74 @@
                     <Text
                         id="assetCell4"
                         text="{assets>serialNumber}" />
+
+                </cells>
+
+            </ColumnListItem>
+
+        </items>
+
+    </Table>
+
+</VBox>
+    <VBox
+    id="allocationContainer"
+    visible="false">
+
+    <Title
+        id="allocationTitle"
+        text="Asset Allocation" />
+
+    <Toolbar>
+
+        <Button
+            id="assignApprovedAssetBtn"
+            text="Assign Approved Request"
+            icon="sap-icon://employee"
+            type="Accept"
+            press=".onAssignApprovedAsset" />
+
+        <ToolbarSpacer />
+
+    </Toolbar>
+
+<Table
+    id="allocationTable"
+    mode="SingleSelectMaster"
+    includeItemInSelection="true"
+    items="{approvedRequests>/}">
+
+        <columns>
+
+            <Column>
+                <Text text="Employee" />
+            </Column>
+
+            <Column>
+                <Text text="Category" />
+            </Column>
+
+            <Column>
+                <Text text="Status" />
+            </Column>
+
+        </columns>
+
+        <items>
+
+            <ColumnListItem>
+
+                <cells>
+
+                  <Text
+    text="{approvedRequests>employeeName}" />
+
+
+                   <Text
+    text="{approvedRequests>categoryName}" />
+
+                    <ObjectStatus
+    text="{approvedRequests>status}" />
 
                 </cells>
 

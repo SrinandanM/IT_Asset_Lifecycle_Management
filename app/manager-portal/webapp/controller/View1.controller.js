@@ -88,6 +88,32 @@ _loadRequests: async function () {
 
 },
 
+_loadApprovedRequests: async function () {
+
+    const response = await fetch(
+        "/odata/v4/asset-manager/AssetRequests"
+    );
+
+    const data = await response.json();
+
+    const approved =
+        data.value.filter(
+            req =>
+                req.status ===
+                "APPROVED"
+        );
+
+    const oModel =
+        new JSONModel(
+            approved
+        );
+
+    this.getView().setModel(
+        oModel,
+        "approvedRequests"
+    );
+
+},
 _loadAssets: async function () {
 
     const response = await fetch(
@@ -643,6 +669,9 @@ onEditEmployee: async function () {
                 this.byId("assetsContainer")
                     .setVisible(false);
 
+                this.byId("allocationContainer")
+                    .setVisible(false);
+
                 this.byId("contentTitle")
                     .setText(sTitle);
 
@@ -683,6 +712,15 @@ case "Assets":
     this._loadAssets();
 
     this.byId("assetsContainer")
+        .setVisible(true);
+
+    break;
+
+case "Asset Allocation":
+
+    this._loadApprovedRequests();
+
+    this.byId("allocationContainer")
         .setVisible(true);
 
     break;
@@ -910,6 +948,351 @@ onAssetSearch: function (oEvent) {
     oModel.setData(
         filtered
     );
+
+},
+onAssignAsset: async function () {
+
+    const oTable =
+        this.byId("requestTable");
+
+    const oItem =
+        oTable.getSelectedItem();
+
+    if (!oItem) {
+
+        MessageBox.warning(
+            "Please select an approved request."
+        );
+
+        return;
+    }
+
+console.log(
+    oItem.getBindingContext("approvedRequests")
+);
+
+console.log(
+    oItem.getBindingContext("requests")
+);
+
+const request =
+    (
+        oItem.getBindingContext(
+            "approvedRequests"
+        ) ||
+
+        oItem.getBindingContext(
+            "requests"
+        )
+    ).getObject();
+
+    const response =
+        await fetch(
+            "/odata/v4/asset-manager/Assets"
+        );
+
+    const data =
+        await response.json();
+
+    const availableAssets =
+        data.value.filter(
+            asset =>
+                asset.status === "AVAILABLE"
+        );
+
+    const oAssetSelect =
+        new Select({
+            id: "assignAssetSelect"
+        });
+
+    availableAssets.forEach(asset => {
+
+        oAssetSelect.addItem(
+            new Item({
+                key: asset.ID,
+                text:
+                    asset.assetTag +
+                    " - " +
+                    asset.model
+            })
+        );
+
+    });
+
+    const oDialog = new Dialog({
+
+        title: "Assign Asset",
+
+        contentWidth: "500px",
+
+        content: [
+
+            new VBox({
+
+                items: [
+
+                    new Label({
+                        text: "Employee"
+                    }),
+
+                    new Text({
+                        text:
+                            request.employeeName
+                    }),
+
+                    new Label({
+                        text:
+                            "Available Asset"
+                    }),
+
+                    oAssetSelect
+
+                ]
+
+            })
+
+        ],
+
+        beginButton:
+            new Button({
+
+                text: "Assign",
+
+                type: "Emphasized",
+
+                press: async () => {
+
+                    MessageBox.success(
+                        "Manager assignment workflow created successfully."
+                    );
+
+                    oDialog.close();
+
+                }
+
+            }),
+
+        endButton:
+            new Button({
+
+                text: "Cancel",
+
+                press: function () {
+                    oDialog.close();
+                }
+
+            })
+
+    });
+
+    oDialog.open();
+
+},
+onAssignApprovedAsset: async function () {
+
+    const oTable =
+        this.byId("allocationTable");
+
+    const oItem =
+        oTable.getSelectedItem();
+
+    if (!oItem) {
+
+        MessageBox.warning(
+            "Select an approved request first."
+        );
+
+        return;
+    }
+
+const oContext =
+    oItem.getBindingContext(
+        "approvedRequests"
+    );
+
+console.log(
+    "CONTEXT =",
+    oContext
+);
+
+if (!oContext) {
+
+    MessageBox.error(
+        "Unable to read selected request."
+    );
+
+    return;
+}
+
+const request =
+    oContext.getObject();
+
+console.log(
+    "REQUEST =",
+    request
+);
+
+    if (request.status !== "APPROVED") {
+
+        MessageBox.warning(
+            "Only approved requests can be assigned."
+        );
+
+        return;
+    }
+
+    const response = await fetch(
+        "/odata/v4/asset-manager/Assets"
+    );
+
+    const data =
+        await response.json();
+
+    const availableAssets =
+        data.value.filter(
+            a =>
+                a.status ===
+                "AVAILABLE"
+        );
+
+    const oAssetSelect =
+        new Select({
+            id: "managerAssetSelect"
+        });
+
+    availableAssets.forEach(asset => {
+
+        oAssetSelect.addItem(
+            new Item({
+                key: asset.ID,
+                text:
+                    asset.assetTag +
+                    " - " +
+                    asset.model
+            })
+        );
+
+    });
+
+    const oDialog = new Dialog({
+
+        title: "Assign Asset",
+
+        content: [
+
+            new VBox({
+
+                items: [
+
+                    new Label({
+                        text: "Employee"
+                    }),
+
+                    new Text({
+                        text:
+                            request.employeeName
+                    }),
+
+                    new Label({
+                        text: "Asset"
+                    }),
+
+                    oAssetSelect
+
+                ]
+
+            })
+
+        ],
+
+beginButton:
+    new Button({
+
+        text: "Assign",
+
+        type: "Accept",
+
+        press: async () => {
+
+            const assetID =
+                sap.ui.getCore()
+                    .byId(
+                        "managerAssetSelect"
+                    )
+                    .getSelectedKey();
+
+            if (!assetID) {
+
+                MessageBox.warning(
+                    "Please select an asset."
+                );
+
+                return;
+            }
+
+            const response =
+                await fetch(
+                    "/odata/v4/asset-manager/AssignApprovedAsset",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+                        body: JSON.stringify({
+
+                            requestID:
+                                request.ID,
+
+                            assetID:
+                                assetID
+
+                        })
+                    }
+                );
+
+            if (!response.ok) {
+
+                const errorText =
+                    await response.text();
+
+                MessageBox.error(
+                    errorText ||
+                    "Asset assignment failed."
+                );
+
+                return;
+            }
+
+            MessageBox.success(
+                "Asset assigned successfully."
+            );
+
+            await this._loadApprovedRequests();
+
+            await this._loadAssets();
+
+            oDialog.close();
+            oDialog.destroy();
+
+        }
+
+    }),
+
+        endButton:
+            new Button({
+
+                text: "Cancel",
+
+                press: function () {
+                    oDialog.close();
+                }
+
+            })
+
+    });
+
+    oDialog.open();
 
 },
 

@@ -29,5 +29,8 @@ entity AssetRequests as projection on db.AssetRequests;
         categoryID    : UUID,
         justification : String
     );
-
+    action AssignApprovedAsset(
+    requestID : UUID,
+    assetID   : UUID
+);
 }

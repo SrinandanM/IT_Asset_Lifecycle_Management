@@ -7,7 +7,8 @@ sap.ui.define([
     "sap/m/Input",
     "sap/m/VBox",
     "sap/m/MessageBox",
-    "sap/m/CheckBox"
+    "sap/m/CheckBox",
+    "sap/m/MessageToast"
 ], function (
     Controller,
     JSONModel,
@@ -17,7 +18,8 @@ sap.ui.define([
     Input,
     VBox,
     MessageBox,
-    CheckBox
+    CheckBox,
+    MessageToast
 ) {
     "use strict";
 
@@ -786,6 +788,53 @@ _loadCategories: async function () {
     );
 
 },
+
+_loadAssetReport: async function () {
+
+    const response = await fetch(
+        "/odata/v4/asset-admin/Assets"
+    );
+
+    const data = await response.json();
+
+    this.getView().setModel(
+        new JSONModel(data.value),
+        "assetReports"
+    );
+
+},
+
+_loadRequestReport: async function () {
+
+    const response = await fetch(
+        "/odata/v4/asset-admin/AssetRequests"
+    );
+
+    const data = await response.json();
+
+    this.getView().setModel(
+        new JSONModel(data.value),
+        "requestReports"
+    );
+
+},
+
+
+_loadEmployeeAssetReport: async function () {
+
+    const response = await fetch(
+        "/odata/v4/asset-admin/Employees"
+    );
+
+    const data = await response.json();
+
+    this.getView().setModel(
+        new JSONModel(data.value),
+        "employeeReports"
+    );
+
+},
+
 
 _loadRequests: async function () {
 
@@ -1739,7 +1788,19 @@ onMenuSelect: function (oEvent) {
     this.byId("assetsContainer")
         .setVisible(false);
 
+    this.byId("reportsContainer")
+    .setVisible(false);
+
     switch (sTitle) {
+
+        case "Reports":
+
+    this._loadAssetReport();
+
+    this.byId("reportsContainer")
+        .setVisible(true);
+
+    break;
 
         case "Assets":
             this.byId("assetsContainer")
@@ -1792,7 +1853,253 @@ case "Categories":
     break;
     }
 
-}
+},
+onAssetReport: async function () {
+
+    await this._loadAssetReport();
+
+    this.byId("assetReportTable").setVisible(true);
+    this.byId("requestReportTable").setVisible(false);
+    this.byId("employeeReportTable").setVisible(false);
+
+},
+
+onRequestReport: async function () {
+
+    await this._loadRequestReport();
+
+    this.byId("assetReportTable").setVisible(false);
+    this.byId("requestReportTable").setVisible(true);
+    this.byId("employeeReportTable").setVisible(false);
+
+},
+
+onEmployeeAssetReport: async function () {
+
+    await this._loadEmployeeAssetReport();
+
+    this.byId("assetReportTable").setVisible(false);
+    this.byId("requestReportTable").setVisible(false);
+    this.byId("employeeReportTable").setVisible(true);
+
+},
+onDownloadPdf: async function () {
+
+    const doc = new jspdf.jsPDF();
+
+    let y = 20;
+
+    doc.setFontSize(16);
+
+    doc.text(
+        "Asset Lifecycle Report",
+        10,
+        y
+    );
+
+    y += 15;
+
+    if (this.byId("assetReportTable").getVisible()) {
+
+        const data =
+            this.getView()
+                .getModel("assetReports")
+                .getData();
+
+        data.forEach(asset => {
+
+            doc.setFontSize(10);
+
+            doc.text(
+                "Asset Tag: " +
+                (asset.assetTag || ""),
+                10,
+                y
+            );
+
+            y += 7;
+
+            doc.text(
+                "Model: " +
+                (asset.model || ""),
+                10,
+                y
+            );
+
+            y += 7;
+
+            doc.text(
+                "Status: " +
+                (asset.status || ""),
+                10,
+                y
+            );
+
+            y += 12;
+
+        });
+
+    }
+
+    else if (
+        this.byId("requestReportTable")
+            .getVisible()
+    ) {
+
+        const data =
+            this.getView()
+                .getModel("requestReports")
+                .getData();
+
+        data.forEach(req => {
+
+            doc.text(
+                "Employee: " +
+                (req.employeeName || ""),
+                10,
+                y
+            );
+
+            y += 7;
+
+            doc.text(
+                "Category: " +
+                (req.categoryName || ""),
+                10,
+                y
+            );
+
+            y += 7;
+
+            doc.text(
+                "Status: " +
+                (req.status || ""),
+                10,
+                y
+            );
+
+            y += 12;
+
+        });
+
+    }
+
+    else {
+
+        const data =
+            this.getView()
+                .getModel("employeeReports")
+                .getData();
+
+        data.forEach(emp => {
+
+            doc.text(
+                "Employee: " +
+                (emp.fullName || ""),
+                10,
+                y
+            );
+
+            y += 7;
+
+            doc.text(
+                "Role: " +
+                (emp.role || ""),
+                10,
+                y
+            );
+
+            y += 12;
+
+        });
+
+    }
+
+    doc.save("Report.pdf");
+
+},
+
+onSharePdf: function () {
+
+    const oDialog = new Dialog({
+
+        title: "Share Report",
+
+        contentWidth: "400px",
+
+        content: [
+
+            new VBox({
+
+                items: [
+
+                    new Label({
+                        text: "Email Address"
+                    }),
+
+                    new Input({
+                        id: "reportEmailInput"
+                    })
+
+                ]
+
+            })
+
+        ],
+
+        beginButton: new Button({
+
+            text: "Send",
+
+            type: "Emphasized",
+
+            press: function () {
+
+                const email =
+                    sap.ui.getCore()
+                        .byId(
+                            "reportEmailInput"
+                        )
+                        .getValue();
+
+                if (!email) {
+
+                    MessageBox.warning(
+                        "Enter an email address."
+                    );
+
+                    return;
+                }
+
+                MessageToast.show(
+                    "Report shared successfully."
+                );
+
+                oDialog.close();
+                oDialog.destroy();
+
+            }
+
+        }),
+
+        endButton: new Button({
+
+            text: "Cancel",
+
+            press: function () {
+
+                oDialog.close();
+                oDialog.destroy();
+
+            }
+
+        })
+
+    });
+
+    oDialog.open();
+
+},
 
         }
     );

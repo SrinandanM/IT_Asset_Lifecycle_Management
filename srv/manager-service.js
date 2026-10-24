@@ -101,6 +101,116 @@ req.reject(
             req.error('Distribution date cannot be before Purchase Date');
         }
     });
+    this.on('AssignApprovedAsset', async (req) => {
+
+    const {
+        requestID,
+        assetID
+    } = req.data;
+
+    const request =
+        await SELECT.one
+            .from(AssetRequests)
+            .where({ ID: requestID });
+
+    if (!request) {
+
+        req.reject(
+            400,
+            "Request not found"
+        );
+
+    }
+
+    if (request.status !== "APPROVED") {
+
+        req.reject(
+            400,
+            "Only approved requests can be assigned"
+        );
+
+    }
+
+    const asset =
+        await SELECT.one
+            .from(Assets)
+            .where({ ID: assetID });
+
+    if (!asset) {
+
+        req.reject(
+            400,
+            "Asset not found"
+        );
+
+    }
+
+    if (asset.status !== "AVAILABLE") {
+
+        req.reject(
+            400,
+            "Asset is not available"
+        );
+
+    }
+
+    await UPDATE(Assets)
+        .set({
+            status: "ASSIGNED",
+            currentHolder_ID:
+                request.employee_ID
+        })
+        .where({
+            ID: assetID
+        });
+
+    await INSERT.into(
+        AssetAssignments
+    ).entries({
+
+        asset_ID: assetID,
+
+        employee_ID:
+            request.employee_ID,
+
+        assignedDate:
+            new Date(),
+
+        assignmentStatus:
+            "ASSIGNED"
+
+    });
+
+    await INSERT.into(
+        OwnershipLedgers
+    ).entries({
+
+        asset_ID: assetID,
+
+        action: "ASSIGN",
+
+        toEmployee_ID:
+            request.employee_ID,
+
+        transitionDate:
+            new Date()
+
+    });
+
+    await UPDATE(AssetRequests)
+        .set({
+            status: "ASSIGNED"
+        })
+        .where({
+            ID: requestID
+        });
+
+    return {
+        message:
+            "Asset Assigned Successfully"
+    };
+
+});
 
 this.before('SAVE', 'AssetRequests', async (req) => {
 

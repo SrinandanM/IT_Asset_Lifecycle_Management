@@ -58,6 +58,12 @@
         icon="sap-icon://tag"
         type="Active" />
 
+    <StandardListItem
+    id="reportsItem"
+    title="Reports"
+    icon="sap-icon://business-objects-experience"
+    type="Active" />
+
 </List>
 
                 <!-- RIGHT CONTENT -->
@@ -502,6 +508,241 @@ width="320px"
                             </Table>
 
                         </VBox>
+
+                        <!-- REPORTS -->
+
+<VBox
+    id="reportsContainer"
+    visible="false">
+
+    <Title
+        id="reportsTitle"
+        text="Reports" />
+
+    <Toolbar
+        id="reportsToolbar">
+
+        <Button
+            id="assetReportBtn"
+            text="Asset Inventory Report"
+            icon="sap-icon://excel-attachment"
+            type="Emphasized"
+            press=".onAssetReport" />
+
+        <Button
+            id="requestReportBtn"
+            text="Asset Request Report"
+            icon="sap-icon://document"
+            press=".onRequestReport" />
+
+        <Button
+            id="employeeAssetReportBtn"
+            text="Employee Asset Report"
+            icon="sap-icon://employee"
+            press=".onEmployeeAssetReport" />
+
+        <Button
+            id="downloadPdfBtn"
+            text="Download PDF"
+            icon="sap-icon://pdf-attachment"
+            type="Emphasized"
+            press=".onDownloadPdf" />
+
+        <Button
+            id="sharePdfBtn"
+            text="Share PDF"
+            icon="sap-icon://share"
+            press=".onSharePdf" />
+
+    </Toolbar>
+
+    <!-- ASSET REPORT -->
+
+    <Table
+        id="assetReportTable"
+        visible="true"
+        growing="true"
+        sticky="ColumnHeaders"
+        items="{assetReports>/}">
+
+        <columns>
+
+            <Column id="assetReportCol1">
+                <Text id="assetReportHdr1" text="Asset Tag" />
+            </Column>
+
+            <Column id="assetReportCol2">
+                <Text id="assetReportHdr2" text="Model" />
+            </Column>
+
+            <Column id="assetReportCol3">
+                <Text id="assetReportHdr3" text="Status" />
+            </Column>
+
+            <Column id="assetReportCol4">
+                <Text id="assetReportHdr4" text="Current Holder" />
+            </Column>
+
+        </columns>
+
+        <items>
+
+            <ColumnListItem id="assetReportRow">
+
+                <cells>
+
+                    <Text
+                        id="assetReportCell1"
+                        text="{assetReports>assetTag}" />
+
+                    <Text
+                        id="assetReportCell2"
+                        text="{assetReports>model}" />
+
+                    <Text
+                        id="assetReportCell3"
+                        text="{assetReports>status}" />
+
+                    <Text
+                        id="assetReportCell4"
+                        text="{assetReports>currentHolderName}" />
+
+                </cells>
+
+            </ColumnListItem>
+
+        </items>
+
+    </Table>
+
+    <!-- REQUEST REPORT -->
+
+    <Table
+        id="requestReportTable"
+        visible="false"
+        growing="true"
+        sticky="ColumnHeaders"
+        items="{requestReports>/}">
+
+        <columns>
+
+            <Column id="requestReportCol1">
+                <Text id="requestReportHdr1" text="Employee" />
+            </Column>
+
+            <Column id="requestReportCol2">
+                <Text id="requestReportHdr2" text="Category" />
+            </Column>
+
+            <Column id="requestReportCol3">
+                <Text id="requestReportHdr3" text="Status" />
+            </Column>
+
+            <Column id="requestReportCol4">
+                <Text id="requestReportHdr4" text="Approval Date" />
+            </Column>
+
+            <Column id="requestReportCol5">
+                <Text id="requestReportHdr5" text="Remarks" />
+            </Column>
+
+        </columns>
+
+        <items>
+
+            <ColumnListItem id="requestReportRow">
+
+                <cells>
+
+                    <Text
+                        id="requestReportCell1"
+                        text="{requestReports>employeeName}" />
+
+                    <Text
+                        id="requestReportCell2"
+                        text="{requestReports>categoryName}" />
+
+                    <Text
+                        id="requestReportCell3"
+                        text="{requestReports>status}" />
+
+                    <Text
+                        id="requestReportCell4"
+                        text="{requestReports>approvalDate}" />
+
+                    <Text
+                        id="requestReportCell5"
+                        text="{requestReports>remarks}" />
+
+                </cells>
+
+            </ColumnListItem>
+
+        </items>
+
+    </Table>
+
+    <!-- EMPLOYEE REPORT -->
+
+    <Table
+        id="employeeReportTable"
+        visible="false"
+        growing="true"
+        sticky="ColumnHeaders"
+        items="{employeeReports>/}">
+
+        <columns>
+
+            <Column id="employeeReportCol1">
+                <Text id="employeeReportHdr1" text="Employee Number" />
+            </Column>
+
+            <Column id="employeeReportCol2">
+                <Text id="employeeReportHdr2" text="Employee Name" />
+            </Column>
+
+            <Column id="employeeReportCol3">
+                <Text id="employeeReportHdr3" text="Role" />
+            </Column>
+
+            <Column id="employeeReportCol4">
+                <Text id="employeeReportHdr4" text="Status" />
+            </Column>
+
+        </columns>
+
+        <items>
+
+            <ColumnListItem id="employeeReportRow">
+
+                <cells>
+
+                    <Text
+                        id="employeeReportCell1"
+                        text="{employeeReports>employeeNumber}" />
+
+                    <Text
+                        id="employeeReportCell2"
+                        text="{employeeReports>fullName}" />
+
+                    <Text
+                        id="employeeReportCell3"
+                        text="{employeeReports>role}" />
+
+                    <Text
+                        id="employeeReportCell4"
+                        text="{employeeReports>status}" />
+
+                </cells>
+
+            </ColumnListItem>
+
+        </items>
+
+    </Table>
+
+</VBox>
+
 
                         <!-- REQUESTS -->
 

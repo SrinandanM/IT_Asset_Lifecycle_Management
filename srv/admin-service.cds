@@ -31,7 +31,7 @@ action AssignAsset(
         toEmployeeID : UUID,
         transferDate : Date
     );
-
+  
     action ReturnAsset(
         returnDate : Date
     );
