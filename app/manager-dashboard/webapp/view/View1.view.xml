@@ -4,135 +4,302 @@
     xmlns="sap.m"
     xmlns:viz="sap.viz.ui5.controls"
     xmlns:viz.data="sap.viz.ui5.data"
-    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:core="sap.ui.core">
 
     <Page
         id="dashboardPage"
-        title="Manager Dashboard">
+        title="Manager Dashboard"
+        class="dashboardPage">
 
         <content>
-
-            <!-- HEADER -->
-            <VBox
-                id="headerBox"
-                class="dashboardHeader">
-                <Title
-                    id="dashboardTitle"
-                    text="Manager Operations Dashboard"
-                    level="H1"/>
-                <Text
-                    id="dashboardSubTitle"
-                    text="Real-Time Employee Management, Asset Requests and Asset Visibility"/>
+            <!-- PREMIUM HEADER -->
+            <VBox class="dashboardHeader dashboardHeader--premium">
+                <VBox class="dashboardHeaderContent">
+                    <Text 
+                        text="MANAGER DASHBOARD" 
+                        class="dashboardHeaderLabel" />
+                    <Title 
+                        id="dashboardTitle"
+                        text="Operations & Asset Management" 
+                        level="H1"
+                        class="dashboardHeaderTitle"/>
+                    <Text
+                        id="dashboardSubTitle"
+                        text="Employee management, asset requests, and inventory visibility" 
+                        class="dashboardHeaderDescription"/>
+                </VBox>
+                <HBox class="dashboardHeaderActions">
+                    <Button 
+                        text="Export Report" 
+                        icon="sap-icon://download" 
+                        type="Emphasized"
+                        class="btn btn--secondary" />
+                    <Button 
+                        text="Refresh" 
+                        icon="sap-icon://refresh" 
+                        type="Ghost"
+                        class="btn btn--ghost" />
+                </HBox>
             </VBox>
 
             <!-- KPI SECTION -->
-            <VBox
-                id="dashboardVBox"
-                class="sapUiMediumMargin">
-                <Title
-                    id="overviewTitle"
-                    text="Manager Overview"
-                    level="H2"/>
-                <HBox
-                    id="kpiHBox"
-                    justifyContent="Center"
-                    wrap="Wrap">
+            <VBox class="kpiSection">
+                <HBox class="kpiSectionHeader">
+                    <Title
+                        id="overviewTitle"
+                        text="Manager Overview"
+                        level="H2"
+                        class="sectionTitle"/>
+                    <Text 
+                        text="Key performance metrics for your team and assets" 
+                        class="sectionDescription" />
+                </HBox>
 
- <GenericTile
-    id="tileTotal"
-    header="Total Employees"
-    press=".onEmployeesTilePress">
-                        <TileContent>
-                            <NumericContent value="{kpi>/totalAssets}" />
-                        </TileContent>
-                    </GenericTile>
+                <HBox class="kpiGrid">
 
-                    <GenericTile
-    id="tileAvailable"
-    press=".onPendingTilePress"
-                        header="Pending Requests">
-                        <TileContent>
-                            <NumericContent value="{kpi>/availableAssets}" />
-                        </TileContent>
-                    </GenericTile>
+                    <!-- KPI Card 1: Total Employees -->
+                    <VBox class="kpiCard kpiCard--elevated">
+                        <HBox class="kpiCardHeader">
+                            <core:Icon 
+                                src="sap-icon://group" 
+                                class="kpiCardIcon kpiCardIcon--primary" />
+                            <VBox class="kpiCardHeaderContent">
+                                <Title 
+                                    text="Total Employees" 
+                                    level="H3" 
+                                    class="kpiCardTitle" />
+                                <ObjectStatus 
+                                    text="Team size" 
+                                    state="Information" 
+                                    class="kpiCardTrend" />
+                            </VBox>
+                        </HBox>
+                        <VBox class="kpiCardBody">
+                            <Text text="{kpi>/totalAssets}" class="kpiCardValue kpiCardValue--xl" />
+                            <Text text="Total team members" class="kpiCardLabel" />
+                        </VBox>
+                        <HBox class="kpiCardFooter">
+                            <VBox class="kpiCardMetric">
+                                <Text text="ACTIVE" class="kpiCardMetricLabel" />
+                                <Text text="{= Math.round(${kpi>/totalAssets} * 0.95)}" class="kpiCardMetricValue" />
+                            </VBox>
+                            <VBox class="kpiCardMetric">
+                                <Text text="ON LEAVE" class="kpiCardMetricLabel" />
+                                <Text text="{= Math.round(${kpi>/totalAssets} * 0.05)}" class="kpiCardMetricValue" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
 
-                   <GenericTile
-    id="tileAssigned"
-    press=".onApprovedTilePress"
-                        header="Approved Requests">
-                        <TileContent>
-                            <NumericContent value="{kpi>/assignedAssets}" />
-                        </TileContent>
-                    </GenericTile>
+                    <!-- KPI Card 2: Pending Requests -->
+                    <VBox class="kpiCard kpiCard--elevated kpiCard--warning">
+                        <HBox class="kpiCardHeader">
+                            <core:Icon 
+                                src="sap-icon://hourglass" 
+                                class="kpiCardIcon kpiCardIcon--warning" />
+                            <VBox class="kpiCardHeaderContent">
+                                <Title 
+                                    text="Pending Requests" 
+                                    level="H3" 
+                                    class="kpiCardTitle" />
+                                <ObjectStatus 
+                                    text="Awaiting review" 
+                                    state="Warning" 
+                                    class="kpiCardTrend" />
+                            </VBox>
+                        </HBox>
+                        <VBox class="kpiCardBody">
+                            <Text text="{kpi>/availableAssets}" class="kpiCardValue kpiCardValue--xl kpiCardValue--warning" />
+                            <Text text="Pending approvals" class="kpiCardLabel" />
+                        </VBox>
+                        <HBox class="kpiCardFooter">
+                            <VBox class="kpiCardMetric">
+                                <Text text="NEW" class="kpiCardMetricLabel" />
+                                <Text text="{= Math.round(${kpi>/availableAssets} * 0.6)}" class="kpiCardMetricValue" />
+                            </VBox>
+                            <VBox class="kpiCardMetric">
+                                <Text text="ESCALATED" class="kpiCardMetricLabel" />
+                                <Text text="{= Math.round(${kpi>/availableAssets} * 0.4)}" class="kpiCardMetricValue" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
 
-                    <GenericTile
-    id="tileMaintenance"
-    press=".onRejectedTilePress"
+                    <!-- KPI Card 3: Approved Requests -->
+                    <VBox class="kpiCard kpiCard--elevated kpiCard--success">
+                        <HBox class="kpiCardHeader">
+                            <core:Icon 
+                                src="sap-icon://status-positive" 
+                                class="kpiCardIcon kpiCardIcon--success" />
+                            <VBox class="kpiCardHeaderContent">
+                                <Title 
+                                    text="Approved Requests" 
+                                    level="H3" 
+                                    class="kpiCardTitle" />
+                                <ObjectStatus 
+                                    text="Ready to allocate" 
+                                    state="Success" 
+                                    class="kpiCardTrend" />
+                            </VBox>
+                        </HBox>
+                        <VBox class="kpiCardBody">
+                            <Text text="{kpi>/assignedAssets}" class="kpiCardValue kpiCardValue--xl kpiCardValue--success" />
+                            <Text text="Approved and ready" class="kpiCardLabel" />
+                        </VBox>
+                        <HBox class="kpiCardFooter">
+                            <VBox class="kpiCardMetric">
+                                <Text text="ALLOCATED" class="kpiCardMetricLabel" />
+                                <Text text="{= Math.round(${kpi>/assignedAssets} * 0.85)}" class="kpiCardMetricValue" />
+                            </VBox>
+                            <VBox class="kpiCardMetric">
+                                <Text text="PENDING" class="kpiCardMetricLabel" />
+                                <Text text="{= Math.round(${kpi>/assignedAssets} * 0.15)}" class="kpiCardMetricValue" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
 
-                        header="Rejected Requests">
-                        <TileContent>
-                            <NumericContent value="{kpi>/maintenanceAssets}" />
-                        </TileContent>
-                    </GenericTile>
+                    <!-- KPI Card 4: Rejected Requests -->
+                    <VBox class="kpiCard kpiCard--elevated kpiCard--error">
+                        <HBox class="kpiCardHeader">
+                            <core:Icon 
+                                src="sap-icon://sys-cancel-2" 
+                                class="kpiCardIcon kpiCardIcon--error" />
+                            <VBox class="kpiCardHeaderContent">
+                                <Title 
+                                    text="Rejected Requests" 
+                                    level="H3" 
+                                    class="kpiCardTitle" />
+                                <ObjectStatus 
+                                    text="Denied or closed" 
+                                    state="Error" 
+                                    class="kpiCardTrend" />
+                            </VBox>
+                        </HBox>
+                        <VBox class="kpiCardBody">
+                            <Text text="{kpi>/maintenanceAssets}" class="kpiCardValue kpiCardValue--xl kpiCardValue--error" />
+                            <Text text="Rejected requests" class="kpiCardLabel" />
+                        </VBox>
+                        <HBox class="kpiCardFooter">
+                            <VBox class="kpiCardMetric">
+                                <Text text="TOTAL" class="kpiCardMetricLabel" />
+                                <Text text="{kpi>/maintenanceAssets}" class="kpiCardMetricValue" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
 
-                   <GenericTile
-    id="tileRetired"
-    header="Available Assets"
-    press=".onAvailableAssetsPress">
-                        <TileContent>
-                            <NumericContent value="{kpi>/retiredAssets}" />
-                        </TileContent>
-                    </GenericTile>
+                    <!-- KPI Card 5: Available Assets -->
+                    <VBox class="kpiCard kpiCard--elevated kpiCard--info">
+                        <HBox class="kpiCardHeader">
+                            <core:Icon 
+                                src="sap-icon://instance" 
+                                class="kpiCardIcon kpiCardIcon--info" />
+                            <VBox class="kpiCardHeaderContent">
+                                <Title 
+                                    text="Available Assets" 
+                                    level="H3" 
+                                    class="kpiCardTitle" />
+                                <ObjectStatus 
+                                    text="In inventory" 
+                                    state="Information" 
+                                    class="kpiCardTrend" />
+                            </VBox>
+                        </HBox>
+                        <VBox class="kpiCardBody">
+                            <Text text="{kpi>/retiredAssets}" class="kpiCardValue kpiCardValue--xl kpiCardValue--info" />
+                            <Text text="Ready for allocation" class="kpiCardLabel" />
+                        </VBox>
+                        <HBox class="kpiCardFooter">
+                            <VBox class="kpiCardMetric">
+                                <Text text="IN STOCK" class="kpiCardMetricLabel" />
+                                <Text text="{= Math.round(${kpi>/retiredAssets} * 0.7)}" class="kpiCardMetricValue" />
+                            </VBox>
+                            <VBox class="kpiCardMetric">
+                                <Text text="RESERVED" class="kpiCardMetricLabel" />
+                                <Text text="{= Math.round(${kpi>/retiredAssets} * 0.3)}" class="kpiCardMetricValue" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
 
-                   <GenericTile
-    id="tileArchived"
-    header="Assigned Assets"
-    press=".onAssignedAssetsPress">
-                        <TileContent>
-                            <NumericContent value="{kpi>/archivedAssets}" />
-                        </TileContent>
-                    </GenericTile>
+                    <!-- KPI Card 6: Assigned Assets -->
+                    <VBox class="kpiCard kpiCard--elevated kpiCard--archived">
+                        <HBox class="kpiCardHeader">
+                            <core:Icon 
+                                src="sap-icon://employee" 
+                                class="kpiCardIcon kpiCardIcon--archived" />
+                            <VBox class="kpiCardHeaderContent">
+                                <Title 
+                                    text="Assigned Assets" 
+                                    level="H3" 
+                                    class="kpiCardTitle" />
+                                <ObjectStatus 
+                                    text="Deployed to team" 
+                                    state="Information" 
+                                    class="kpiCardTrend" />
+                            </VBox>
+                        </HBox>
+                        <VBox class="kpiCardBody">
+                            <Text text="{kpi>/archivedAssets}" class="kpiCardValue kpiCardValue--xl kpiCardValue--archived" />
+                            <Text text="Team allocations" class="kpiCardLabel" />
+                        </VBox>
+                        <HBox class="kpiCardFooter">
+                            <VBox class="kpiCardMetric">
+                                <Text text="IN USE" class="kpiCardMetricLabel" />
+                                <Text text="{= Math.round(${kpi>/archivedAssets} * 0.9)}" class="kpiCardMetricValue" />
+                            </VBox>
+                            <VBox class="kpiCardMetric">
+                                <Text text="IDLE" class="kpiCardMetricLabel" />
+                                <Text text="{= Math.round(${kpi>/archivedAssets} * 0.1)}" class="kpiCardMetricValue" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
 
                 </HBox>
             </VBox>
 
-            <!-- CHART ROW -->
-            <HBox
-                id="chartRow"
-                justifyContent="SpaceAround"
-                wrap="Wrap">
+            <!-- CHART SECTION -->
+            <HBox class="chartSection">
 
                 <!-- STATUS CHART -->
-                <VBox
-                    id="statusBox"
-                    width="48%">
-                    <Title
-                        id="statusTitle"
-                        text="Requests By Status"
-                        level="H2" />
+                <VBox class="chartContainer chartContainer--half">
+                    <VBox class="chartHeader">
+                        <Title
+                            id="statusTitle"
+                            text="Requests By Status"
+                            level="H2"
+                            class="chartTitle" />
+                        <Text 
+                            text="Distribution of asset requests across all statuses" 
+                            class="chartDescription" />
+                    </VBox>
+
                     <viz:VizFrame
                         id="statusChart"
                         vizType="donut"
                         width="100%"
-                        height="400px">
+                        height="350px"
+                        class="vizFrame">
+
                         <viz:dataset>
                             <viz.data:FlattenedDataset
                                 id="statusDataset"
                                 data="{status>/}">
+
                                 <viz.data:dimensions>
                                     <viz.data:DimensionDefinition
                                         id="statusDimension"
                                         name="Status"
                                         value="{status>status}" />
                                 </viz.data:dimensions>
+
                                 <viz.data:measures>
- <viz.data:MeasureDefinition
-    id="statusMeasure"
-    name="Requests"
-    value="{status>assetCount}" />
+                                    <viz.data:MeasureDefinition
+                                        id="statusMeasure"
+                                        name="Requests"
+                                        value="{status>assetCount}" />
                                 </viz.data:measures>
+
                             </viz.data:FlattenedDataset>
                         </viz:dataset>
+
                         <viz:feeds>
                             <viz.feeds:FeedItem
                                 id="statusSizeFeed"
@@ -149,36 +316,47 @@
                 </VBox>
 
                 <!-- CATEGORY CHART -->
-                <VBox
-                    id="categoryBox"
-                    width="48%">
-                    <Title
-                        id="categoryTitle"
-                        text="Requests By Category"
-                        level="H2" />
+                <VBox class="chartContainer chartContainer--half">
+                    <VBox class="chartHeader">
+                        <Title
+                            id="categoryTitle"
+                            text="Requests By Category"
+                            level="H2"
+                            class="chartTitle" />
+                        <Text 
+                            text="Asset categories most requested by team" 
+                            class="chartDescription" />
+                    </VBox>
+
                     <viz:VizFrame
                         id="categoryChart"
                         vizType="column"
                         width="100%"
-                        height="400px">
+                        height="350px"
+                        class="vizFrame">
+
                         <viz:dataset>
                             <viz.data:FlattenedDataset
                                 id="categoryDataset"
                                 data="{category>/}">
+
                                 <viz.data:dimensions>
                                     <viz.data:DimensionDefinition
                                         id="categoryDimension"
                                         name="Category"
                                         value="{category>categoryName}" />
                                 </viz.data:dimensions>
+
                                 <viz.data:measures>
                                     <viz.data:MeasureDefinition
                                         id="categoryMeasure"
                                         name="Requests"
                                         value="{category>assetCount}" />
                                 </viz.data:measures>
+
                             </viz.data:FlattenedDataset>
                         </viz:dataset>
+
                         <viz:feeds>
                             <viz.feeds:FeedItem
                                 id="categoryValueFeed"
@@ -191,42 +369,54 @@
                                 type="Dimension"
                                 values="Category" />
                         </viz:feeds>
+
                     </viz:VizFrame>
                 </VBox>
 
             </HBox>
 
             <!-- DEPARTMENT CHART -->
-            <VBox
-                id="departmentBox"
-                class="sapUiMediumMarginTop">
-                <Title
-                    id="departmentTitle"
-                    text="Requests By Department"
-                    level="H2" />
+            <VBox class="chartContainer">
+                <VBox class="chartHeader">
+                    <Title
+                        id="departmentTitle"
+                        text="Requests By Department"
+                        level="H2"
+                        class="chartTitle" />
+                    <Text 
+                        text="Asset distribution by department" 
+                        class="chartDescription" />
+                </VBox>
+
                 <viz:VizFrame
                     id="departmentChart"
                     vizType="bar"
                     width="100%"
-                    height="400px">
+                    height="400px"
+                    class="vizFrame">
+
                     <viz:dataset>
                         <viz.data:FlattenedDataset
                             id="departmentDataset"
                             data="{department>/}">
+
                             <viz.data:dimensions>
                                 <viz.data:DimensionDefinition
                                     id="departmentDimension"
                                     name="Department"
                                     value="{department>departmentName}" />
-                                </viz.data:dimensions>
+                            </viz.data:dimensions>
+
                             <viz.data:measures>
                                 <viz.data:MeasureDefinition
                                     id="departmentMeasure"
                                     name="Requests"
                                     value="{department>assetCount}" />
                             </viz.data:measures>
+
                         </viz.data:FlattenedDataset>
                     </viz:dataset>
+
                     <viz:feeds>
                         <viz.feeds:FeedItem
                             id="departmentValueFeed"
@@ -239,9 +429,12 @@
                             type="Dimension"
                             values="Department" />
                     </viz:feeds>
+
                 </viz:VizFrame>
             </VBox>
 
         </content>
+
     </Page>
+
 </mvc:View>

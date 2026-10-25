@@ -1,109 +1,559 @@
 /* ===================================================
-   DASHBOARD HEADER
+   MANAGER DASHBOARD - ENTERPRISE STYLING
    =================================================== */
 
-.dashboardHeader {
-    background: linear-gradient(135deg,#0A6ED1,#4F46E5);
-    padding: 2.5rem;
-    margin: 1rem;
-    border-radius: 20px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+/* COLOR VARIABLES */
+:root {
+    --color-primary: #0A6ED1;
+    --color-primary-dark: #0856a8;
+    --color-secondary: #1E293B;
+    --color-success: #16A34A;
+    --color-warning: #F59E0B;
+    --color-error: #DC2626;
+    --color-info: #06B6D4;
+    --color-background: #F8FAFC;
+    --color-surface: #FFFFFF;
+    --color-border: #E2E8F0;
+    --color-text-primary: #1E293B;
+    --color-text-secondary: #475569;
+    --color-text-tertiary: #64748B;
+    --color-text-disabled: #94A3B8;
+    
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 2.5rem;
+    
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.15);
+    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.25);
+    
+    --transition-short: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-long: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.dashboardHeader .sapMTitle {
-    color: white !important;
-    font-size: 2rem !important;
-    font-weight: bold;
-}
-
-.dashboardHeader .sapMText {
-    color: white !important;
-    font-size: 1rem;
-}
-
-/* ===================================================
-   KPI CARDS
-   =================================================== */
-
-.sapMGT {
-    margin: 0.75rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-    transition: all 0.3s ease;
-}
-
-.sapMGT:hover {
-    transform: translateY(-5px);
-}
-
-.sapMNCValue {
-    font-size: 3rem !important;
-    font-weight: bold;
-}
-
-/* TOTAL */
-
-#tileTotal {
-    background: #0A6ED1;
-}
-
-/* AVAILABLE */
-
-#tileAvailable {
-    background: #107E3E;
-}
-
-/* ASSIGNED */
-
-#tileAssigned {
-    background: #5D36FF;
-}
-
-/* MAINTENANCE */
-
-#tileMaintenance {
-    background: #E9730C;
-}
-
-/* RETIRED */
-
-#tileRetired {
-    background: #6A6D70;
-}
-
-/* ARCHIVED */
-
-#tileArchived {
-    background: #8E44AD;
-}
-
-#tileTotal *,
-#tileAvailable *,
-#tileAssigned *,
-#tileMaintenance *,
-#tileRetired *,
-#tileArchived * {
-    color: white !important;
-}
-
-/* ===================================================
-   CHART AREA
-   =================================================== */
-
-#statusBox,
-#categoryBox,
-#departmentBox {
-    background: white;
-    border-radius: 20px;
-    padding: 1rem;
-    margin: 0.5rem;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
-}
-
-/* ===================================================
-   PAGE
-   =================================================== */
-
+/* PAGE BACKGROUND */
+.dashboardPage,
 .sapMPage {
-    background: #F5F7FA;
+    background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%) !important;
+    min-height: 100vh;
+}
+
+/* ===================================================
+   HEADER STYLING
+   =================================================== */
+
+.dashboardHeader--premium {
+    background: linear-gradient(135deg, #0A6ED1 0%, #0856a8 100%);
+    padding: var(--spacing-2xl);
+    margin: var(--spacing-lg);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-2xl);
+    min-height: 180px;
+}
+
+.dashboardHeader--premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+    transform: translate(50%, -50%);
+}
+
+.dashboardHeader--premium::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 50%;
+    transform: translate(-50%, 50%);
+}
+
+.dashboardHeaderContent {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+}
+
+.dashboardHeaderLabel {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.dashboardHeaderTitle {
+    font-size: 32px !important;
+    font-weight: 600 !important;
+    color: white !important;
+    margin: 0.5rem 0 1rem 0 !important;
+    line-height: 1.3;
+}
+
+.dashboardHeaderDescription {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+    margin: 0;
+}
+
+.dashboardHeaderActions {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+/* ===================================================
+   KPI SECTION
+   =================================================== */
+
+.kpiSection {
+    padding: var(--spacing-xl);
+}
+
+.kpiSectionHeader {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    padding: 0 var(--spacing-md);
+}
+
+.sectionTitle {
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    color: var(--color-text-primary) !important;
+    margin: 0 !important;
+}
+
+.sectionDescription {
+    font-size: 13px;
+    color: var(--color-text-tertiary);
+    margin: 0;
+}
+
+.kpiGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-2xl);
+}
+
+/* ===================================================
+   KPI CARD STYLING
+   =================================================== */
+
+.kpiCard--elevated {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    animation: cardEnter var(--transition-long) forwards;
+}
+
+@keyframes cardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.kpiCard--elevated:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+}
+
+.kpiCardHeader {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid #F1F5F9;
+}
+
+.kpiCardIcon {
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 24px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+}
+
+.kpiCardIcon--primary {
+    background: #EFF6FF;
+    color: var(--color-primary) !important;
+}
+
+.kpiCardIcon--success {
+    background: #DFFCF0;
+    color: var(--color-success) !important;
+}
+
+.kpiCardIcon--info {
+    background: #CFFAFE;
+    color: var(--color-info) !important;
+}
+
+.kpiCardIcon--warning {
+    background: #FEFCE8;
+    color: var(--color-warning) !important;
+}
+
+.kpiCardIcon--error {
+    background: #FEE2E2;
+    color: var(--color-error) !important;
+}
+
+.kpiCardIcon--archived {
+    background: #F3F4F6;
+    color: #6B7280 !important;
+}
+
+.kpiCardHeaderContent {
+    flex: 1;
+}
+
+.kpiCardTitle {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: var(--color-text-primary) !important;
+    margin: 0 !important;
+    line-height: 1.4;
+}
+
+.kpiCardTrend {
+    font-size: 12px;
+    margin-top: 0.25rem !important;
+    color: var(--color-success) !important;
+}
+
+.kpiCardBody {
+    flex: 1;
+}
+
+.kpiCardValue--xl {
+    font-size: 36px !important;
+    font-weight: 700 !important;
+    line-height: 1.2;
+    margin-bottom: 0.5rem !important;
+    color: var(--color-primary) !important;
+}
+
+.kpiCardValue--success {
+    color: var(--color-success) !important;
+}
+
+.kpiCardValue--info {
+    color: var(--color-info) !important;
+}
+
+.kpiCardValue--warning {
+    color: var(--color-warning) !important;
+}
+
+.kpiCardValue--error {
+    color: var(--color-error) !important;
+}
+
+.kpiCardValue--archived {
+    color: #6B7280 !important;
+}
+
+.kpiCardLabel {
+    font-size: 13px;
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--spacing-md) !important;
+    margin: 0 !important;
+}
+
+.kpiCardFooter {
+    display: flex;
+    gap: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid #F1F5F9;
+}
+
+.kpiCardMetric {
+    flex: 1;
+    text-align: center;
+}
+
+.kpiCardMetricLabel {
+    font-size: 11px;
+    color: var(--color-text-disabled);
+    font-weight: 600;
+    margin-bottom: 0.5rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 !important;
+}
+
+.kpiCardMetricValue {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    color: var(--color-text-primary) !important;
+    margin: 0 !important;
+}
+
+/* ===================================================
+   CHART SECTION
+   =================================================== */
+
+.chartSection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-lg);
+    padding: 0 var(--spacing-lg);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.chartContainer {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-normal);
+    animation: cardEnter var(--transition-long) forwards;
+    animation-delay: 0.1s;
+}
+
+.chartContainer:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+}
+
+.chartContainer--half {
+    flex: 1;
+    min-width: 400px;
+}
+
+.chartContainer--full {
+    width: 100%;
+}
+
+.chartHeader {
+    margin-bottom: var(--spacing-lg);
+}
+
+.chartTitle {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    color: var(--color-text-primary) !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.chartDescription {
+    font-size: 13px;
+    color: var(--color-text-tertiary);
+    margin: 0;
+}
+
+.vizFrame {
+    border-radius: var(--radius-md) !important;
+}
+
+/* ===================================================
+   BUTTONS
+   =================================================== */
+
+.btn {
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    padding: 10px 20px;
+    transition: all var(--transition-short);
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+}
+
+.btn--primary {
+    background: var(--color-primary) !important;
+    color: white !important;
+}
+
+.btn--primary:hover {
+    background: var(--color-primary-dark) !important;
+    box-shadow: 0 4px 12px rgba(10, 110, 209, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn--primary:active {
+    transform: translateY(0);
+}
+
+.btn--secondary {
+    background: white !important;
+    color: var(--color-primary) !important;
+    border: 2px solid var(--color-primary) !important;
+}
+
+.btn--secondary:hover {
+    background: #EFF6FF !important;
+    transform: translateY(-2px);
+}
+
+.btn--ghost {
+    background: transparent !important;
+    color: var(--color-text-secondary) !important;
+    border: 1px solid var(--color-border) !important;
+}
+
+.btn--ghost:hover {
+    background: #F8FAFC !important;
+    border-color: var(--color-primary) !important;
+    color: var(--color-primary) !important;
+}
+
+/* ===================================================
+   RESPONSIVE DESIGN
+   =================================================== */
+
+@media (max-width: 1200px) {
+    .kpiGrid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    
+    .chartContainer--half {
+        flex: 1 1 calc(50% - 0.75rem);
+        min-width: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboardHeader--premium {
+        flex-direction: column;
+        padding: var(--spacing-lg);
+        min-height: auto;
+    }
+    
+    .dashboardHeaderActions {
+        width: 100%;
+    }
+    
+    .dashboardHeaderActions .btn {
+        flex: 1;
+        min-width: 120px;
+    }
+    
+    .kpiGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .chartContainer--half {
+        flex: 1 1 100%;
+        min-width: 100%;
+    }
+    
+    .chartSection {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboardHeader--premium {
+        padding: var(--spacing-lg);
+        margin: var(--spacing-md);
+    }
+    
+    .dashboardHeaderTitle {
+        font-size: 24px !important;
+    }
+    
+    .kpiCard--elevated {
+        padding: var(--spacing-md);
+    }
+    
+    .kpiCardValue--xl {
+        font-size: 28px !important;
+    }
+    
+    .kpiCardHeader {
+        flex-wrap: wrap;
+    }
+}
+
+/* ===================================================
+   ACCESSIBILITY
+   =================================================== */
+
+.kpiCard--elevated:focus-within {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.btn:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* ===================================================
+   STATUS BADGE STYLING
+   =================================================== */
+
+.statusBadge {
+    border-radius: var(--radius-sm);
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.statusBadge--success {
+    background: #D1FAE5 !important;
+    color: #065F46 !important;
+}
+
+.statusBadge--warning {
+    background: #FEF3C7 !important;
+    color: #92400E !important;
+}
+
+.statusBadge--error {
+    background: #FEE2E2 !important;
+    color: #7F1D1D !important;
+}
+
+.statusBadge--info {
+    background: #CFFAFE !important;
+    color: #164E63 !important;
 }
