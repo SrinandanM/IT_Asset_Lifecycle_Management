@@ -82,28 +82,11 @@
                     width="100%"
                     class="sapUiResponsiveContentPadding">
 
-                   <Title
-                        id="contentTitle"
-                        text="Dashboard"
-                        level="H1"
-                        titleStyle="H1"
-                        class="sapUiLargeMarginBottom sapUiSmallMarginTop" />
-
-                    <Text
-                        id="contentText"
-                        text="Enterprise Asset Management Dashboard" />
-
-                    <Panel
-                        id="contentPanel"
-                        headerText="Dashboard"
-                        width="100%">
-
-                        <!-- DASHBOARD -->
-
-                        <VBox
-                            id="dashboardContainer"
-                            visible="true"
-                            class="sapUiMediumMargin">
+                    <!-- Dashboard Container - shown by default -->
+                    <VBox
+                        id="dashboardContainer"
+                        visible="true"
+                        class="sectionContainer">
 
                             <!-- HEADER -->
 
