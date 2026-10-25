@@ -14,17 +14,9 @@
         class="employeePortalPage">
 
         <content>
+            <HBox id="mainLayout" width="100%" height="100%" alignItems="Stretch" class="mainLayout">
 
-            <HBox
-                id="mainLayout"
-                width="100%"
-                height="100%"
-                alignItems="Stretch"
-                class="mainLayout">
-
-                <!-- ============================================================ -->
-                <!-- NAVIGATION SIDEBAR                                           -->
-                <!-- ============================================================ -->
+                <!-- NAVIGATION SIDEBAR -->
                 <List
                     id="navigationMenu"
                     width="18rem"
@@ -34,491 +26,277 @@
                     class="navigationMenu"
                     ariaLabelledBy="employeePage">
 
-                    <StandardListItem
-                        id="dashboardItem"
-                        title="{i18n>navDashboard}"
-                        icon="sap-icon://home"
-                        description="{i18n>navDashboardDesc}"
-                        type="Active" />
-
-                    <StandardListItem
-                        id="assetsItem"
-                        title="{i18n>navAssets}"
-                        icon="sap-icon://laptop"
-                        description="{i18n>navAssetsDesc}"
-                        type="Active" />
-
-                    <StandardListItem
-                        id="requestsItem"
-                        title="{i18n>navRequests}"
-                        icon="sap-icon://workflow-tasks"
-                        description="{i18n>navRequestsDesc}"
-                        type="Active" />
-
-                    <StandardListItem
-                        id="profileItem"
-                        title="{i18n>navProfile}"
-                        icon="sap-icon://employee"
-                        description="{i18n>navProfileDesc}"
-                        type="Active" />
-
+                    <StandardListItem id="dashboardItem" title="{i18n>navDashboard}" icon="sap-icon://home" type="Active" />
+                    <StandardListItem id="assetsItem" title="{i18n>navAssets}" icon="sap-icon://laptop" type="Active" />
+                    <StandardListItem id="requestsItem" title="{i18n>navRequests}" icon="sap-icon://workflow-tasks" type="Active" />
+                    <StandardListItem id="profileItem" title="{i18n>navProfile}" icon="sap-icon://employee" type="Active" />
                 </List>
 
-                <!-- ============================================================ -->
-                <!-- MAIN CONTENT AREA                                            -->
-                <!-- ============================================================ -->
-                <VBox
-                    id="contentArea"
-                    width="100%"
-                    height="100%"
-                    class="contentArea">
+                <!-- MAIN CONTENT AREA -->
+                <VBox id="contentArea" width="100%" height="100%" class="contentArea">
 
                     <!-- Page Header -->
                     <VBox class="contentHeader">
-                        <Title
-                            id="contentTitle"
-                            text="{view>/contentTitle}"
-                            level="H1"
-                            class="contentMainTitle" />
-
-                        <Text
-                            id="contentText"
-                            text="{view>/contentSubtitle}"
-                            class="contentSubtitle" />
+                        <Title id="contentTitle" text="{view>/contentTitle}" level="H1" class="contentMainTitle" />
+                        <Text id="contentText" text="{view>/contentSubtitle}" class="contentSubtitle" />
                     </VBox>
 
-                    <!-- Content Panel -->
-                    <Panel
-                        id="contentPanel"
-                        width="100%"
-                        class="contentPanel"
-                        backgroundDesign="Solid">
-
-                        <!-- ==================================================== -->
-                        <!-- DASHBOARD SECTION                                    -->
-                        <!-- ==================================================== -->
-                        <VBox
-                            id="dashboardContainer"
-                            visible="true"
-                            class="sectionContainer">
-
-                            <VBox class="dashboardHeader">
-                                <Title
-                                    text="{i18n>dashboardTitle}"
-                                    level="H2"
-                                    class="sectionTitle" />
-                                <Text
-                                    text="{i18n>dashboardSubtitle}"
-                                    class="sectionSubtitle" />
-                            </VBox>
-
-                            <!-- KPI Cards Grid -->
-                            <HBox
-                                id="kpiGrid"
-                                wrap="Wrap"
-                                justifyContent="Center"
-                                class="kpiGrid">
-
-                                <!-- Card 1: My Assets -->
-                                <VBox class="kpiCard kpiGridItem">
-                                    <HBox class="kpiCardHeader" justifyContent="SpaceBetween" alignItems="Center">
-                                        <Title
-                                            text="{i18n>kpiMyAssets}"
-                                            level="H3"
-                                            class="kpiCardTitle" />
-                                        <core:Icon
-                                            src="sap-icon://laptop"
-                                            class="kpiCardIcon"
-                                            ariaLabel="{i18n>kpiMyAssets}" />
-                                    </HBox>
-
-                                    <VBox class="kpiCardContent">
-                                        <HBox class="kpiRow">
-                                            <VBox>
-                                                <Text text="{i18n>kpiTotalAssets}" class="kpiLabel" />
-                                                <Text text="{dashboard>/myAssets/total}" class="kpiValue" />
-                                            </VBox>
-                                        </HBox>
-
-                                        <HBox class="kpiRow">
-                                            <VBox class="kpiRowItem">
-                                                <Text text="{i18n>kpiAssigned}" class="kpiLabel" />
-                                                <Text text="{dashboard>/myAssets/assigned}" class="kpiSmallValue" />
-                                            </VBox>
-                                            <VBox class="kpiRowItem">
-                                                <Text text="{i18n>kpiMaintenance}" class="kpiLabel" />
-                                                <Text text="{dashboard>/myAssets/maintenance}" class="kpiSmallValue" />
-                                            </VBox>
-                                        </HBox>
-
-                                        <HBox class="kpiRow">
-                                            <VBox class="kpiRowItem">
-                                                <Text text="{i18n>kpiAvailable}" class="kpiLabel" />
-                                                <Text text="{dashboard>/myAssets/available}" class="kpiSmallValue" />
-                                            </VBox>
-                                        </HBox>
-                                    </VBox>
-
-                                    <Link
-                                        text="{i18n>linkViewDetails}"
-                                        press=".onMyAssetsPress"
-                                        class="kpiLink" />
-                                </VBox>
-
-                                <!-- Card 2: Pending Requests -->
-                                <VBox class="kpiCard kpiGridItem">
-                                    <HBox class="kpiCardHeader" justifyContent="SpaceBetween" alignItems="Center">
-                                        <Title
-                                            text="{i18n>kpiPendingRequests}"
-                                            level="H3"
-                                            class="kpiCardTitle" />
-                                        <core:Icon
-                                            src="sap-icon://hourglass"
-                                            class="kpiCardIcon"
-                                            ariaLabel="{i18n>kpiPendingRequests}" />
-                                    </HBox>
-
-                                    <VBox class="kpiCardContent">
-                                        <HBox class="kpiRow">
-                                            <VBox>
-                                                <Text text="{i18n>kpiTotalPending}" class="kpiLabel" />
-                                                <Text text="{dashboard>/myPendingRequests/total}" class="kpiValue" />
-                                            </VBox>
-                                        </HBox>
-
-                                        <VBox class="recentRequestsList">
-                                            <Text
-                                                text="{i18n>kpiRecentRequests}"
-                                                class="kpiLabel"
-                                                visible="{= ${dashboard>/myPendingRequests/total} > 0}" />
+                    <!-- IconTabBar with hidden header handles the switching perfectly -->
+                    <IconTabBar id="mainTabBar" headerMode="Hidden" expanded="true" class="contentPanelApp">
+                        
+                        <items>
+                            <!-- DASHBOARD SECTION -->
+                            <IconTabFilter id="dashboardContainer" key="dashboard">
+                                <content>
+                                    <VBox class="dashboardWrapper">
+                                        <VBox class="dashboardBanner">
+                                            <Title text="{i18n>dashboardTitle}" level="H1" class="bannerTitle" />
+                                            <Text text="{i18n>dashboardSubtitle}" class="bannerSubtitle" />
                                         </VBox>
-                                    </VBox>
 
-                                    <Link
-                                        text="{i18n>linkViewAll}"
-                                        press=".onPendingRequestsPress"
-                                        class="kpiLink" />
-                                </VBox>
+                                        <VBox class="sectionHeaderBlock">
+                                            <Title text="{i18n>overviewTitle}" level="H2" class="sectionHeaderTitle" />
+                                            <HBox class="sectionHeaderUnderline" />
+                                        </VBox>
 
-                                <!-- Card 3: Approved Requests -->
-                                <VBox class="kpiCard kpiGridItem">
-                                    <HBox class="kpiCardHeader" justifyContent="SpaceBetween" alignItems="Center">
-                                        <Title
-                                            text="{i18n>kpiApprovedRequests}"
-                                            level="H3"
-                                            class="kpiCardTitle" />
-                                        <core:Icon
-                                            src="sap-icon://status-positive"
-                                            class="kpiCardIcon"
-                                            ariaLabel="{i18n>kpiApprovedRequests}" />
-                                    </HBox>
-
-                                    <VBox class="kpiCardContent">
-                                        <HBox class="kpiRow">
-                                            <VBox>
-                                                <Text text="{i18n>kpiTotalApproved}" class="kpiLabel" />
-                                                <Text text="{dashboard>/myApprovedRequests/total}" class="kpiValue" />
+                                        <HBox wrap="Wrap" class="kpiRow">
+                                            <VBox class="kpiBox">
+                                                <Text text="{i18n>kpiMyAssets}" class="kpiBoxLabel" />
+                                                <Text text="{i18n>kpiTotalAssets}" class="kpiBoxSublabel" />
+                                                <HBox alignItems="Center" class="kpiBoxValueRow">
+                                                    <core:Icon src="sap-icon://laptop" class="kpiBoxIcon iconBlue" />
+                                                    <Text text="{dashboard>/myAssets/total}" class="kpiBoxValue" />
+                                                </HBox>
+                                            </VBox>
+                                            <VBox class="kpiBox">
+                                                <Text text="{i18n>kpiPendingRequests}" class="kpiBoxLabel" />
+                                                <Text text="{i18n>kpiTotalPending}" class="kpiBoxSublabel" />
+                                                <HBox alignItems="Center" class="kpiBoxValueRow">
+                                                    <core:Icon src="sap-icon://hourglass" class="kpiBoxIcon iconYellow" />
+                                                    <Text text="{dashboard>/myPendingRequests/total}" class="kpiBoxValue" />
+                                                </HBox>
+                                            </VBox>
+                                            <VBox class="kpiBox">
+                                                <Text text="{i18n>kpiApprovedRequests}" class="kpiBoxLabel" />
+                                                <Text text="{i18n>kpiTotalApproved}" class="kpiBoxSublabel" />
+                                                <HBox alignItems="Center" class="kpiBoxValueRow">
+                                                    <core:Icon src="sap-icon://status-positive" class="kpiBoxIcon iconGreen" />
+                                                    <Text text="{dashboard>/myApprovedRequests/total}" class="kpiBoxValue" />
+                                                </HBox>
                                             </VBox>
                                         </HBox>
 
-                                        <HBox class="kpiRow">
-                                            <VBox>
-                                                <Text text="{i18n>kpiReadyToAssign}" class="kpiLabel" />
-                                                <Text text="{dashboard>/myApprovedRequests/readyToAssign}" class="kpiSmallValue" />
+                                        <HBox wrap="Wrap" class="kpiRow">
+                                            <VBox class="kpiBox">
+                                                <Text text="{i18n>kpiReadyToAssign}" class="kpiBoxLabel" />
+                                                <Text text="{i18n>kpiApprovedRequests}" class="kpiBoxSublabel" />
+                                                <HBox alignItems="Center" class="kpiBoxValueRow">
+                                                    <core:Icon src="sap-icon://accept" class="kpiBoxIcon iconPurple" />
+                                                    <Text text="{dashboard>/myApprovedRequests/readyToAssign}" class="kpiBoxValue" />
+                                                </HBox>
+                                            </VBox>
+                                            <VBox class="kpiBox">
+                                                <Text text="{i18n>kpiAssignedAssets}" class="kpiBoxLabel" />
+                                                <Text text="{i18n>kpiTotalAssigned}" class="kpiBoxSublabel" />
+                                                <HBox alignItems="Center" class="kpiBoxValueRow">
+                                                    <core:Icon src="sap-icon://chain-link" class="kpiBoxIcon iconGray" />
+                                                    <Text text="{dashboard>/myAssignedAssets/total}" class="kpiBoxValue" />
+                                                </HBox>
+                                            </VBox>
+                                            <VBox class="kpiBox">
+                                                <Text text="{i18n>kpiInMaintenance}" class="kpiBoxLabel" />
+                                                <Text text="{i18n>kpiAssignedAssets}" class="kpiBoxSublabel" />
+                                                <HBox alignItems="Center" class="kpiBoxValueRow">
+                                                    <core:Icon src="sap-icon://wrench" class="kpiBoxIcon iconRed" />
+                                                    <Text text="{dashboard>/myAssignedAssets/inMaintenance}" class="kpiBoxValue" />
+                                                </HBox>
+                                            </VBox>
+                                        </HBox>
+
+                                        <HBox wrap="Wrap" class="dashboardPanels">
+                                            <VBox class="panelCard">
+                                                <Title text="{i18n>assetsTitle}" level="H3" class="panelTitle" />
+                                                <HBox class="panelUnderline" />
+                                                <VBox class="panelBody">
+                                                    <HBox class="panelRow">
+                                                        <Text text="{i18n>kpiAssigned}" class="panelRowLabel" />
+                                                        <Text text="{dashboard>/myAssets/assigned}" class="panelRowValue" />
+                                                    </HBox>
+                                                    <HBox class="panelRow">
+                                                        <Text text="{i18n>kpiMaintenance}" class="panelRowLabel" />
+                                                        <Text text="{dashboard>/myAssets/maintenance}" class="panelRowValue" />
+                                                    </HBox>
+                                                    <HBox class="panelRow">
+                                                        <Text text="{i18n>kpiAvailable}" class="panelRowLabel" />
+                                                        <Text text="{dashboard>/myAssets/available}" class="panelRowValue" />
+                                                    </HBox>
+                                                </VBox>
+                                            </VBox>
+
+                                            <VBox class="panelCard">
+                                                <Title text="{i18n>requestsTitle}" level="H3" class="panelTitle" />
+                                                <HBox class="panelUnderline" />
+                                                <VBox class="panelBody">
+                                                    <HBox class="panelRow">
+                                                        <Text text="{i18n>kpiPendingRequests}" class="panelRowLabel" />
+                                                        <Text text="{dashboard>/myPendingRequests/total}" class="panelRowValue" />
+                                                    </HBox>
+                                                    <HBox class="panelRow">
+                                                        <Text text="{i18n>kpiApprovedRequests}" class="panelRowLabel" />
+                                                        <Text text="{dashboard>/myApprovedRequests/total}" class="panelRowValue" />
+                                                    </HBox>
+                                                    <HBox class="panelRow">
+                                                        <Text text="{i18n>kpiReadyToAssign}" class="panelRowLabel" />
+                                                        <Text text="{dashboard>/myApprovedRequests/readyToAssign}" class="panelRowValue" />
+                                                    </HBox>
+                                                </VBox>
                                             </VBox>
                                         </HBox>
                                     </VBox>
+                                </content>
+                            </IconTabFilter>
 
-                                    <Link
-                                        text="{i18n>linkViewDetails}"
-                                        press=".onPendingRequestsPress"
-                                        class="kpiLink" />
-                                </VBox>
-
-                                <!-- Card 4: Assigned Assets -->
-                                <VBox class="kpiCard kpiGridItem">
-                                    <HBox class="kpiCardHeader" justifyContent="SpaceBetween" alignItems="Center">
-                                        <Title
-                                            text="{i18n>kpiAssignedAssets}"
-                                            level="H3"
-                                            class="kpiCardTitle" />
-                                        <core:Icon
-                                            src="sap-icon://product"
-                                            class="kpiCardIcon"
-                                            ariaLabel="{i18n>kpiAssignedAssets}" />
-                                    </HBox>
-
-                                    <VBox class="kpiCardContent">
-                                        <HBox class="kpiRow">
-                                            <VBox>
-                                                <Text text="{i18n>kpiTotalAssigned}" class="kpiLabel" />
-                                                <Text text="{dashboard>/myAssignedAssets/total}" class="kpiValue" />
-                                            </VBox>
-                                        </HBox>
-
-                                        <HBox class="kpiRow">
-                                            <VBox class="kpiRowItem">
-                                                <Text text="{i18n>kpiInUse}" class="kpiLabel" />
-                                                <Text text="{dashboard>/myAssignedAssets/inUse}" class="kpiSmallValue" />
-                                            </VBox>
-                                            <VBox class="kpiRowItem">
-                                                <Text text="{i18n>kpiInMaintenance}" class="kpiLabel" />
-                                                <Text text="{dashboard>/myAssignedAssets/inMaintenance}" class="kpiSmallValue" />
-                                            </VBox>
-                                        </HBox>
+                            <!-- MY ASSETS SECTION -->
+                            <IconTabFilter id="assetsContainer" key="assets">
+                                <content>
+                                    <VBox class="tableHeader">
+                                        <Title text="{i18n>assetsTitle}" level="H2" class="sectionTitle" />
+                                        <Text text="{i18n>assetsSubtitle}" class="sectionSubtitle" />
                                     </VBox>
+                                    <Table id="assetTable" growing="true" growingScrollToLoad="true" growingThreshold="20" sticky="ColumnHeaders" items="{assets>/}" class="enhancedTable">
+                                        <columns>
+                                            <Column><Text text="{i18n>colAssetTag}" class="tableColumnHeader" /></Column>
+                                            <Column><Text text="{i18n>colModel}" class="tableColumnHeader" /></Column>
+                                            <Column><Text text="{i18n>colCategory}" class="tableColumnHeader" /></Column>
+                                            <Column><Text text="{i18n>colStatus}" class="tableColumnHeader" /></Column>
+                                            <Column><Text text="{i18n>colAssignedDate}" class="tableColumnHeader" /></Column>
+                                            <Column><Text text="{i18n>colVendor}" class="tableColumnHeader" /></Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem class="tableRow" type="Inactive">
+                                                <cells>
+                                                    <Text text="{assets>assetTag}" class="tableCellBold" />
+                                                    <Text text="{assets>model}" class="tableCell" />
+                                                    <Text text="{assets>category_ID}" class="tableCell" />
+                                                    <ObjectStatus text="{assets>status}" state="{= ${assets>status} === 'ASSIGNED' ? 'Success' : ${assets>status} === 'MAINTENANCE' ? 'Warning' : ${assets>status} === 'AVAILABLE' ? 'Information' : 'Error' }" class="tableCell statusBadge" />
+                                                    <Text text="{assets>createdAt}" class="tableCell" />
+                                                    <Text text="{assets>vendor_ID}" class="tableCell" />
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </content>
+                            </IconTabFilter>
 
-                                    <Link
-                                        text="{i18n>linkViewDetails}"
-                                        press=".onMyAssetsPress"
-                                        class="kpiLink" />
-                                </VBox>
+                            <!-- MY REQUESTS SECTION -->
+                            <IconTabFilter id="requestsContainer" key="requests">
+                                <content>
+                                    <VBox class="tableHeader">
+                                        <Title text="{i18n>requestsTitle}" level="H2" class="sectionTitle" />
+                                        <Text text="{i18n>requestsSubtitle}" class="sectionSubtitle" />
+                                    </VBox>
+                                    <Table id="requestTable" growing="true" growingScrollToLoad="true" growingThreshold="20" sticky="ColumnHeaders" items="{requests>/}" class="enhancedTable">
+                                        <columns>
+                                            <Column><Text text="{i18n>colCategory}" class="tableColumnHeader" /></Column>
+                                            <Column><Text text="{i18n>colJustification}" class="tableColumnHeader" /></Column>
+                                            <Column><Text text="{i18n>colStatus}" class="tableColumnHeader" /></Column>
+                                            <Column><Text text="{i18n>colCreatedDate}" class="tableColumnHeader" /></Column>
+                                            <Column><Text text="{i18n>colApprovalDate}" class="tableColumnHeader" /></Column>
+                                            <Column><Text text="{i18n>colRemarks}" class="tableColumnHeader" /></Column>
+                                        </columns>
+                                        <items>
+                                            <ColumnListItem class="tableRow" type="Inactive">
+                                                <cells>
+                                                    <Text text="{requests>categoryName}" class="tableCell" />
+                                                    <Text text="{requests>justification}" class="tableCell" wrapping="true" maxLines="2" />
+                                                    <ObjectStatus text="{requests>status}" state="{= ${requests>status} === 'APPROVED' ? 'Success' : ${requests>status} === 'REJECTED' ? 'Error' : ${requests>status} === 'ASSIGNED' ? 'Information' : 'Warning' }" class="tableCell statusBadge" />
+                                                    <Text text="{requests>createdAt}" class="tableCell" />
+                                                    <Text text="{requests>approvalDate}" class="tableCell" />
+                                                    <Text text="{requests>remarks}" class="tableCell" wrapping="true" maxLines="2" />
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                                </content>
+                            </IconTabFilter>
 
-                            </HBox>
-                        </VBox>
-
-                        <!-- ==================================================== -->
-                        <!-- MY ASSETS SECTION                                    -->
-                        <!-- ==================================================== -->
-                        <VBox
-                            id="assetsContainer"
-                            visible="false"
-                            class="sectionContainer">
-
-                            <VBox class="tableHeader">
-                                <Title
-                                    text="{i18n>assetsTitle}"
-                                    level="H2"
-                                    class="sectionTitle" />
-                                <Text
-                                    text="{i18n>assetsSubtitle}"
-                                    class="sectionSubtitle" />
-                            </VBox>
-
-                            <Table
-                                id="assetTable"
-                                growing="true"
-                                growingScrollToLoad="true"
-                                growingThreshold="20"
-                                sticky="ColumnHeaders"
-                                items="{assets>/}"
-                                busyIndicatorDelay="200"
-                                class="enhancedTable"
-                                ariaLabelledBy="assetsTitle">
-
-                                <columns>
-                                    <Column><Text text="{i18n>colAssetTag}" class="tableColumnHeader" /></Column>
-                                    <Column><Text text="{i18n>colModel}" class="tableColumnHeader" /></Column>
-                                    <Column><Text text="{i18n>colCategory}" class="tableColumnHeader" /></Column>
-                                    <Column><Text text="{i18n>colStatus}" class="tableColumnHeader" /></Column>
-                                    <Column><Text text="{i18n>colAssignedDate}" class="tableColumnHeader" /></Column>
-                                    <Column><Text text="{i18n>colVendor}" class="tableColumnHeader" /></Column>
-                                </columns>
-
-                                <items>
-                                    <ColumnListItem class="tableRow" type="Inactive">
-                                        <cells>
-                                            <Text text="{assets>assetTag}" class="tableCellBold" />
-                                            <Text text="{assets>model}" class="tableCell" />
-                                            <Text text="{assets>category_ID}" class="tableCell" />
-                                            <ObjectStatus
-                                                text="{assets>status}"
-                                                state="{=
-                                                    ${assets>status} === 'ASSIGNED'    ? 'Success' :
-                                                    ${assets>status} === 'MAINTENANCE' ? 'Warning' :
-                                                    ${assets>status} === 'AVAILABLE'   ? 'Information' :
-                                                                                         'Error'
-                                                }"
-                                                class="tableCell statusBadge" />
-                                            <Text text="{assets>createdAt}" class="tableCell" />
-                                            <Text text="{assets>vendor_ID}" class="tableCell" />
-                                        </cells>
-                                    </ColumnListItem>
-                                </items>
-                            </Table>
-                        </VBox>
-
-                        <!-- ==================================================== -->
-                        <!-- MY REQUESTS SECTION                                  -->
-                        <!-- ==================================================== -->
-                        <VBox
-                            id="requestsContainer"
-                            visible="false"
-                            class="sectionContainer">
-
-                            <VBox class="tableHeader">
-                                <Title
-                                    text="{i18n>requestsTitle}"
-                                    level="H2"
-                                    class="sectionTitle" />
-                                <Text
-                                    text="{i18n>requestsSubtitle}"
-                                    class="sectionSubtitle" />
-                            </VBox>
-
-                            <Table
-                                id="requestTable"
-                                growing="true"
-                                growingScrollToLoad="true"
-                                growingThreshold="20"
-                                sticky="ColumnHeaders"
-                                items="{requests>/}"
-                                busyIndicatorDelay="200"
-                                class="enhancedTable"
-                                ariaLabelledBy="requestsTitle">
-
-                                <columns>
-                                    <Column><Text text="{i18n>colCategory}" class="tableColumnHeader" /></Column>
-                                    <Column><Text text="{i18n>colJustification}" class="tableColumnHeader" /></Column>
-                                    <Column><Text text="{i18n>colStatus}" class="tableColumnHeader" /></Column>
-                                    <Column><Text text="{i18n>colCreatedDate}" class="tableColumnHeader" /></Column>
-                                    <Column><Text text="{i18n>colApprovalDate}" class="tableColumnHeader" /></Column>
-                                    <Column><Text text="{i18n>colRemarks}" class="tableColumnHeader" /></Column>
-                                </columns>
-
-                                <items>
-                                    <ColumnListItem class="tableRow" type="Inactive">
-                                        <cells>
-                                            <Text text="{requests>categoryName}" class="tableCell" />
-                                            <Text
-                                                text="{requests>justification}"
-                                                class="tableCell"
-                                                wrapping="true"
-                                                maxLines="2" />
-                                            <ObjectStatus
-                                                text="{requests>status}"
-                                                state="{=
-                                                    ${requests>status} === 'APPROVED' ? 'Success' :
-                                                    ${requests>status} === 'REJECTED' ? 'Error' :
-                                                    ${requests>status} === 'ASSIGNED' ? 'Information' :
-                                                                                        'Warning'
-                                                }"
-                                                class="tableCell statusBadge" />
-                                            <Text text="{requests>createdAt}" class="tableCell" />
-                                            <Text text="{requests>approvalDate}" class="tableCell" />
-                                            <Text
-                                                text="{requests>remarks}"
-                                                class="tableCell"
-                                                wrapping="true"
-                                                maxLines="2" />
-                                        </cells>
-                                    </ColumnListItem>
-                                </items>
-                            </Table>
-                        </VBox>
-
-                        <!-- ==================================================== -->
-                        <!-- MY PROFILE SECTION                                   -->
-                        <!-- ==================================================== -->
-                        <VBox
-                            id="profileContainer"
-                            visible="false"
-                            class="sectionContainer">
-
-                            <VBox class="profileHeader">
-                                <Title
-                                    text="{i18n>profileTitle}"
-                                    level="H2"
-                                    class="sectionTitle" />
-                                <Text
-                                    text="{i18n>profileSubtitle}"
-                                    class="sectionSubtitle" />
-                            </VBox>
-
-                            <VBox class="profileCard">
-
-                                <VBox class="profileCardHeader">
-                                    <Title
-                                        text="{i18n>profileCardHeader}"
-                                        level="H3"
-                                        class="profileCardHeaderTitle" />
-                                </VBox>
-
-                                <VBox class="profileContent">
-
-                                    <HBox class="profileRow">
-                                        <core:Icon src="sap-icon://customer" class="profileRowIcon" />
-                                        <VBox class="profileRowContent">
-                                            <Text text="{i18n>profileEmployeeNumber}" class="profileRowLabel" />
-                                            <Text text="{profile>/employeeNumber}" class="profileRowValue" />
+                            <!-- MY PROFILE SECTION -->
+                            <IconTabFilter id="profileContainer" key="profile">
+                                <content>
+                                    <VBox class="profileHeader">
+                                        <Title text="{i18n>profileTitle}" level="H2" class="sectionTitle" />
+                                        <Text text="{i18n>profileSubtitle}" class="sectionSubtitle" />
+                                    </VBox>
+                                    <VBox class="profileCard">
+                                        <VBox class="profileCardHeader">
+                                            <Title text="{i18n>profileCardHeader}" level="H3" class="profileCardHeaderTitle" />
                                         </VBox>
-                                    </HBox>
-
-                                    <HBox class="profileRow">
-                                        <core:Icon src="sap-icon://person-placeholder" class="profileRowIcon" />
-                                        <VBox class="profileRowContent">
-                                            <Text text="{i18n>profileFullName}" class="profileRowLabel" />
-                                            <Text text="{profile>/fullName}" class="profileRowValue" />
+                                        <VBox class="profileContent">
+                                            <HBox class="profileRow">
+                                                <core:Icon src="sap-icon://customer" class="profileRowIcon" />
+                                                <VBox class="profileRowContent">
+                                                    <Text text="{i18n>profileEmployeeNumber}" class="profileRowLabel" />
+                                                    <Text text="{profile>/employeeNumber}" class="profileRowValue" />
+                                                </VBox>
+                                            </HBox>
+                                            <HBox class="profileRow">
+                                                <core:Icon src="sap-icon://person-placeholder" class="profileRowIcon" />
+                                                <VBox class="profileRowContent">
+                                                    <Text text="{i18n>profileFullName}" class="profileRowLabel" />
+                                                    <Text text="{profile>/fullName}" class="profileRowValue" />
+                                                </VBox>
+                                            </HBox>
+                                            <HBox class="profileRow">
+                                                <core:Icon src="sap-icon://email" class="profileRowIcon" />
+                                                <VBox class="profileRowContent">
+                                                    <Text text="{i18n>profileEmail}" class="profileRowLabel" />
+                                                    <Text text="{profile>/email}" class="profileRowValue" />
+                                                </VBox>
+                                            </HBox>
+                                            <HBox class="profileRow">
+                                                <core:Icon src="sap-icon://phone" class="profileRowIcon" />
+                                                <VBox class="profileRowContent">
+                                                    <Text text="{i18n>profilePhone}" class="profileRowLabel" />
+                                                    <Text text="{profile>/phone}" class="profileRowValue" />
+                                                </VBox>
+                                            </HBox>
+                                            <HBox class="profileRow">
+                                                <core:Icon src="sap-icon://group" class="profileRowIcon" />
+                                                <VBox class="profileRowContent">
+                                                    <Text text="{i18n>profileDepartment}" class="profileRowLabel" />
+                                                    <Text text="{profile>/departmentName}" class="profileRowValue" />
+                                                </VBox>
+                                            </HBox>
+                                            <HBox class="profileRow">
+                                                <core:Icon src="sap-icon://map-2" class="profileRowIcon" />
+                                                <VBox class="profileRowContent">
+                                                    <Text text="{i18n>profileLocation}" class="profileRowLabel" />
+                                                    <Text text="{profile>/location}" class="profileRowValue" />
+                                                </VBox>
+                                            </HBox>
+                                            <HBox class="profileRow">
+                                                <core:Icon src="sap-icon://person-placeholder" class="profileRowIcon" />
+                                                <VBox class="profileRowContent">
+                                                    <Text text="{i18n>profileRole}" class="profileRowLabel" />
+                                                    <Text text="{profile>/role}" class="profileRowValue" />
+                                                </VBox>
+                                            </HBox>
+                                            <HBox class="profileRow">
+                                                <core:Icon src="sap-icon://status-active" class="profileRowIcon" />
+                                                <VBox class="profileRowContent">
+                                                    <Text text="{i18n>profileStatus}" class="profileRowLabel" />
+                                                    <ObjectStatus text="{profile>/status}" state="{= ${profile>/status} === 'ACTIVE' ? 'Success' : 'Warning' }" class="profileRowValue" />
+                                                </VBox>
+                                            </HBox>
                                         </VBox>
-                                    </HBox>
+                                    </VBox>
+                                </content>
+                            </IconTabFilter>
+                        </items>
+                    </IconTabBar>
 
-                                    <HBox class="profileRow">
-                                        <core:Icon src="sap-icon://email" class="profileRowIcon" />
-                                        <VBox class="profileRowContent">
-                                            <Text text="{i18n>profileEmail}" class="profileRowLabel" />
-                                            <Text text="{profile>/email}" class="profileRowValue" />
-                                        </VBox>
-                                    </HBox>
-
-                                    <HBox class="profileRow">
-                                        <core:Icon src="sap-icon://phone" class="profileRowIcon" />
-                                        <VBox class="profileRowContent">
-                                            <Text text="{i18n>profilePhone}" class="profileRowLabel" />
-                                            <Text text="{profile>/phone}" class="profileRowValue" />
-                                        </VBox>
-                                    </HBox>
-
-                                    <HBox class="profileRow">
-                                        <core:Icon src="sap-icon://group" class="profileRowIcon" />
-                                        <VBox class="profileRowContent">
-                                            <Text text="{i18n>profileDepartment}" class="profileRowLabel" />
-                                            <Text text="{profile>/departmentName}" class="profileRowValue" />
-                                        </VBox>
-                                    </HBox>
-
-                                    <HBox class="profileRow">
-                                        <core:Icon src="sap-icon://map-2" class="profileRowIcon" />
-                                        <VBox class="profileRowContent">
-                                            <Text text="{i18n>profileLocation}" class="profileRowLabel" />
-                                            <Text text="{profile>/location}" class="profileRowValue" />
-                                        </VBox>
-                                    </HBox>
-
-                                    <HBox class="profileRow">
-                                        <core:Icon src="sap-icon://person-placeholder" class="profileRowIcon" />
-                                        <VBox class="profileRowContent">
-                                            <Text text="{i18n>profileRole}" class="profileRowLabel" />
-                                            <Text text="{profile>/role}" class="profileRowValue" />
-                                        </VBox>
-                                    </HBox>
-
-                                    <HBox class="profileRow">
-                                        <core:Icon src="sap-icon://status-active" class="profileRowIcon" />
-                                        <VBox class="profileRowContent">
-                                            <Text text="{i18n>profileStatus}" class="profileRowLabel" />
-                                            <ObjectStatus
-                                                text="{profile>/status}"
-                                                state="{= ${profile>/status} === 'ACTIVE' ? 'Success' : 'Warning' }"
-                                                class="profileRowValue" />
-                                        </VBox>
-                                    </HBox>
-
-                                </VBox>
-
-                                <VBox class="profileReadOnly">
-                                    <core:Icon src="sap-icon://locked" class="readOnlyIcon" />
-                                    <Text
-                                        text="{i18n>profileReadOnlyHint}"
-                                        class="readOnlyText" />
-                                </VBox>
-
-                            </VBox>
-                        </VBox>
-
-                    </Panel>
                 </VBox>
             </HBox>
-
         </content>
     </Page>
 </mvc:View>

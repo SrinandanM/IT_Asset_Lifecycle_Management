@@ -18,7 +18,6 @@
     --color-text-secondary: #475569;
     --color-text-tertiary: #64748B;
     --color-text-disabled: #94A3B8;
-    --color-nav-bg: #0F172A;
     
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
@@ -44,48 +43,60 @@
 
 /* PAGE STYLING */
 .sapMPage {
-    background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%) !important;
+    background: #F8FAFC !important;
     min-height: 100vh;
 }
 
 /* ===================================================
-   NAVIGATION SIDEBAR
+   NAVIGATION SIDEBAR (LIGHT THEME)
    =================================================== */
 
 .navigationMenu {
-    background: linear-gradient(180deg, var(--color-nav-bg) 0%, #1E293B 100%) !important;
+    background: #FFFFFF !important;
+    border-right: 1px solid #E2E8F0 !important;
     border-radius: 0 !important;
-    padding: var(--spacing-md) 0 !important;
+    padding: 1rem 0 !important;
     margin: 0 !important;
-    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
-    min-width: 320px;
+    min-width: 250px;
+    box-shadow: none;
 }
 
 .navigationMenu .sapMSLI {
-    color: white;
-    border-left: 4px solid transparent;
+    color: #334155 !important;
+    border-left: 4px solid transparent !important;
     transition: all var(--transition-short);
-    padding: 0 var(--spacing-md) !important;
+    padding: 0.75rem 1.5rem !important;
+    border-bottom: 1px solid #F1F5F9;
 }
 
 .navigationMenu .sapMSLI:hover {
-    background: rgba(255, 255, 255, 0.08) !important;
-    border-left-color: var(--color-primary);
+    background: #F8FAFC !important;
+    border-left-color: #0A6ED1 !important;
 }
 
 .navigationMenu .sapMSLI.sapMLISelected {
-    background: var(--color-primary) !important;
-    border-left-color: var(--color-primary);
+    background: #EFF6FF !important;
+    border-left-color: #0A6ED1 !important;
 }
 
 .navigationMenu .sapMSLI .sapMSLITitle {
-    color: white !important;
-    font-weight: 600;
+    color: #334155 !important;
+    font-weight: 500 !important;
+    font-size: 15px !important;
 }
 
-.navigationMenu .sapMSLI .sapMSLIDescription {
-    color: rgba(255, 255, 255, 0.7) !important;
-    font-size: 11px !important;
+.navigationMenu .sapMSLI.sapMLISelected .sapMSLITitle {
+    color: #0A6ED1 !important;
+    font-weight: 600 !important;
+}
+
+.navigationMenu .sapMSLI .sapMSLIImgIcon {
+    color: #64748B !important;
+    font-size: 1.25rem !important;
+}
+
+.navigationMenu .sapMSLI.sapMLISelected .sapMSLIImgIcon {
+    color: #0A6ED1 !important;
 }
 
 /* ===================================================
@@ -93,7 +104,7 @@
    =================================================== */
 
 .contentArea {
-    background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+    background: #F8FAFC;
     padding: var(--spacing-xl);
     overflow-y: auto;
     flex: 1;
@@ -104,167 +115,221 @@
 }
 
 .contentMainTitle {
-    font-size: 32px !important;
+    font-size: 36px !important;
     font-weight: 600 !important;
     color: var(--color-text-primary) !important;
     margin: 0 !important;
 }
 
 .contentSubtitle {
-    font-size: 14px;
+    font-size: 16px !important;
     color: var(--color-text-tertiary);
     margin-top: 0.5rem !important;
     margin: 0 !important;
 }
 
 /* ===================================================
-   DASHBOARD SECTION
+   DASHBOARD — LARGER KPI CARDS & BIGGER FONTS
    =================================================== */
 
-.dashboardHeader {
-    background: var(--color-surface);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    margin-bottom: var(--spacing-lg);
-    border: 1px solid var(--color-border);
-}
-
-.sectionTitle {
-    font-size: 20px !important;
-    font-weight: 600 !important;
-    color: var(--color-text-primary) !important;
-    margin: 0 !important;
-}
-
-.sectionSubtitle {
-    font-size: 13px;
-    color: var(--color-text-tertiary);
-    margin-top: 0.5rem !important;
-}
-
-/* ===================================================
-   KPI GRID FOR DASHBOARD
-   =================================================== */
-
-.kpiGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-2xl);
-}
-
-.kpiGridItem {
+/* CRITICAL FIX: Do not put display:flex here, it breaks SAPUI5 tab switching */
+.dashboardWrapper {
     width: 100%;
+    background: #FFFFFF;
+    border-radius: 8px;
 }
 
-.kpiCard {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    box-shadow: var(--shadow-sm);
-    transition: all var(--transition-normal);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
-    animation: cardEnter var(--transition-long) forwards;
+/* --- Blue Top Banner (MADE MUCH BIGGER) --- */
+.dashboardBanner {
+    background: linear-gradient(90deg, #0A6ED1 0%, #1D4ED8 100%);
+    padding: 3.5rem 4rem; 
+    border-radius: 12px;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 6px 20px rgba(10, 110, 209, 0.25);
 }
 
-@keyframes cardEnter {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.dashboardBanner .bannerTitle .sapMTitle {
+    color: #FFFFFF !important;
+    font-size: 38px !important; 
+    font-weight: 700 !important;
+    margin-bottom: 0.75rem;
 }
 
-.kpiCard:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--color-primary);
+.dashboardBanner .bannerSubtitle .sapMText {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 20px !important; 
+    font-weight: 500 !important;
 }
 
-.kpiCardHeader {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--spacing-md);
-    padding-bottom: var(--spacing-md);
-    border-bottom: 2px solid #F1F5F9;
+/* --- Section Header with Underline --- */
+.sectionHeaderBlock {
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
 }
 
-.kpiCardIcon {
-    width: 48px;
-    height: 48px;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-md);
-    flex-shrink: 0;
-    background: #EFF6FF;
-    color: var(--color-primary) !important;
-}
-
-.kpiCardTitle {
-    font-size: 14px !important;
+.sectionHeaderTitle .sapMTitle {
+    font-size: 28px !important; 
     font-weight: 600 !important;
-    color: var(--color-text-primary) !important;
-    margin: 0 !important;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    line-height: 1.4;
+    color: #1E293B !important;
 }
 
-.kpiCardContent {
-    flex: 1;
+.sectionHeaderUnderline {
+    width: 80px;
+    height: 4px;
+    background: #0A6ED1;
+    border-radius: 2px;
+    margin-top: 8px;
 }
 
+/* --- KPI Boxes (Larger & Taller with Bigger Text) --- */
 .kpiRow {
     display: flex;
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
-.kpiRowItem {
-    flex: 1;
+.kpiBox {
+    flex: 1 1 calc(33.33% - 1.5rem); 
+    min-width: 300px;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 2rem 2.5rem; 
+    box-sizing: border-box;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
 }
 
-.kpiLabel {
-    font-size: 11px;
-    color: var(--color-text-disabled);
-    font-weight: 600;
+.kpiBox:hover {
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+    transform: translateY(-3px);
+}
+
+.kpiBoxLabel .sapMText {
+    font-size: 18px !important; 
+    font-weight: 700 !important;
+    color: #1E293B !important;
+    margin-bottom: 6px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 0.5rem !important;
 }
 
-.kpiValue {
-    font-size: 28px !important;
+.kpiBoxSublabel .sapMText {
+    font-size: 16px !important; 
+    color: #64748B !important;
+    margin-bottom: 1.5rem;
+}
+
+.kpiBoxValueRow {
+    gap: 1.25rem;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.kpiBoxIcon {
+    font-size: 44px; 
+    width: 44px;
+    height: 44px;
+}
+
+.kpiBoxValue .sapMText {
+    font-size: 52px !important; 
     font-weight: 700 !important;
-    color: var(--color-primary) !important;
-    line-height: 1.2;
+    color: #1E293B !important;
+    line-height: 1;
 }
 
-.kpiSmallValue {
-    font-size: 18px !important;
+/* KPI Icon accent colors */
+.iconBlue    { color: #0EA5E9 !important; }
+.iconYellow  { color: #F59E0B !important; }
+.iconGreen   { color: #10B981 !important; }
+.iconPurple  { color: #7C3AED !important; }
+.iconGray    { color: #94A3B8 !important; }
+.iconRed     { color: #EF4444 !important; }
+
+/* --- Bottom Panels --- */
+.dashboardPanels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.panelCard {
+    flex: 1 1 calc(50% - 0.75rem);
+    min-width: 320px;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 2.5rem; 
+    box-sizing: border-box;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.panelTitle .sapMTitle {
+    font-size: 24px !important; 
     font-weight: 600 !important;
-    color: var(--color-text-primary) !important;
+    color: #1E293B !important;
 }
 
-.kpiLink {
-    color: var(--color-primary) !important;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all var(--transition-short);
-    font-size: 13px;
+.panelUnderline {
+    width: 60px;
+    height: 4px;
+    background: #0A6ED1;
+    border-radius: 2px;
+    margin: 8px 0 1.5rem 0;
 }
 
-.kpiLink:hover {
-    color: var(--color-primary-dark) !important;
-    text-decoration: underline;
+.panelBody {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; 
+}
+
+.panelRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem; 
+    background: #F8FAFC;
+    border-radius: 8px;
+    border-left: 5px solid #0A6ED1;
+}
+
+.panelRowLabel .sapMText {
+    font-size: 18px !important; 
+    color: #334155 !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.panelRowValue .sapMText {
+    font-size: 28px !important; 
+    color: #0A6ED1 !important;
+    font-weight: 700 !important;
+}
+
+/* CRITICAL FIX: Do not put display:block here */
+.sectionContainer {
+    padding: 0;
+}
+
+/* --- Responsive breakpoints --- */
+@media (max-width: 1200px) {
+    .kpiBox { flex: 1 1 calc(50% - 1.5rem); } 
+}
+
+@media (max-width: 800px) {
+    .kpiBox { flex: 1 1 100%; } 
+    .panelCard { flex: 1 1 100%; }
+    .kpiBoxValue .sapMText { font-size: 40px !important; }
+    .dashboardBanner { padding: 2rem; }
+    .dashboardBanner .bannerTitle .sapMTitle { font-size: 28px !important; }
+}
+
+@media (max-width: 520px) {
+    .kpiBox { padding: 1.5rem; }
 }
 
 /* ===================================================
@@ -292,7 +357,7 @@
 
 .profileCardHeaderTitle {
     color: white !important;
-    font-size: 16px !important;
+    font-size: 18px !important;
     font-weight: 600 !important;
     margin: 0 !important;
     text-transform: uppercase;
@@ -334,7 +399,7 @@
 }
 
 .profileRowLabel {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--color-text-disabled);
     font-weight: 600;
     text-transform: uppercase;
@@ -343,7 +408,7 @@
 }
 
 .profileRowValue {
-    font-size: 14px;
+    font-size: 16px;
     color: var(--color-text-primary);
     font-weight: 500;
 }
@@ -366,7 +431,7 @@
     background: #F1F5F9 !important;
     color: var(--color-text-secondary) !important;
     font-weight: 600 !important;
-    font-size: 12px !important;
+    font-size: 14px !important;
     border-bottom: 2px solid var(--color-border) !important;
 }
 
@@ -382,23 +447,23 @@
 .tableColumnHeader {
     font-weight: 600 !important;
     color: var(--color-text-secondary) !important;
-    font-size: 12px !important;
+    font-size: 14px !important;
 }
 
 .tableCellBold {
     font-weight: 600 !important;
     color: var(--color-text-primary) !important;
-    font-size: 13px !important;
+    font-size: 15px !important;
 }
 
 .tableCell {
     color: var(--color-text-tertiary) !important;
-    font-size: 13px !important;
+    font-size: 15px !important;
 }
 
 .tableCellHint {
     color: var(--color-text-disabled) !important;
-    font-size: 11px !important;
+    font-size: 13px !important;
 }
 
 .tableCellPrimary {
@@ -408,7 +473,7 @@
 }
 
 .tableCellValue {
-    font-size: 13px !important;
+    font-size: 15px !important;
 }
 
 .tableCellValue--bold {
@@ -450,8 +515,8 @@
 
 .statusBadge {
     border-radius: var(--radius-sm);
-    padding: 4px 12px;
-    font-size: 11px;
+    padding: 6px 14px;
+    font-size: 12px;
     font-weight: 600;
     display: inline-block;
 }
@@ -479,7 +544,7 @@
 .statusBadge--inline {
     border-radius: 6px;
     padding: 4px 12px;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -490,9 +555,9 @@
 .btn {
     border-radius: var(--radius-sm);
     font-weight: 600;
-    padding: 10px 20px;
+    padding: 12px 24px;
     transition: all var(--transition-short);
-    font-size: 14px;
+    font-size: 15px;
     cursor: pointer;
     border: none;
 }
@@ -532,8 +597,8 @@
 }
 
 .btn--sm {
-    padding: 6px 12px;
-    font-size: 12px;
+    padding: 8px 16px;
+    font-size: 13px;
 }
 
 /* ===================================================
@@ -551,7 +616,7 @@
 }
 
 .formSectionTitle {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
     color: var(--color-text-primary);
     text-transform: uppercase;
@@ -569,8 +634,8 @@
     width: 100% !important;
     border-radius: var(--radius-sm) !important;
     border: 1px solid var(--color-border) !important;
-    padding: 10px 12px !important;
-    font-size: 14px !important;
+    padding: 12px 14px !important;
+    font-size: 16px !important;
     transition: all var(--transition-short);
 }
 
@@ -591,11 +656,7 @@
 
 @media (max-width: 1024px) {
     .navigationMenu {
-        min-width: 280px;
-    }
-    
-    .kpiGrid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        min-width: 250px;
     }
 }
 
@@ -603,7 +664,7 @@
     #mainLayout {
         flex-direction: column !important;
     }
-    
+
     .navigationMenu {
         width: 100% !important;
         height: auto !important;
@@ -612,15 +673,11 @@
         flex-direction: row;
         overflow-x: auto;
     }
-    
+
     .contentArea {
         padding: var(--spacing-md);
     }
-    
-    .kpiGrid {
-        grid-template-columns: 1fr;
-    }
-    
+
     .profileCard {
         margin-bottom: var(--spacing-lg);
     }
@@ -628,29 +685,21 @@
 
 @media (max-width: 480px) {
     .contentMainTitle {
-        font-size: 24px !important;
+        font-size: 28px !important;
     }
-    
-    .kpiCard {
-        padding: var(--spacing-md);
-    }
-    
-    .kpiValue {
-        font-size: 24px !important;
-    }
-    
+
     .profileRow {
         flex-direction: column;
         gap: var(--spacing-sm);
     }
-    
+
     .profileRowIcon {
         margin-top: 0;
     }
-    
+
     .btn {
         padding: 10px 16px;
-        font-size: 13px;
+        font-size: 14px;
     }
 }
 
@@ -674,4 +723,27 @@
 .navigationMenu .sapMSLI:focus {
     outline: 2px solid var(--color-primary);
     outline-offset: -2px;
+}
+
+/* ===================================================
+   ICONTABBAR FIX FOR DASHBOARD
+   =================================================== */
+.contentPanelApp {
+    background: transparent !important;
+}
+
+.contentPanelApp .sapMITBContent {
+    background: transparent !important;
+    padding: 0 !important;
+    height: auto !important;
+}
+
+.contentPanelApp .sapMITBHead {
+    display: none !important; /* Hides the tab headers */
+}
+
+.contentPanelApp .sapMITH {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
 }

@@ -16,20 +16,15 @@ sap.ui.define([
 
     return Controller.extend("employeeportal.controller.View1", {
 
-        // ------------------------------------------------------------------
-        // Lifecycle
-        // ------------------------------------------------------------------
         onInit: function () {
             this._currentEmployeeId = null;
 
-            // Initialize view model for header title/subtitle bindings
             this.getView().setModel(new JSONModel({
                 pageTitle: "Employee Self-Service Portal",
                 contentTitle: "Dashboard",
                 contentSubtitle: "Employee Self Service Dashboard"
             }), "view");
 
-            // Initialize empty data models to prevent binding errors
             this.getView().setModel(new JSONModel({}), "profile");
             this.getView().setModel(new JSONModel({}), "dashboard");
             this.getView().setModel(new JSONModel([]), "assets");
@@ -38,39 +33,47 @@ sap.ui.define([
             this._initializeEmployee();
         },
 
-        // ------------------------------------------------------------------
-        // Bootstrap
-        // ------------------------------------------------------------------
-        _initializeEmployee: async function () {
-            try {
-                this._setBusy(true);
-                const response = await fetch(`${SERVICE_URL}/Employees`);
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status} while loading employees`);
-                }
-                const data = await response.json();
-                const employee = (data.value || [])[0];
+// ------------------------------------------------------------------
+// Bootstrap
+// ------------------------------------------------------------------
+_initializeEmployee: async function () {
+    try {
+        this._setBusy(true);
+        
+        // Fetch the employee. 
+        // In Build Work Zone, the backend CDS filter ($user.email) 
+        // will automatically return ONLY the logged-in user.
+        const response = await fetch(`${SERVICE_URL}/Employees`);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status} while loading employees`);
+        }
+        
+        const data = await response.json();
+        const employee = (data.value || [])[0];
 
-                if (!employee) {
-                    MessageBox.warning("No employee record found for the current user.");
-                    return;
-                }
+        if (!employee) {
+            // If the user logs in but has no record in the database
+            MessageBox.error("Your user profile is not set up in the system. Please contact IT.");
+            return;
+        }
 
-                this._currentEmployeeId = employee.ID;
-                this.getView().getModel("profile").setData(employee);
+        // Set the ID for the rest of the app to load Assets and Requests
+        this._currentEmployeeId = employee.ID;
+        
+        // Populate the "profile" model (this populates your beautiful Profile view)
+        this.getView().getModel("profile").setData(employee);
 
-                await this._loadDashboard();
-            } catch (error) {
-                console.error("Error initializing employee:", error);
-                MessageBox.error("Failed to load employee data. Please refresh the page.");
-            } finally {
-                this._setBusy(false);
-            }
-        },
+        // Load the KPIs, Assets, and Requests for this specific employee
+        await this._loadDashboard();
+        
+    } catch (error) {
+        console.error("Error initializing employee:", error);
+        MessageBox.error("Failed to load employee data. Please check your connection.");
+    } finally {
+        this._setBusy(false);
+    }
+},
 
-        // ------------------------------------------------------------------
-        // Data Loaders
-        // ------------------------------------------------------------------
         _loadDashboard: async function () {
             if (!this._currentEmployeeId) return;
             try {
@@ -93,9 +96,7 @@ sap.ui.define([
                     fetch(`${SERVICE_URL}/AssetRequests?$filter=employee_ID eq '${employeeId}'`)
                 ]);
 
-                if (!assetsRes.ok || !requestsRes.ok) {
-                    throw new Error("Failed to fetch KPI source data");
-                }
+                if (!assetsRes.ok || !requestsRes.ok) throw new Error("Failed to fetch KPIs");
 
                 const assets = (await assetsRes.json()).value || [];
                 const requests = (await requestsRes.json()).value || [];
@@ -119,7 +120,7 @@ sap.ui.define([
                     },
                     myApprovedRequests: {
                         total: approvedRequests.length,
-                        readyToAssign: approvedRequests.length // adjust if you have a flag
+                        readyToAssign: approvedRequests.length 
                     },
                     myAssignedAssets: {
                         total: assignedAssets.length,
@@ -129,158 +130,86 @@ sap.ui.define([
                 });
             } catch (error) {
                 console.error("Error loading dashboard KPIs:", error);
-                MessageBox.error("Failed to load dashboard statistics.");
             }
         },
 
         _loadAssets: async function () {
             if (!this._currentEmployeeId) return;
             try {
-                const response = await fetch(
-                    `${SERVICE_URL}/Assets?$filter=currentHolder_ID eq '${this._currentEmployeeId}'`
-                );
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
+                const response = await fetch(`${SERVICE_URL}/Assets?$filter=currentHolder_ID eq '${this._currentEmployeeId}'`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const data = await response.json();
                 this.getView().getModel("assets").setData(data.value || []);
             } catch (error) {
                 console.error("Error loading assets:", error);
-                MessageBox.error("Failed to load assets.");
             }
         },
 
         _loadRequests: async function () {
             if (!this._currentEmployeeId) return;
             try {
-                const response = await fetch(
-                    `${SERVICE_URL}/AssetRequests?$filter=employee_ID eq '${this._currentEmployeeId}'`
-                );
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
+                const response = await fetch(`${SERVICE_URL}/AssetRequests?$filter=employee_ID eq '${this._currentEmployeeId}'`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const data = await response.json();
                 this.getView().getModel("requests").setData(data.value || []);
             } catch (error) {
                 console.error("Error loading requests:", error);
-                MessageBox.error("Failed to load requests.");
             }
         },
 
         _loadProfile: async function () {
             if (!this._currentEmployeeId) return;
             try {
-                const response = await fetch(
-                    `${SERVICE_URL}/Employees('${this._currentEmployeeId}')`
-                );
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
+                const response = await fetch(`${SERVICE_URL}/Employees('${this._currentEmployeeId}')`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const employee = await response.json();
                 this.getView().getModel("profile").setData(employee);
             } catch (error) {
                 console.error("Error loading profile:", error);
-                MessageBox.error("Failed to load profile.");
             }
         },
 
-        // ------------------------------------------------------------------
-        // Navigation
-        // ------------------------------------------------------------------
         onMenuSelect: function (oEvent) {
-            const sKey = oEvent.getParameter("listItem").getId();
+            // Strip SAPUI5's auto-generated prefix (e.g. "container-employeeportal---View1--")
+            let sKey = oEvent.getParameter("listItem").getId();
+            sKey = sKey.substring(sKey.lastIndexOf("--") + 2);
+            
             const oMeta = this._getSectionMeta(sKey);
-            if (!oMeta) {
-                return;
+            if (!oMeta) return;
+
+            // Instead of setVisible, set the selected key on the IconTabBar
+            const oTabBar = this.byId("mainTabBar");
+            if (oTabBar) {
+                oTabBar.setSelectedKey(oMeta.key);
             }
 
-            // Hide all sections, then show only the selected one
-            Object.values(SECTION_KEYS).forEach(section => {
-                const containerId = `${section}Container`;
-                const oContainer = this.byId(containerId);
-                if (oContainer) {
-                    oContainer.setVisible(section === oMeta.key);
-                }
-            });
-
-            // Update header via view model (cleaner than setText calls)
+            // Update header text
             const oView = this.getView().getModel("view");
             oView.setProperty("/contentTitle", oMeta.title);
             oView.setProperty("/contentSubtitle", oMeta.subtitle);
 
-            // Reload data for the active section
+            // Reload data
             switch (oMeta.key) {
-                case SECTION_KEYS.DASHBOARD:
-                    this._loadDashboard();
-                    break;
-                case SECTION_KEYS.ASSETS:
-                    this._loadAssets();
-                    break;
-                case SECTION_KEYS.REQUESTS:
-                    this._loadRequests();
-                    break;
-                case SECTION_KEYS.PROFILE:
-                    this._loadProfile();
-                    break;
+                case "dashboard": this._loadDashboard(); break;
+                case "assets": this._loadAssets(); break;
+                case "requests": this._loadRequests(); break;
+                case "profile": this._loadProfile(); break;
             }
         },
 
-        // ------------------------------------------------------------------
-        // KPI card link handlers
-        // ------------------------------------------------------------------
-        onMyAssetsPress: function () {
-            this._navigateTo("assetsItem");
-        },
-
-        onPendingRequestsPress: function () {
-            this._navigateTo("requestsItem");
-        },
-
-        // ------------------------------------------------------------------
-        // Helpers
-        // ------------------------------------------------------------------
         _getSectionMeta: function (sItemId) {
             const map = {
-                dashboardItem: {
-                    key: SECTION_KEYS.DASHBOARD,
-                    title: "Dashboard",
-                    subtitle: "Employee Self Service Dashboard"
-                },
-                assetsItem: {
-                    key: SECTION_KEYS.ASSETS,
-                    title: "My Assets",
-                    subtitle: "Your Assigned Assets"
-                },
-                requestsItem: {
-                    key: SECTION_KEYS.REQUESTS,
-                    title: "My Requests",
-                    subtitle: "Your Asset Requests"
-                },
-                profileItem: {
-                    key: SECTION_KEYS.PROFILE,
-                    title: "My Profile",
-                    subtitle: "Your Employee Profile"
-                }
+                dashboardItem: { key: "dashboard", title: "Dashboard", subtitle: "Employee Self Service Dashboard" },
+                assetsItem: { key: "assets", title: "My Assets", subtitle: "Your Assigned Assets" },
+                requestsItem: { key: "requests", title: "My Requests", subtitle: "Your Asset Requests" },
+                profileItem: { key: "profile", title: "My Profile", subtitle: "Your Employee Profile" }
             };
             return map[sItemId];
         },
 
-        _navigateTo: function (sItemId) {
-            const oList = this.byId("navigationMenu");
-            const oItem = this.byId(sItemId);
-            if (!oList || !oItem) {
-                return;
-            }
-            oList.setSelectedItem(oItem);
-            // Fire the real selectionChange handler
-            this.onMenuSelect({ getParameter: () => ({ listItem: oItem }) });
-        },
-
         _setBusy: function (bBusy) {
             const oPage = this.byId("employeePage");
-            if (oPage) {
-                oPage.setBusy(bBusy);
-            }
+            if (oPage) oPage.setBusy(bBusy);
         }
     });
 });
