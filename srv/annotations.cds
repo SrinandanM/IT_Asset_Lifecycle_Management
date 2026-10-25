@@ -47,6 +47,16 @@ annotate AssetAdminService.Assets with @(
             Action : 'AssetAdminService.TransferAsset'
         },
         {
+            $Type  : 'UI.DataFieldForAction',
+            Label  : 'Download Report',
+            Action : 'AssetAdminService.DownloadReport'
+        },
+        {
+            $Type  : 'UI.DataFieldForAction',
+            Label  : 'Share Report',
+            Action : 'AssetAdminService.ShareReport'
+        },
+        {
             $Type : 'UI.DataField',
             Value : assetTag
         },

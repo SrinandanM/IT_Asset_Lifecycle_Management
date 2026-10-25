@@ -8,7 +8,7 @@ sap.ui.define([
     "sap/m/Button",
     "sap/m/DatePicker",
     "sap/m/MessageBox",
-    "sap/ui/model/json/JSONModel"
+    "sap/base/util/uid"
 ], function (
     ControllerExtension,
     ComboBox,
@@ -19,202 +19,227 @@ sap.ui.define([
     Button,
     DatePicker,
     MessageBox,
-    JSONModel
+    uid
 ) {
     "use strict";
 
     return ControllerExtension.extend(
-        "sap.suite.ui.generic.template.ObjectPage.view.ObjectPage",
+        "adminasset.ext.controller.AssetListExtensions",
         {
-            // Hook into action dialog - intercept AssignAsset
-            onBeforeAction: function (oEvent) {
-                const sActionName = oEvent.getParameter("actionName");
+            // Override action handler globally in the page extension
+            override: {
+                "sap.fe.core.PageController": {
+                    onInit: function() {
+                        console.log("=[AssetListExtensions Override onInit]=");
+                        // Get the root controller's event bus
+                        const that = this;
+                        
+                        // Store reference to original handler if needed
+                        this._originalHandlers = {};
+                        
+                        // Register for Fiori Elements event after the page is initialized
+                        setTimeout(() => {
+                            that._registerActionInterceptor();
+                        }, 100);
+                    },
 
-                if (sActionName === "AssignAsset") {
-                    // Prevent default dialog
-                    oEvent.preventDefault();
-                    // Show custom dialog
-                    this._showAssignAssetDialog();
+                    _registerActionInterceptor: function() {
+                        console.log("=[Registering Action Interceptor]=");
+                        try {
+                            const that = this;
+                            const oView = this.getView();
+                            
+                            // Hook into the binding context to intercept actions
+                            if (oView && oView.getModel && oView.getModel()) {
+                                const oModel = oView.getModel();
+                                
+                                // Store reference to original callFunction if needed for later
+                                if (!oModel.__callFunctionOriginal) {
+                                    oModel.__callFunctionOriginal = oModel.callFunction;
+                                    oModel.callFunction = function(path, options) {
+                                        console.log("=[callFunction intercepted]= Path:", path);
+                                        
+                                        if (path && path.includes && path.includes("AssignAsset")) {
+                                            console.log("=[AssignAsset action captured]= Intercepting...");
+                                            // Intercept AssignAsset
+                                            that._handleAssignAsset(options);
+                                            return;
+                                        }
+                                        
+                                        // Call original for other functions
+                                        return oModel.__callFunctionOriginal.apply(oModel, arguments);
+                                    };
+                                }
+                            }
+                        } catch (e) {
+                            console.error("Error registering interceptor:", e);
+                        }
+                    },
+
+                    _handleAssignAsset: function(oOptions) {
+                        console.log("=[_handleAssignAsset called]=");
+                        this._showAssignDialog();
+                    }
                 }
             },
 
-            _showAssignAssetDialog: async function () {
+            _showAssignDialog: function() {
+                console.log("_showAssignDialog called");
                 try {
-                    const oController = this.getView().getController();
-                    const oModel = oController.getView().getModel();
+                    const that = this;
+                    const oView = this.getView();
+                    const oModel = oView.getModel();
 
-                    // Fetch employees
-                    const employees = await this._fetchEmployees(oModel);
+                    // Get current asset
+                    let oAssetContext = null;
+                    const oObjectPage = oView.byId("ObjectPage") || 
+                                       oView.byId("fe::ObjectPage") ||
+                                       oView.getContent()[0];
                     
-                    if (!employees || employees.length === 0) {
-                        MessageBox.error("No employees found. Cannot assign asset.");
+                    if (oObjectPage && oObjectPage.getBindingContext) {
+                        oAssetContext = oObjectPage.getBindingContext();
+                    }
+
+                    if (!oAssetContext) {
+                        MessageBox.error("No asset selected");
                         return;
                     }
 
-                    this._openCustomDialog(employees, oModel);
+                    const oAsset = oAssetContext.getObject();
+                    console.log("Current asset:", oAsset);
+
+                    // Fetch employees
+                    oModel.read("/Employees", {
+                        success: function(oData) {
+                            console.log("Employees fetched:", oData.results.length);
+                            that._createAndShowDialog(oData.results, oAsset, oModel);
+                        },
+                        error: function(oError) {
+                            console.error("Error fetching employees:", oError);
+                            MessageBox.error("Failed to load employees");
+                        }
+                    });
+
                 } catch (error) {
-                    console.error("Error showing assign dialog:", error);
-                    MessageBox.error("Failed to load assign dialog: " + error.message);
+                    console.error("Exception in _showAssignDialog:", error);
+                    MessageBox.error("Error: " + error.message);
                 }
             },
 
-            _fetchEmployees: function (oModel) {
-                return new Promise((resolve, reject) => {
-                    oModel.read("/Employees", {
-                        success: function (oData) {
-                            console.log("Employees loaded:", oData.results.length);
-                            resolve(oData.results);
-                        },
-                        error: function (oError) {
-                            console.error("Error loading employees:", oError);
-                            reject(oError);
-                        }
-                    });
-                });
-            },
+            _createAndShowDialog: function(aEmployees, oAsset, oModel) {
+                console.log("Creating dialog with", aEmployees.length, "employees");
+                const that = this;
 
-            _openCustomDialog: function (aEmployees, oModel) {
-                const self = this;
-                const oView = this.getView();
-
-                // Create ComboBox with employee list
+                // Create ComboBox for employee selection
                 const oComboBox = new ComboBox({
-                    id: "assignEmployeeCombo",
                     placeholder: "Select Employee",
-                    forceSelection: true,
-                    items: aEmployees.map(emp =>
-                        new Item({
-                            key: emp.ID,
-                            text: emp.employeeNumber + " - " + emp.fullName
-                        })
-                    )
+                    forceSelection: true
+                });
+
+                // Add employee items
+                aEmployees.forEach(emp => {
+                    oComboBox.addItem(new Item({
+                        key: emp.ID,
+                        text: emp.employeeNumber + " - " + emp.fullName
+                    }));
                 });
 
                 // Create Date Picker
                 const today = new Date();
-                const dateString = today.getFullYear() + "-" + 
-                                  String(today.getMonth() + 1).padStart(2, "0") + "-" + 
-                                  String(today.getDate()).padStart(2, "0");
-
+                const dateValue = today.toISOString().split('T')[0];
                 const oDatePicker = new DatePicker({
-                    id: "assignDatePicker",
-                    value: dateString
+                    value: dateValue
                 });
 
                 // Create Dialog
                 const oDialog = new Dialog({
-                    title: "Assign Asset to Employee",
+                    title: "Assign Asset",
                     type: "Message",
                     state: "Information",
-                    contentWidth: "500px",
+                    contentWidth: "450px",
                     content: [
                         new VBox({
+                            class: "sapUiMediumMargin",
                             items: [
-                                new Label({
-                                    text: "Employee"
+                                new Label({ text: "Asset", required: true }),
+                                new Label({ 
+                                    text: oAsset.assetTag + " (" + oAsset.model + ")",
+                                    design: "Bold"
                                 }),
+                                new Label({ text: " " }),
+                                new Label({ text: "Employee", required: true }),
                                 oComboBox,
-                                new Label({
-                                    text: "Assigned Date"
-                                }),
+                                new Label({ text: " " }),
+                                new Label({ text: "Assigned Date", required: true }),
                                 oDatePicker
                             ]
-                        }).addStyleClass("sapUiMediumMargin")
+                        })
                     ],
                     buttons: [
                         new Button({
                             text: "Assign",
                             type: "Emphasized",
-                            press: () => self._assignAsset(
-                                oComboBox.getSelectedKey(),
-                                oDatePicker.getValue(),
-                                oModel,
-                                oDialog
-                            )
+                            press: function() {
+                                const sEmployeeID = oComboBox.getSelectedKey();
+                                const sAssignDate = oDatePicker.getValue();
+
+                                if (!sEmployeeID) {
+                                    MessageBox.error("Please select an employee");
+                                    return;
+                                }
+
+                                if (!sAssignDate) {
+                                    MessageBox.error("Please select an assigned date");
+                                    return;
+                                }
+
+                                console.log("Assigning:", {
+                                    assetID: oAsset.ID,
+                                    employeeID: sEmployeeID,
+                                    assignedDate: sAssignDate
+                                });
+
+                                // Call the backend action
+                                oModel.callFunction("/AssignAsset", {
+                                    method: "POST",
+                                    urlParameters: {
+                                        assetID: oAsset.ID,
+                                        employeeID: sEmployeeID,
+                                        assignedDate: sAssignDate
+                                    },
+                                    success: function(oResponse) {
+                                        console.log("Assignment successful:", oResponse);
+                                        MessageBox.success("Asset assigned successfully!", {
+                                            onClose: function() {
+                                                oDialog.close();
+                                                // Refresh the page
+                                                oModel.refresh();
+                                                // Navigate back
+                                                const oRouter = sap.ui.core.UIComponent.getRouterFor(that.getView());
+                                                oRouter.navTo("AssetsList");
+                                            }
+                                        });
+                                    },
+                                    error: function(oError) {
+                                        console.error("Assignment error:", oError);
+                                        MessageBox.error("Failed to assign asset: " + oError.message);
+                                    }
+                                });
+                            }
                         }),
                         new Button({
                             text: "Cancel",
-                            press: () => {
+                            press: function() {
                                 oDialog.close();
-                                oDialog.destroy();
                             }
                         })
                     ],
-                    afterClose: function (oEvent) {
+                    afterClose: function() {
                         oDialog.destroy();
                     }
                 });
 
                 oDialog.open();
-            },
-
-            _assignAsset: async function (employeeID, assignedDate, oModel, oDialog) {
-                if (!employeeID) {
-                    MessageBox.error("Please select an employee");
-                    return;
-                }
-
-                if (!assignedDate) {
-                    MessageBox.error("Please select an assigned date");
-                    return;
-                }
-
-                try {
-                    // Get the current asset from the view context
-                    const oObjectPageLayout = this.getView().byId("ObjectPageLayout");
-                    if (!oObjectPageLayout) {
-                        MessageBox.error("Cannot determine asset context");
-                        return;
-                    }
-
-                    const oBindingContext = oObjectPageLayout.getBindingContext();
-                    if (!oBindingContext) {
-                        MessageBox.error("No asset selected");
-                        return;
-                    }
-
-                    const assetData = oBindingContext.getObject();
-                    const assetID = assetData.ID;
-
-                    console.log("Assigning asset:", {
-                        assetID: assetID,
-                        employeeID: employeeID,
-                        assignedDate: assignedDate
-                    });
-
-                    // Call backend action
-                    await new Promise((resolve, reject) => {
-                        oModel.callFunction("/AssignAsset", {
-                            method: "POST",
-                            urlParameters: {
-                                assetID: assetID,
-                                employeeID: employeeID,
-                                assignedDate: assignedDate
-                            },
-                            success: (oData) => {
-                                console.log("Assignment successful:", oData);
-                                MessageBox.success("Asset assigned successfully");
-                                oDialog.close();
-                                oDialog.destroy();
-                                // Refresh the view
-                                oModel.refresh();
-                                resolve(oData);
-                            },
-                            error: (oError) => {
-                                console.error("Assignment failed:", oError);
-                                const errorMsg = oError.responseText ? 
-                                    JSON.parse(oError.responseText).error.message : 
-                                    "Assignment failed";
-                                MessageBox.error("Error: " + errorMsg);
-                                reject(oError);
-                            }
-                        });
-                    });
-
-                } catch (error) {
-                    console.error("Exception during assignment:", error);
-                    MessageBox.error("Assignment error: " + error.message);
-                }
             }
         }
     );

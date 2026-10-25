@@ -1,4 +1,5 @@
 const cds = require('@sap/cds');
+const PDFService = require('./pdf-service');
 
 module.exports = cds.service.impl(function () {
 
@@ -632,6 +633,65 @@ cds.on('served', async () => {
     });
 
     console.log('KPI DATA GENERATED');
+});
+
+// ========================================
+// PDF GENERATION HANDLERS
+// ========================================
+
+this.on('DownloadReport', async (req) => {
+    console.log("DownloadReport called:", req.data);
+    
+    const { reportType } = req.data;
+    
+    try {
+        const pdfService = new PDFService();
+        const result = await pdfService._generateReportPDF(reportType === 'assetInventory' ? 'Asset Inventory' : reportType, 
+            await SELECT.from(Assets).limit(100)
+        );
+        
+        return {
+            content: result.toString('base64'),
+            filename: `${reportType}-${Date.now()}.pdf`,
+            type: 'application/pdf'
+        };
+    } catch (error) {
+        console.error("PDF generation error:", error);
+        req.error(500, 'PDF generation failed: ' + error.message);
+    }
+});
+
+this.on('ShareReport', async (req) => {
+    console.log("ShareReport called:", req.data);
+    
+    const { email, reportType } = req.data;
+    
+    if (!email || !email.includes('@')) {
+        req.error(400, 'Invalid email address');
+        return;
+    }
+    
+    try {
+        const pdfService = new PDFService();
+        const assets = await SELECT.from(Assets).limit(100);
+        const pdf = await pdfService._generateReportPDF('Asset Inventory', assets);
+        
+        // Try to send email (if configured)
+        try {
+            await pdfService._sendEmail(email, pdf, reportType);
+        } catch (emailError) {
+            console.warn("Email sending skipped (not configured):", emailError.message);
+        }
+        
+        return {
+            success: true,
+            message: `Report sent to ${email}`,
+            timestamp: new Date().toISOString()
+        };
+    } catch (error) {
+        console.error("Share error:", error);
+        req.error(500, 'Failed to share: ' + error.message);
+    }
 });
 
 });

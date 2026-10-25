@@ -55,11 +55,8 @@
     "extends": {
       "extensions": {
         "sap.ui.controllerExtensions": {
-          "sap.fe.templates.ObjectPage.ObjectPage": {
+          "sap.fe.core.PageController": {
             "controllerName": "adminasset.ext.controller.AssetListExtensions"
-          },
-          "sap.fe.templates.ListReport.ListReport": {
-            "controllerName": "adminasset.ext.controller.ReportExtensions"
           }
         }
       }
