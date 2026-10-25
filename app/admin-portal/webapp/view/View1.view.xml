@@ -39,84 +39,88 @@
                 <VBox id="contentArea" width="100%" height="100%">
 
                     <!-- DASHBOARD -->
-                    <VBox id="dashboardContainer" visible="true" class="dashboard-wrapper">
-                        <VBox id="headerBox" class="dashboardHeader">
-                            <Title id="dashboardTitle" text="Enterprise Asset Management Dashboard" level="H1" class="sectionTitle"/>
-                            <Text id="dashboardSubTitle" text="Real-Time Asset Lifecycle Monitoring" class="sectionSubtitle"/>
-                        </VBox>
+<VBox id="dashboardContainer" visible="true" class="dashboard-wrapper">
+    
+    <!-- NEW: Blue Header Banner -->
+    <VBox class="blue-header-banner">
+        <VBox id="headerBox" class="dashboardHeader">
+            <Title id="dashboardTitle" text="Enterprise Asset Management Dashboard" level="H1" class="sectionTitle"/>
+            <Text id="dashboardSubTitle" text="Real-Time Asset Lifecycle Monitoring" class="sectionSubtitle"/>
+        </VBox>
+    </VBox>
 
-                        <VBox id="dashboardVBox">
-                            <HBox id="kpiHBox" wrap="Wrap" class="kpiGrid" justifyContent="Start">
-                                <GenericTile id="tileTotal" header="Total Assets" subheader="All registered assets" class="kpiCard">
-                                    <TileContent><NumericContent value="{dashboard>/totalAssets}" withMargin="false" icon="sap-icon://inventory" valueColor="Neutral" /></TileContent>
-                                </GenericTile>
-                                <GenericTile id="tileAvailable" header="Available" subheader="Ready to assign" class="kpiCard">
-                                    <TileContent><NumericContent value="{dashboard>/availableAssets}" withMargin="false" icon="sap-icon://accept" valueColor="Good" /></TileContent>
-                                </GenericTile>
-                                <GenericTile id="tileAssigned" header="Assigned" subheader="In use by employees" class="kpiCard">
-                                    <TileContent><NumericContent value="{dashboard>/assignedAssets}" withMargin="false" icon="sap-icon://employee" valueColor="Neutral" /></TileContent>
-                                </GenericTile>
-                                <GenericTile id="tileMaintenance" header="Maintenance" subheader="Currently repairing" class="kpiCard">
-                                    <TileContent><NumericContent value="{dashboard>/maintenanceAssets}" withMargin="false" icon="sap-icon://wrench" valueColor="Critical" /></TileContent>
-                                </GenericTile>
-                                <GenericTile id="tileRetired" header="Retired" subheader="End of life" class="kpiCard">
-                                    <TileContent><NumericContent value="{dashboard>/retiredAssets}" withMargin="false" icon="sap-icon://decline" valueColor="Error" /></TileContent>
-                                </GenericTile>
-                                <GenericTile id="tileArchived" header="Archived" subheader="Moved to history" class="kpiCard">
-                                    <TileContent><NumericContent value="{dashboard>/archivedAssets}" withMargin="false" icon="sap-icon://folder" valueColor="Neutral" /></TileContent>
-                                </GenericTile>
-                            </HBox>
-                        </VBox>
+    <VBox id="dashboardVBox">
+        <HBox id="kpiHBox" wrap="Wrap" class="kpiGrid" justifyContent="Start">
+            <GenericTile id="tileTotal" header="Total Assets" subheader="All registered assets" class="kpiCard">
+                <TileContent><NumericContent value="{dashboard>/totalAssets}" withMargin="false" icon="sap-icon://inventory" valueColor="Neutral" /></TileContent>
+            </GenericTile>
+            <GenericTile id="tileAvailable" header="Available" subheader="Ready to assign" class="kpiCard">
+                <TileContent><NumericContent value="{dashboard>/availableAssets}" withMargin="false" icon="sap-icon://accept" valueColor="Good" /></TileContent>
+            </GenericTile>
+            <GenericTile id="tileAssigned" header="Assigned" subheader="In use by employees" class="kpiCard">
+                <TileContent><NumericContent value="{dashboard>/assignedAssets}" withMargin="false" icon="sap-icon://employee" valueColor="Neutral" /></TileContent>
+            </GenericTile>
+            <GenericTile id="tileMaintenance" header="Maintenance" subheader="Currently repairing" class="kpiCard">
+                <TileContent><NumericContent value="{dashboard>/maintenanceAssets}" withMargin="false" icon="sap-icon://wrench" valueColor="Critical" /></TileContent>
+            </GenericTile>
+            <GenericTile id="tileRetired" header="Retired" subheader="End of life" class="kpiCard">
+                <TileContent><NumericContent value="{dashboard>/retiredAssets}" withMargin="false" icon="sap-icon://decline" valueColor="Error" /></TileContent>
+            </GenericTile>
+            <GenericTile id="tileArchived" header="Archived" subheader="Moved to history" class="kpiCard">
+                <TileContent><NumericContent value="{dashboard>/archivedAssets}" withMargin="false" icon="sap-icon://folder" valueColor="Neutral" /></TileContent>
+            </GenericTile>
+        </HBox>
+    </VBox>
 
-                        <HBox id="chartRow" justifyContent="SpaceBetween" wrap="Wrap">
-                            <VBox id="statusBox" width="48%">
-                                <Title id="statusTitle" text="Assets By Status" level="H2" class="sectionTitle" />
-                                <viz:VizFrame id="statusChart" vizType="donut" width="100%" height="400px">
-                                    <viz:dataset>
-                                        <viz.data:FlattenedDataset id="statusDataset" data="{dashboard>/statusChart}">
-                                            <viz.data:dimensions><viz.data:DimensionDefinition id="statusDimension" name="Status" value="{dashboard>status}" /></viz.data:dimensions>
-                                            <viz.data:measures><viz.data:MeasureDefinition id="statusMeasure" name="Assets" value="{dashboard>assetCount}" /></viz.data:measures>
-                                        </viz.data:FlattenedDataset>
-                                    </viz:dataset>
-                                    <viz:feeds>
-                                        <viz.feeds:FeedItem id="statusSizeFeed" uid="size" type="Measure" values="Assets" />
-                                        <viz.feeds:FeedItem id="statusColorFeed" uid="color" type="Dimension" values="Status" />
-                                    </viz:feeds>
-                                </viz:VizFrame>
-                            </VBox>
-                            <VBox id="categoryBox" width="48%">
-                                <Title id="categoryTitle" text="Assets By Category" level="H2" class="sectionTitle" />
-                                <viz:VizFrame id="categoryChart" vizType="column" width="100%" height="400px">
-                                    <viz:dataset>
-                                        <viz.data:FlattenedDataset id="categoryDataset" data="{dashboard>/categoryChart}">
-                                            <viz.data:dimensions><viz.data:DimensionDefinition id="categoryDimension" name="Category" value="{dashboard>categoryName}" /></viz.data:dimensions>
-                                            <viz.data:measures><viz.data:MeasureDefinition id="categoryMeasure" name="Assets" value="{dashboard>assetCount}" /></viz.data:measures>
-                                        </viz.data:FlattenedDataset>
-                                    </viz:dataset>
-                                    <viz:feeds>
-                                        <viz.feeds:FeedItem id="categoryValueFeed" uid="valueAxis" type="Measure" values="Assets" />
-                                        <viz.feeds:FeedItem id="categoryDimensionFeed" uid="categoryAxis" type="Dimension" values="Category" />
-                                    </viz:feeds>
-                                </viz:VizFrame>
-                            </VBox>
-                        </HBox>
+    <HBox id="chartRow" justifyContent="SpaceBetween" wrap="Wrap">
+        <VBox id="statusBox" width="48%">
+            <Title id="statusTitle" text="Assets By Status" level="H2" class="sectionTitle" />
+            <viz:VizFrame id="statusChart" vizType="donut" width="100%" height="400px">
+                <viz:dataset>
+                    <viz.data:FlattenedDataset id="statusDataset" data="{dashboard>/statusChart}">
+                        <viz.data:dimensions><viz.data:DimensionDefinition id="statusDimension" name="Status" value="{dashboard>status}" /></viz.data:dimensions>
+                        <viz.data:measures><viz.data:MeasureDefinition id="statusMeasure" name="Assets" value="{dashboard>assetCount}" /></viz.data:measures>
+                    </viz.data:FlattenedDataset>
+                </viz:dataset>
+                <viz:feeds>
+                    <viz.feeds:FeedItem id="statusSizeFeed" uid="size" type="Measure" values="Assets" />
+                    <viz.feeds:FeedItem id="statusColorFeed" uid="color" type="Dimension" values="Status" />
+                </viz:feeds>
+            </viz:VizFrame>
+        </VBox>
+        <VBox id="categoryBox" width="48%">
+            <Title id="categoryTitle" text="Assets By Category" level="H2" class="sectionTitle" />
+            <viz:VizFrame id="categoryChart" vizType="column" width="100%" height="400px">
+                <viz:dataset>
+                    <viz.data:FlattenedDataset id="categoryDataset" data="{dashboard>/categoryChart}">
+                        <viz.data:dimensions><viz.data:DimensionDefinition id="categoryDimension" name="Category" value="{dashboard>categoryName}" /></viz.data:dimensions>
+                        <viz.data:measures><viz.data:MeasureDefinition id="categoryMeasure" name="Assets" value="{dashboard>assetCount}" /></viz.data:measures>
+                    </viz.data:FlattenedDataset>
+                </viz:dataset>
+                <viz:feeds>
+                    <viz.feeds:FeedItem id="categoryValueFeed" uid="valueAxis" type="Measure" values="Assets" />
+                    <viz.feeds:FeedItem id="categoryDimensionFeed" uid="categoryAxis" type="Dimension" values="Category" />
+                </viz:feeds>
+            </viz:VizFrame>
+        </VBox>
+    </HBox>
 
-                        <VBox id="departmentBox" class="sapUiMediumMarginTop">
-                            <Title id="departmentTitle" text="Assets By Department" level="H2" class="sectionTitle" />
-                            <viz:VizFrame id="departmentChart" vizType="bar" width="100%" height="400px">
-                                <viz:dataset>
-                                    <viz.data:FlattenedDataset id="departmentDataset" data="{dashboard>/departmentChart}">
-                                        <viz.data:dimensions><viz.data:DimensionDefinition id="departmentDimension" name="Department" value="{dashboard>departmentName}" /></viz.data:dimensions>
-                                        <viz.data:measures><viz.data:MeasureDefinition id="departmentMeasure" name="Assets" value="{dashboard>assetCount}" /></viz.data:measures>
-                                    </viz.data:FlattenedDataset>
-                                </viz:dataset>
-                                <viz:feeds>
-                                    <viz.feeds:FeedItem id="departmentValueFeed" uid="valueAxis" type="Measure" values="Assets" />
-                                    <viz.feeds:FeedItem id="departmentCategoryFeed" uid="categoryAxis" type="Dimension" values="Department" />
-                                </viz:feeds>
-                            </viz:VizFrame>
-                        </VBox>
-                    </VBox>
+    <VBox id="departmentBox" class="sapUiMediumMarginTop">
+        <Title id="departmentTitle" text="Assets By Department" level="H2" class="sectionTitle" />
+        <viz:VizFrame id="departmentChart" vizType="bar" width="100%" height="400px">
+            <viz:dataset>
+                <viz.data:FlattenedDataset id="departmentDataset" data="{dashboard>/departmentChart}">
+                    <viz.data:dimensions><viz.data:DimensionDefinition id="departmentDimension" name="Department" value="{dashboard>departmentName}" /></viz.data:dimensions>
+                    <viz.data:measures><viz.data:MeasureDefinition id="departmentMeasure" name="Assets" value="{dashboard>assetCount}" /></viz.data:measures>
+                </viz.data:FlattenedDataset>
+            </viz:dataset>
+            <viz:feeds>
+                <viz.feeds:FeedItem id="departmentValueFeed" uid="valueAxis" type="Measure" values="Assets" />
+                <viz.feeds:FeedItem id="departmentCategoryFeed" uid="categoryAxis" type="Dimension" values="Department" />
+            </viz:feeds>
+        </viz:VizFrame>
+    </VBox>
+</VBox>
 
                     <!-- ASSETS -->
                     <VBox id="assetsContainer" visible="false" class="dashboard-wrapper">

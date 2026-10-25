@@ -311,3 +311,30 @@
     display: flex !important;
     align-items: center !important;
 }
+/* =========================================
+   PREMIUM BLUE HEADER BANNER
+   ========================================= */
+
+.blue-header-banner {
+    background: linear-gradient(135deg, #0A6ED1 0%, #0854A8 100%) !important;
+    border-radius: 12px !important;
+    padding: 32px 40px !important;
+    margin-bottom: 32px !important;
+    box-shadow: 0 4px 12px rgba(10, 110, 209, 0.2) !important;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Force the text inside to be white */
+.blue-header-banner .sectionTitle {
+    color: #FFFFFF !important;
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    margin-bottom: 8px !important;
+}
+
+.blue-header-banner .sectionSubtitle {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-size: 15px !important;
+    margin-bottom: 0 !important;
+}

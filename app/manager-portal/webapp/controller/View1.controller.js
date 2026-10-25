@@ -1018,84 +1018,67 @@ onEditEmployee: async function () {
     oDialog.open();
 
 },
+onMenuSelect: function (oEvent) {
+    const sTitle = oEvent.getParameter("listItem").getTitle();
 
-            onMenuSelect: function (oEvent) {
+    // 1. Hide all containers safely
+    const oDashboard = this.byId("dashboardContainer");
+    const oEmployees = this.byId("employeesContainer");
+    const oRequests = this.byId("requestsContainer");
+    const oAssets = this.byId("assetsContainer");
+    const oAllocation = this.byId("allocationContainer");
+    
+    if (oDashboard) oDashboard.setVisible(false);
+    if (oEmployees) oEmployees.setVisible(false);
+    if (oRequests) oRequests.setVisible(false);
+    if (oAssets) oAssets.setVisible(false);
+    if (oAllocation) oAllocation.setVisible(false);
 
-                const sTitle =
-                    oEvent.getParameter("listItem")
-                        .getTitle();
+    // 2. Set the main title
+    const oContentTitle = this.byId("contentTitle");
+    if (oContentTitle) {
+        oContentTitle.setText(sTitle);
+    }
 
-                this.byId("dashboardContainer")
-                    .setVisible(false);
+    // 3. Handle the subtitle (contentText) safely
+    const oContentText = this.byId("contentText");
+    if (oContentText) {
+        if (sTitle === "Dashboard") {
+            oContentText.setText("Manager Dashboard");
+            oContentText.setVisible(true);
+        } else {
+            oContentText.setVisible(false); // Hide it on other pages
+        }
+    }
 
-                this.byId("employeesContainer")
-                    .setVisible(false);
+    // 4. Load and show the correct container
+    switch (sTitle) {
+        case "Dashboard":
+            this._loadDashboard();
+            if (oDashboard) oDashboard.setVisible(true);
+            break;
 
-                this.byId("requestsContainer")
-                    .setVisible(false);
+        case "Employees":
+            this._loadEmployees();
+            if (oEmployees) oEmployees.setVisible(true);
+            break;
 
-                this.byId("assetsContainer")
-                    .setVisible(false);
+        case "Asset Requests":
+            this._loadRequests();
+            if (oRequests) oRequests.setVisible(true);
+            break;
 
-                this.byId("allocationContainer")
-                    .setVisible(false);
+        case "Assets":
+            this._loadAssets();
+            if (oAssets) oAssets.setVisible(true);
+            break;
 
-                this.byId("contentTitle")
-                    .setText(sTitle);
-
-                switch (sTitle) {
-
-                    case "Dashboard":
-
-                        this.byId("contentText")
-                            .setText(
-                                "Manager Dashboard"
-                            );
-
-                        this._loadDashboard();
-
-                        this.byId("dashboardContainer")
-                            .setVisible(true);
-
-                        break;
-
-case "Employees":
-
-    this._loadEmployees();
-
-    this.byId("employeesContainer")
-        .setVisible(true);
-
-        break;
-
-case "Asset Requests":
-
-    this._loadRequests();
-
-    this.byId("requestsContainer")
-        .setVisible(true);
-
-    break;
-
-case "Assets":
-
-    this._loadAssets();
-
-    this.byId("assetsContainer")
-        .setVisible(true);
-
-    break;
-
-case "Asset Allocation":
-
-    this._loadApprovedRequests();
-
-    this.byId("allocationContainer")
-        .setVisible(true);
-
-    break;
-                }
-            },
+        case "Asset Allocation":
+            this._loadApprovedRequests();
+            if (oAllocation) oAllocation.setVisible(true);
+            break;
+    }
+},
 onCreateRequest: async function () {
 
     const employeeResponse = await fetch(

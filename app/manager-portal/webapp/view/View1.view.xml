@@ -9,21 +9,23 @@
 
     <Page
         id="managerPage"
-        title="Manager Portal">
+        title="Manager Portal"
+        class="sapUiNoContentPadding">
 
         <content>
 
-    <HBox
-        id="mainLayout"
-        width="100%">
+            <HBox
+                id="mainLayout"
+                width="100%"
+                height="100%"
+                renderType="Bare">
 
-                <!-- NAVIGATION -->
-
+                <!-- NAVIGATION SIDEBAR -->
                 <List
                     id="navigationMenu"
-                    width="300px"
                     mode="SingleSelectMaster"
-                    selectionChange=".onMenuSelect">
+                    selectionChange=".onMenuSelect"
+                    class="sidebarNav">
 
                     <StandardListItem
                         title="Dashboard"
@@ -47,108 +49,98 @@
 
                 </List>
 
-                <!-- CONTENT -->
-
+                <!-- MAIN CONTENT AREA -->
                 <VBox
                     width="100%"
-                    class="sapUiResponsiveContentPadding">
-
+                    height="100%"
+                    class="contentArea"
+                    renderType="Bare">
                     <Title
                         id="contentTitle"
                         text="Dashboard"
-                        level="H1" />
+                        level="H1"
+                        class="mainContentTitle" />
 
                     <Text
                         id="contentText"
-                        text="Manager Dashboard" />
+                        text="Manager Dashboard"
+                        visible="true"
+                        class="mainContentSubTitle" />
 
-                    <Panel width="100%">
+                    <Panel
+                        width="100%"
+                        class="contentPanel"
+                        backgroundDesign="Solid">
 
-                        <!-- DASHBOARD -->
-
+                        <!-- ========================================== -->
+                        <!-- DASHBOARD CONTAINER                        -->
+                        <!-- ========================================== -->
                         <VBox
                             id="dashboardContainer"
-                            visible="true">
+                            visible="true"
+                            class="dashboardWrapper">
 
-                            <!-- HEADER -->
+                            <!-- HEADER BOX (Gradient) -->
                             <VBox
                                 id="headerBox"
                                 class="dashboardHeader">
                                 <Title
                                     id="dashboardTitle"
                                     text="Manager Operations Dashboard"
-                                    level="H1"/>
+                                    level="H1"
+                                    class="headerTitle" />
                                 <Text
                                     id="dashboardSubTitle"
-                                    text="Real-Time Employee Management, Asset Requests and Asset Visibility"/>
+                                    text="Real-Time Employee Management, Asset Requests and Asset Visibility"
+                                    class="headerSubTitle" />
                             </VBox>
 
                             <!-- KPI SECTION -->
+                            <!-- KPI SECTION -->
                             <VBox
                                 id="dashboardVBox"
-                                class="sapUiMediumMargin">
+                                class="kpiSection">
                                 <Title
                                     id="overviewTitle"
                                     text="Manager Overview"
-                                    level="H2"/>
+                                    level="H2"
+                                    class="sectionTitle" />
+                                    
                                 <HBox
                                     id="kpiHBox"
-                                    justifyContent="Center"
-                                    wrap="Wrap">
+                                    class="kpiContainer"
+                                    wrap="Wrap"
+                                    justifyContent="Start">
 
-                                    <GenericTile
-                                        id="tileTotal"
-                                        header="Total Employees"
-                                        press=".onEmployeesTilePress">
-                                        <TileContent>
-                                            <NumericContent value="{kpi>/totalAssets}" />
-                                        </TileContent>
-                                    </GenericTile>
+                                    <!-- 1. Total Employees -->
+                                    <VBox class="customKpiCard">
+                                        <core:HTML content="&lt;div onclick='sap.ui.controller(&quot;asset.lifecycle.portal.managerportal.managerportal.controller.View1&quot;).onEmployeesTilePress()' style='height:100%; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer;'&gt;&lt;div&gt;&lt;div class='kpi-title'&gt;Total Employees&lt;/div&gt;&lt;div class='kpi-subtitle'&gt;All registered staff&lt;/div&gt;&lt;/div&gt;&lt;div class='kpi-bottom'&gt;&lt;span class='kpi-icon'&gt;&amp;#128101;&lt;/span&gt;&lt;span class='kpi-number'&gt;{kpi&gt;/totalAssets}&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" />
+                                    </VBox>
 
-                                    <GenericTile
-                                        id="tileAvailable"
-                                        press=".onPendingTilePress"
-                                        header="Pending Requests">
-                                        <TileContent>
-                                            <NumericContent value="{kpi>/availableAssets}" />
-                                        </TileContent>
-                                    </GenericTile>
+                                    <!-- 2. Pending Requests -->
+                                    <VBox class="customKpiCard">
+                                        <core:HTML content="&lt;div onclick='sap.ui.controller(&quot;asset.lifecycle.portal.managerportal.managerportal.controller.View1&quot;).onPendingTilePress()' style='height:100%; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer;'&gt;&lt;div&gt;&lt;div class='kpi-title'&gt;Pending Requests&lt;/div&gt;&lt;div class='kpi-subtitle'&gt;Awaiting approval&lt;/div&gt;&lt;/div&gt;&lt;div class='kpi-bottom'&gt;&lt;span class='kpi-icon'&gt;&amp;#9203;&lt;/span&gt;&lt;span class='kpi-number'&gt;{kpi&gt;/availableAssets}&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" />
+                                    </VBox>
 
-                                    <GenericTile
-                                        id="tileAssigned"
-                                        press=".onApprovedTilePress"
-                                        header="Approved Requests">
-                                        <TileContent>
-                                            <NumericContent value="{kpi>/assignedAssets}" />
-                                        </TileContent>
-                                    </GenericTile>
+                                    <!-- 3. Approved Requests -->
+                                    <VBox class="customKpiCard">
+                                        <core:HTML content="&lt;div onclick='sap.ui.controller(&quot;asset.lifecycle.portal.managerportal.managerportal.controller.View1&quot;).onApprovedTilePress()' style='height:100%; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer;'&gt;&lt;div&gt;&lt;div class='kpi-title'&gt;Approved Requests&lt;/div&gt;&lt;div class='kpi-subtitle'&gt;Ready for allocation&lt;/div&gt;&lt;/div&gt;&lt;div class='kpi-bottom'&gt;&lt;span class='kpi-icon'&gt;&amp;#9989;&lt;/span&gt;&lt;span class='kpi-number'&gt;{kpi&gt;/assignedAssets}&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" />
+                                    </VBox>
 
-                                    <GenericTile
-                                        id="tileMaintenance"
-                                        press=".onRejectedTilePress"
-                                        header="Rejected Requests">
-                                        <TileContent>
-                                            <NumericContent value="{kpi>/maintenanceAssets}" />
-                                        </TileContent>
-                                    </GenericTile>
+                                    <!-- 4. Rejected Requests -->
+                                    <VBox class="customKpiCard">
+                                        <core:HTML content="&lt;div onclick='sap.ui.controller(&quot;asset.lifecycle.portal.managerportal.managerportal.controller.View1&quot;).onRejectedTilePress()' style='height:100%; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer;'&gt;&lt;div&gt;&lt;div class='kpi-title'&gt;Rejected Requests&lt;/div&gt;&lt;div class='kpi-subtitle'&gt;Declined by manager&lt;/div&gt;&lt;/div&gt;&lt;div class='kpi-bottom'&gt;&lt;span class='kpi-icon'&gt;&amp;#10060;&lt;/span&gt;&lt;span class='kpi-number'&gt;{kpi&gt;/maintenanceAssets}&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" />
+                                    </VBox>
 
-                                    <GenericTile
-                                        id="tileRetired"
-                                        header="Available Assets"
-                                        press=".onAvailableAssetsPress">
-                                        <TileContent>
-                                            <NumericContent value="{kpi>/retiredAssets}" />
-                                        </TileContent>
-                                    </GenericTile>
+                                    <!-- 5. Available Assets -->
+                                    <VBox class="customKpiCard">
+                                        <core:HTML content="&lt;div onclick='sap.ui.controller(&quot;asset.lifecycle.portal.managerportal.managerportal.controller.View1&quot;).onAvailableAssetsPress()' style='height:100%; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer;'&gt;&lt;div&gt;&lt;div class='kpi-title'&gt;Available Assets&lt;/div&gt;&lt;div class='kpi-subtitle'&gt;Ready to assign&lt;/div&gt;&lt;/div&gt;&lt;div class='kpi-bottom'&gt;&lt;span class='kpi-icon'&gt;&amp;#128187;&lt;/span&gt;&lt;span class='kpi-number'&gt;{kpi&gt;/retiredAssets}&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" />
+                                    </VBox>
 
-                                    <GenericTile
-                                        id="tileArchived"
-                                        header="Assigned Assets"
-                                        press=".onAssignedAssetsPress">
-                                        <TileContent>
-                                            <NumericContent value="{kpi>/archivedAssets}" />
-                                        </TileContent>
-                                    </GenericTile>
+                                    <!-- 6. Assigned Assets -->
+                                    <VBox class="customKpiCard">
+                                        <core:HTML content="&lt;div onclick='sap.ui.controller(&quot;asset.lifecycle.portal.managerportal.managerportal.controller.View1&quot;).onAssignedAssetsPress()' style='height:100%; display:flex; flex-direction:column; justify-content:space-between; cursor:pointer;'&gt;&lt;div&gt;&lt;div class='kpi-title'&gt;Assigned Assets&lt;/div&gt;&lt;div class='kpi-subtitle'&gt;Currently in use&lt;/div&gt;&lt;/div&gt;&lt;div class='kpi-bottom'&gt;&lt;span class='kpi-icon'&gt;&amp;#128279;&lt;/span&gt;&lt;span class='kpi-number'&gt;{kpi&gt;/archivedAssets}&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" />
+                                    </VBox>
 
                                 </HBox>
                             </VBox>
@@ -156,22 +148,23 @@
                             <!-- CHART ROW -->
                             <HBox
                                 id="chartRow"
-                                justifyContent="SpaceAround"
+                                class="chartRow"
                                 wrap="Wrap">
 
                                 <!-- STATUS CHART -->
                                 <VBox
                                     id="statusBox"
-                                    width="48%">
+                                    class="chartCard">
                                     <Title
                                         id="statusTitle"
                                         text="Requests By Status"
-                                        level="H2" />
+                                        level="H2"
+                                        class="sectionTitle" />
                                     <viz:VizFrame
                                         id="statusChart"
                                         vizType="donut"
                                         width="100%"
-                                        height="400px">
+                                        height="350px">
                                         <viz:dataset>
                                             <viz.data:FlattenedDataset
                                                 id="statusDataset"
@@ -208,16 +201,17 @@
                                 <!-- CATEGORY CHART -->
                                 <VBox
                                     id="categoryBox"
-                                    width="48%">
+                                    class="chartCard">
                                     <Title
                                         id="categoryTitle"
                                         text="Requests By Category"
-                                        level="H2" />
+                                        level="H2"
+                                        class="sectionTitle" />
                                     <viz:VizFrame
                                         id="categoryChart"
                                         vizType="column"
                                         width="100%"
-                                        height="400px">
+                                        height="350px">
                                         <viz:dataset>
                                             <viz.data:FlattenedDataset
                                                 id="categoryDataset"
@@ -256,16 +250,17 @@
                             <!-- DEPARTMENT CHART -->
                             <VBox
                                 id="departmentBox"
-                                class="sapUiMediumMarginTop">
+                                class="chartCard fullWidthChart">
                                 <Title
                                     id="departmentTitle"
                                     text="Requests By Department"
-                                    level="H2" />
+                                    level="H2"
+                                    class="sectionTitle" />
                                 <viz:VizFrame
                                     id="departmentChart"
                                     vizType="bar"
                                     width="100%"
-                                    height="400px">
+                                    height="350px">
                                     <viz:dataset>
                                         <viz.data:FlattenedDataset
                                             id="departmentDataset"
@@ -302,373 +297,121 @@
                         </VBox>
 
                         <!-- EMPLOYEES -->
-
-<!-- EMPLOYEES -->
-
-<VBox
-    id="employeesContainer"
-    visible="false">
-
-    <Title
-        text="Employee Management" />
-
-    <Toolbar>
-
-        <Button
-            text="Create Employee"
-            icon="sap-icon://add"
-            type="Emphasized"
-            press=".onCreateEmployee" />
-
-        <Button
-            text="Edit Selected"
-            icon="sap-icon://edit"
-            type="Attention"
-            press=".onEditEmployee" />
-
-        <ToolbarSpacer />
-
-        <SearchField
-            width="300px"
-            liveChange=".onEmployeeSearch"
-            placeholder="Search Employee" />
-
-    </Toolbar>
-
-    <Table
-        id="employeeTable"
-        mode="SingleSelectMaster"
-        includeItemInSelection="true"
-        growing="true"
-        sticky="ColumnHeaders"
-        items="{employees>/}">
-
-        <columns>
-
-            <Column>
-                <Text text="Employee Number" />
-            </Column>
-
-            <Column>
-                <Text text="Full Name" />
-            </Column>
-
-            <Column>
-                <Text text="Email" />
-            </Column>
-
-            <Column>
-                <Text text="Role" />
-            </Column>
-
-        </columns>
-
-        <items>
-
-            <ColumnListItem>
-
-                <cells>
-
-                    <Text
-                        text="{employees>employeeNumber}" />
-
-                    <Text
-                        text="{employees>fullName}" />
-
-                    <Text
-                        text="{employees>email}" />
-
-                    <Text
-                        text="{employees>role}" />
-
-                </cells>
-
-            </ColumnListItem>
-
-        </items>
-
-    </Table>
-
-</VBox>
+                        <VBox id="employeesContainer" visible="false" class="tableContainer">
+                            <Title text="Employee Management" class="sectionTitle" />
+                            <Toolbar class="customToolbar">
+                                <Button text="Create Employee" icon="sap-icon://add" type="Emphasized" press=".onCreateEmployee" />
+                                <Button text="Edit Selected" icon="sap-icon://edit" type="Attention" press=".onEditEmployee" />
+                                <ToolbarSpacer />
+                                <SearchField width="300px" liveChange=".onEmployeeSearch" placeholder="Search Employee" />
+                            </Toolbar>
+                            <Table id="employeeTable" mode="SingleSelectMaster" includeItemInSelection="true" growing="true" sticky="ColumnHeaders" items="{employees>/}">
+                                <columns>
+                                    <Column><Text text="Employee Number" /></Column>
+                                    <Column><Text text="Full Name" /></Column>
+                                    <Column><Text text="Email" /></Column>
+                                    <Column><Text text="Role" /></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{employees>employeeNumber}" />
+                                            <Text text="{employees>fullName}" />
+                                            <Text text="{employees>email}" />
+                                            <Text text="{employees>role}" />
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </VBox>
 
                         <!-- REQUESTS -->
-
-<VBox
-    id="requestsContainer"
-    visible="false">
-
-    <Title
-        id="requestTitle"
-        text="Asset Requests" />
-
-    <Toolbar
-        id="requestToolbar">
-
-        <Button
-            id="createRequestBtn"
-            text="Create Request"
-            icon="sap-icon://add"
-            type="Emphasized"
-            press=".onCreateRequest" />
-
-
-        <Button
-            id="refreshRequestBtn"
-            text="Refresh"
-            icon="sap-icon://refresh"
-            press=".onRefreshRequests" />
-
-        <ToolbarSpacer
-            id="requestToolbarSpacer" />
-
-        <SearchField
-            id="requestSearch"
-            width="300px"
-            liveChange=".onRequestSearch"
-            placeholder="Search Request" />
-
-    </Toolbar>
-
-    <Table
-        id="requestTable"
-        growing="true"
-        sticky="ColumnHeaders"
-        items="{requests>/}">
-
-        <columns>
-
-            <Column id="requestCol1">
-                <Text id="requestHdr1" text="Employee" />
-            </Column>
-
-            <Column id="requestCol2">
-                <Text id="requestHdr2" text="Category" />
-            </Column>
-
-            <Column id="requestCol3">
-                <Text id="requestHdr3" text="Justification" />
-            </Column>
-
-            <Column id="requestCol4">
-                <Text id="requestHdr4" text="Status" />
-            </Column>
-
-            <Column id="requestCol5">
-                <Text id="requestHdr5" text="Approval Date" />
-            </Column>
-
-        </columns>
-
-        <items>
-
-            <ColumnListItem id="requestRowTemplate">
-
-                <cells>
-
-                    <Text
-                        id="requestCell1"
-                        text="{requests>employeeName}" />
-
-                    <Text
-                        id="requestCell2"
-                        text="{requests>categoryName}" />
-
-                    <Text
-                        id="requestCell3"
-                        text="{requests>justification}" />
-
-<ObjectStatus
-    id="requestCell4"
-    text="{requests>status}"
-    state="{= ${requests>status} === 'APPROVED' ? 'Success' : ${requests>status} === 'REJECTED' ? 'Error' : 'Warning' }" />
-
-                    <Text
-                        id="requestCell5"
-                        text="{requests>approvalDate}" />
-
-                </cells>
-
-            </ColumnListItem>
-
-        </items>
-
-    </Table>
-
-</VBox>
+                        <VBox id="requestsContainer" visible="false" class="tableContainer">
+                            <Title id="requestTitle" text="Asset Requests" class="sectionTitle" />
+                            <Toolbar id="requestToolbar" class="customToolbar">
+                                <Button id="createRequestBtn" text="Create Request" icon="sap-icon://add" type="Emphasized" press=".onCreateRequest" />
+                                <Button id="refreshRequestBtn" text="Refresh" icon="sap-icon://refresh" press=".onRefreshRequests" />
+                                <ToolbarSpacer id="requestToolbarSpacer" />
+                                <SearchField id="requestSearch" width="300px" liveChange=".onRequestSearch" placeholder="Search Request" />
+                            </Toolbar>
+                            <Table id="requestTable" growing="true" sticky="ColumnHeaders" items="{requests>/}">
+                                <columns>
+                                    <Column id="requestCol1"><Text id="requestHdr1" text="Employee" /></Column>
+                                    <Column id="requestCol2"><Text id="requestHdr2" text="Category" /></Column>
+                                    <Column id="requestCol3"><Text id="requestHdr3" text="Justification" /></Column>
+                                    <Column id="requestCol4"><Text id="requestHdr4" text="Status" /></Column>
+                                    <Column id="requestCol5"><Text id="requestHdr5" text="Approval Date" /></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem id="requestRowTemplate">
+                                        <cells>
+                                            <Text id="requestCell1" text="{requests>employeeName}" />
+                                            <Text id="requestCell2" text="{requests>categoryName}" />
+                                            <Text id="requestCell3" text="{requests>justification}" />
+                                            <ObjectStatus id="requestCell4" text="{requests>status}" state="{= ${requests>status} === 'APPROVED' ? 'Success' : ${requests>status} === 'REJECTED' ? 'Error' : 'Warning' }" />
+                                            <Text id="requestCell5" text="{requests>approvalDate}" />
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </VBox>
 
                         <!-- ASSETS -->
+                        <VBox id="assetsContainer" visible="false" class="tableContainer">
+                            <Title id="assetsTitle" text="Asset Inventory" class="sectionTitle" />
+                            <Toolbar id="assetToolbar" class="customToolbar">
+                                <Button id="refreshAssetsBtn" text="Refresh" icon="sap-icon://refresh" press=".onRefreshAssets" />
+                                <ToolbarSpacer id="assetToolbarSpacer" />
+                                <SearchField id="assetSearch" width="300px" liveChange=".onAssetSearch" placeholder="Search Asset" />
+                            </Toolbar>
+                            <Table id="assetTable" growing="true" sticky="ColumnHeaders" items="{assets>/}">
+                                <columns>
+                                    <Column id="assetCol1"><Text id="assetHdr1" text="Asset Tag" /></Column>
+                                    <Column id="assetCol2"><Text id="assetHdr2" text="Model" /></Column>
+                                    <Column id="assetCol3"><Text id="assetHdr3" text="Status" /></Column>
+                                    <Column id="assetCol4"><Text id="assetHdr4" text="Serial Number" /></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem id="assetRowTemplate">
+                                        <cells>
+                                            <Text id="assetCell1" text="{assets>assetTag}" />
+                                            <Text id="assetCell2" text="{assets>model}" />
+                                            <ObjectStatus id="assetCell3" text="{assets>status}" state="{= ${assets>status} === 'AVAILABLE' ? 'Success' : ${assets>status} === 'ASSIGNED' ? 'Information' : ${assets>status} === 'MAINTENANCE' ? 'Warning' : 'Error' }" />
+                                            <Text id="assetCell4" text="{assets>serialNumber}" />
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </VBox>
 
-<VBox
-    id="assetsContainer"
-    visible="false">
-
-    <Title
-        id="assetsTitle"
-        text="Asset Inventory" />
-
-    <Toolbar
-        id="assetToolbar">
-
-        <Button
-            id="refreshAssetsBtn"
-            text="Refresh"
-            icon="sap-icon://refresh"
-            press=".onRefreshAssets" />
-
-        <ToolbarSpacer
-            id="assetToolbarSpacer" />
-
-        <SearchField
-            id="assetSearch"
-            width="300px"
-            liveChange=".onAssetSearch"
-            placeholder="Search Asset" />
-
-    </Toolbar>
-
-    <Table
-        id="assetTable"
-        growing="true"
-        sticky="ColumnHeaders"
-        items="{assets>/}">
-
-        <columns>
-
-            <Column id="assetCol1">
-                <Text id="assetHdr1" text="Asset Tag" />
-            </Column>
-
-            <Column id="assetCol2">
-                <Text id="assetHdr2" text="Model" />
-            </Column>
-
-            <Column id="assetCol3">
-                <Text id="assetHdr3" text="Status" />
-            </Column>
-
-            <Column id="assetCol4">
-                <Text id="assetHdr4" text="Serial Number" />
-            </Column>
-
-        </columns>
-
-        <items>
-
-            <ColumnListItem id="assetRowTemplate">
-
-                <cells>
-
-                    <Text
-                        id="assetCell1"
-                        text="{assets>assetTag}" />
-
-                    <Text
-                        id="assetCell2"
-                        text="{assets>model}" />
-
-                    <ObjectStatus
-                        id="assetCell3"
-                        text="{assets>status}"
-                        state="{
-                            = ${assets>status} === 'AVAILABLE'
-                            ? 'Success'
-                            : ${assets>status} === 'ASSIGNED'
-                            ? 'Information'
-                            : ${assets>status} === 'MAINTENANCE'
-                            ? 'Warning'
-                            : 'Error'
-                        }" />
-
-                    <Text
-                        id="assetCell4"
-                        text="{assets>serialNumber}" />
-
-                </cells>
-
-            </ColumnListItem>
-
-        </items>
-
-    </Table>
-
-</VBox>
-    <VBox
-    id="allocationContainer"
-    visible="false">
-
-    <Title
-        id="allocationTitle"
-        text="Asset Allocation" />
-
-    <Toolbar>
-
-        <Button
-            id="assignApprovedAssetBtn"
-            text="Assign Approved Request"
-            icon="sap-icon://employee"
-            type="Accept"
-            press=".onAssignApprovedAsset" />
-
-        <ToolbarSpacer />
-
-    </Toolbar>
-
-<Table
-    id="allocationTable"
-    mode="SingleSelectMaster"
-    includeItemInSelection="true"
-    items="{approvedRequests>/}">
-
-        <columns>
-
-            <Column>
-                <Text text="Employee" />
-            </Column>
-
-            <Column>
-                <Text text="Category" />
-            </Column>
-
-            <Column>
-                <Text text="Status" />
-            </Column>
-
-        </columns>
-
-        <items>
-
-            <ColumnListItem>
-
-                <cells>
-
-                  <Text
-    text="{approvedRequests>employeeName}" />
-
-
-                   <Text
-    text="{approvedRequests>categoryName}" />
-
-                    <ObjectStatus
-    text="{approvedRequests>status}" />
-
-                </cells>
-
-            </ColumnListItem>
-
-        </items>
-
-    </Table>
-
-</VBox>
+                        <!-- ASSET ALLOCATION -->
+                        <VBox id="allocationContainer" visible="false" class="tableContainer">
+                            <Title id="allocationTitle" text="Asset Allocation" class="sectionTitle" />
+                            <Toolbar class="customToolbar">
+                                <Button id="assignApprovedAssetBtn" text="Assign Approved Request" icon="sap-icon://employee" type="Accept" press=".onAssignApprovedAsset" />
+                                <ToolbarSpacer />
+                            </Toolbar>
+                            <Table id="allocationTable" mode="SingleSelectMaster" includeItemInSelection="true" items="{approvedRequests>/}">
+                                <columns>
+                                    <Column><Text text="Employee" /></Column>
+                                    <Column><Text text="Category" /></Column>
+                                    <Column><Text text="Status" /></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{approvedRequests>employeeName}" />
+                                            <Text text="{approvedRequests>categoryName}" />
+                                            <ObjectStatus text="{approvedRequests>status}" />
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </VBox>
 
                     </Panel>
-
                 </VBox>
-
             </HBox>
-
         </content>
-
     </Page>
-
 </mvc:View>
