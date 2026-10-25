@@ -10,6 +10,10 @@
             height: 100%;
         }
     </style>
+
+    <!-- ADD THIS LINE FOR PDF EXPORT -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <script
         id="sap-ui-bootstrap"
         src="https://sapui5.hana.ondemand.com/1.153.0/resources/sap-ui-core.js"
@@ -24,7 +28,7 @@
     ></script>
 </head>
 <body class="sapUiBody sapUiSizeCompact custom-enterprise-theme">
-        <div
+    <div
         data-sap-ui-component
         data-name="asset.lifecycle.portal.adminportal"
         data-id="container"

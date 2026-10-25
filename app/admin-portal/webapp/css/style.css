@@ -251,3 +251,63 @@
     background-color: #EFF6FF !important; 
     cursor: pointer; 
 }
+/* =========================================
+   INCREASE TITLE FONT SIZE
+   ========================================= */
+
+.sectionTitle {
+    font-size: 36px !important;  /* Increased from 28px */
+    font-weight: 800 !important; /* Extra bold */
+    color: #0F172A !important;   /* Deep navy for high contrast */
+    margin-bottom: 8px !important;
+    letter-spacing: -0.5px !important;
+}
+
+/* Increase subtitle slightly to match */
+.sectionSubtitle {
+    font-size: 18px !important; /* Increased from 15px */
+    color: #64748B !important;
+    margin-bottom: 32px !important;
+}
+/* =========================================
+   INCREASE ACTION BAR HEIGHT (Top & Bottom Space)
+   ========================================= */
+
+.actionBar {
+    /* 40px top/bottom padding, 32px left/right */
+    padding: 40px 32px !important; 
+    
+    /* Keeps buttons vertically centered in the new taller space */
+    align-items: center !important; 
+    
+    /* Adds even more space below the toolbar before the table */
+    margin-bottom: 48px !important; 
+}
+/* =========================================
+   PERFECT BUTTON TEXT CENTERING
+   ========================================= */
+
+/* Target the inner wrapper of the button */
+.btn .sapMBtnInner {
+    display: flex !important;
+    align-items: center !important;     /* Centers vertically */
+    justify-content: center !important; /* Centers horizontally */
+    text-align: center !important;
+}
+
+/* Ensure the text content itself doesn't have extra margins pushing it off-center */
+.btn .sapMBtnContent {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    line-height: normal !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Ensure icons align perfectly with the text if both are present */
+.btn .sapMBtnIcon {
+    margin-right: 8px !important; /* Space between icon and text */
+    display: flex !important;
+    align-items: center !important;
+}

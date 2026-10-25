@@ -238,7 +238,7 @@ sap.ui.define([
                 oDialog.open();
             },
 
-            onAssignAsset: function () {
+            onAssignAsset: async function () {
                 const oTable = this.byId("assetTable");
                 const oItem = oTable.getSelectedItem();
 
@@ -249,50 +249,95 @@ sap.ui.define([
 
                 const asset = oItem.getBindingContext("assets").getObject();
 
-                const oDialog = new Dialog({
-                    title: "Assign Asset",
-                    contentWidth: "500px",
-                    content: [
-                        new VBox({
-                            items: [
-                                new Label({ text: "Asset: " + asset.assetTag }),
-                                new Label({ text: "Employee ID" }),
-                                new Input({ id: "assignEmployeeIdInput" }),
-                                new Label({ text: "Assigned Date" }),
-                                new Input({ id: "assignedDateInput", type: "Date" })
-                            ]
-                        })
-                    ],
-                    beginButton: new Button({
-                        text: "Assign",
-                        press: async () => {
-                            const response = await fetch(
-                                `/odata/v4/asset-admin/Assets(${asset.ID})/AssetAdminService.AssignAsset`,
-                                {
-                                    method: "POST",
-                                    headers: { "Content-Type": "application/json" },
-                                    body: JSON.stringify({
-                                        employeeID: sap.ui.getCore().byId("assignEmployeeIdInput").getValue(),
-                                        assignedDate: sap.ui.getCore().byId("assignedDateInput").getValue()
-                                    })
-                                }
-                            );
+                // Show loading while fetching employees
+                MessageToast.show("Loading employees...");
 
-                            if (response.ok) {
-                                MessageToast.show("Asset assigned successfully");
-                                await this._loadAssets();
-                                oDialog.close();
-                            } else {
-                                MessageBox.error("Failed to assign asset");
+                try {
+                    // Fetch employees from the backend
+                    const empResponse = await fetch("/odata/v4/asset-admin/Employees");
+                    const empData = await empResponse.json();
+
+                    if (!empData.value || empData.value.length === 0) {
+                        MessageBox.error("No employees found to assign.");
+                        return;
+                    }
+
+                    // Create the dropdown items
+                    const aItems = empData.value.map(emp => {
+                        return new Item({
+                            key: emp.ID, // The ID sent to the backend
+                            text: `${emp.fullName} (${emp.employeeNumber})` // What the user sees
+                        });
+                    });
+
+                    const oSelect = new Select({
+                        id: "assignEmployeeSelect",
+                        width: "100%",
+                        items: aItems,
+                        placeholder: "Select an Employee"
+                    });
+
+                    const oDialog = new Dialog({
+                        title: "Assign Asset",
+                        contentWidth: "500px",
+                        content: [
+                            new VBox({
+                                items: [
+                                    new Label({ text: "Asset: " + asset.assetTag }),
+                                    new Label({ text: "Employee" }),
+                                    oSelect, // The new dropdown
+                                    new Label({ text: "Assigned Date" }),
+                                    new Input({ id: "assignedDateInput", type: "Date" })
+                                ]
+                            })
+                        ],
+                        beginButton: new Button({
+                            text: "Assign",
+                            type: "Emphasized",
+                            press: async () => {
+                                const selectedEmpID = oSelect.getSelectedKey();
+                                
+                                if (!selectedEmpID) {
+                                    this._showWarning("Please select an employee from the list.");
+                                    return;
+                                }
+
+                                const response = await fetch(
+                                    `/odata/v4/asset-admin/Assets(${asset.ID})/AssetAdminService.AssignAsset`,
+                                    {
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify({
+                                            employeeID: selectedEmpID,
+                                            assignedDate: sap.ui.getCore().byId("assignedDateInput").getValue()
+                                        })
+                                    }
+                                );
+
+                                if (response.ok) {
+                                    MessageToast.show("Asset assigned successfully");
+                                    await this._loadAssets();
+                                    oDialog.close();
+                                } else {
+                                    const err = await response.text();
+                                    console.error("Backend Error:", err);
+                                    MessageBox.error("Failed to assign asset.");
+                                }
                             }
-                        }
-                    }),
-                    endButton: new Button({
-                        text: "Cancel",
-                        press: () => oDialog.close()
-                    })
-                });
-                oDialog.open();
+                        }),
+                        endButton: new Button({
+                            text: "Cancel",
+                            press: () => oDialog.close()
+                        }),
+                        afterClose: () => oDialog.destroy()
+                    });
+                    
+                    oDialog.open();
+
+                } catch (error) {
+                    console.error("Error loading employees:", error);
+                    MessageBox.error("Failed to load employees for assignment.");
+                }
             },
 
             onReturnAsset: function () {
@@ -1361,7 +1406,10 @@ sap.ui.define([
             },
 
             onDownloadPdf: async function () {
-                const doc = new jspdf.jsPDF();
+                // FIX: Access the library properly from the global window object
+                const jsPDF = window.jspdf.jsPDF;
+                const doc = new jsPDF();
+                
                 let y = 20;
 
                 doc.setFontSize(16);
@@ -1409,23 +1457,73 @@ sap.ui.define([
                     content: [
                         new VBox({
                             items: [
-                                new Label({ text: "Email Address" }),
-                                new Input({ id: "reportEmailInput" })
+                                new Label({ text: "Recipient Email Address" }),
+                                new Input({ id: "reportEmailInput", type: "Email", placeholder: "colleague@company.com" })
                             ]
                         })
                     ],
                     beginButton: new Button({
-                        text: "Send",
+                        text: "Open Email & Download",
                         type: "Emphasized",
-                        press: function () {
+                        press: () => {
                             const email = sap.ui.getCore().byId("reportEmailInput").getValue();
-                            if (!email) {
-                                this._showWarning("Enter an email address.");
+                            if (!email || !email.includes("@")) {
+                                this._showWarning("Please enter a valid email address.");
                                 return;
                             }
-                            MessageToast.show("Report shared successfully.");
+
+                            // 1. Generate and download the PDF
+                            const jsPDF = window.jspdf.jsPDF;
+                            const doc = new jsPDF();
+                            let y = 20;
+
+                            doc.setFontSize(16);
+                            doc.text("Asset Lifecycle Report", 10, y);
+                            y += 15;
+
+                            if (this.byId("assetReportTable").getVisible()) {
+                                const data = this.getView().getModel("assetReports").getData();
+                                data.forEach(asset => {
+                                    doc.setFontSize(10);
+                                    doc.text("Asset Tag: " + (asset.assetTag || ""), 10, y);
+                                    y += 7;
+                                    doc.text("Model: " + (asset.model || ""), 10, y);
+                                    y += 7;
+                                    doc.text("Status: " + (asset.status || ""), 10, y);
+                                    y += 12;
+                                });
+                            } else if (this.byId("requestReportTable").getVisible()) {
+                                const data = this.getView().getModel("requestReports").getData();
+                                data.forEach(req => {
+                                    doc.text("Employee: " + (req.employeeName || ""), 10, y);
+                                    y += 7;
+                                    doc.text("Category: " + (req.categoryName || ""), 10, y);
+                                    y += 7;
+                                    doc.text("Status: " + (req.status || ""), 10, y);
+                                    y += 12;
+                                });
+                            } else {
+                                const data = this.getView().getModel("employeeReports").getData();
+                                data.forEach(emp => {
+                                    doc.text("Employee: " + (emp.fullName || ""), 10, y);
+                                    y += 7;
+                                    doc.text("Role: " + (emp.role || ""), 10, y);
+                                    y += 12;
+                                });
+                            }
+
+                            // Save the file to the user's computer
+                            doc.save("Report.pdf");
+
+                            // 2. Open the user's default email client
+                            const subject = encodeURIComponent("Asset Lifecycle Report");
+                            const body = encodeURIComponent("Hi,\n\nPlease find the requested Asset Lifecycle Report attached.\n\nBest regards.");
+                            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+
+                            // 3. Close dialog and show toast
+                            MessageToast.show("PDF downloaded. Please attach it to the email.");
                             oDialog.close();
-                        }.bind(this)
+                        }
                     }),
                     endButton: new Button({
                         text: "Cancel",
@@ -1434,7 +1532,6 @@ sap.ui.define([
                 });
                 oDialog.open();
             },
-
             // ===== REQUEST SECTION =====
 
             _loadRequests: async function () {
