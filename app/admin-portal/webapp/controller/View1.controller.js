@@ -11,7 +11,8 @@ sap.ui.define([
     "sap/m/MessageToast",
     "sap/m/Select",
     "sap/ui/core/Item",
-    "sap/m/TextArea"
+    "sap/m/TextArea",
+    "sap/m/Text"
 ], function (
     Controller,
     JSONModel,
@@ -25,7 +26,8 @@ sap.ui.define([
     MessageToast,
     Select,
     Item,
-    TextArea
+    TextArea,
+    Text
 ) {
     "use strict";
 
@@ -36,6 +38,32 @@ sap.ui.define([
             onInit: function () {
                 this._loadDashboard();
                 this._loadDashboardCharts();
+            },
+
+            // ===== HELPER FOR MODERN WARNINGS =====
+            _showWarning: function (sMessage) {
+                if (!this._oWarnDialog) {
+                    this._oWarnDialog = new Dialog({
+                        title: "Action Required",
+                        icon: "sap-icon://warning",
+                        state: "Warning",
+                        content: new Text({ 
+                            text: sMessage 
+                        }).addStyleClass("sapUiSmallMargin sapUiMediumMarginTopBottom"),
+                        beginButton: new Button({
+                            text: "Understood",
+                            type: "Emphasized",
+                            press: function () {
+                                this._oWarnDialog.close();
+                            }.bind(this)
+                        }),
+                        afterClose: function () {
+                            this._oWarnDialog.destroy();
+                            this._oWarnDialog = null;
+                        }.bind(this)
+                    }).addStyleClass("sapUiContentPadding");
+                }
+                this._oWarnDialog.open();
             },
 
             // ===== DASHBOARD SECTION =====
@@ -215,7 +243,7 @@ sap.ui.define([
                 const oItem = oTable.getSelectedItem();
 
                 if (!oItem) {
-                    MessageBox.warning("Please select an asset first.");
+                    this._showWarning("Please select an asset first.");
                     return;
                 }
 
@@ -272,7 +300,7 @@ sap.ui.define([
                 const oItem = oTable.getSelectedItem();
 
                 if (!oItem) {
-                    MessageBox.warning("Please select an asset first.");
+                    this._showWarning("Please select an asset first.");
                     return;
                 }
 
@@ -328,7 +356,7 @@ sap.ui.define([
                 const oItem = oTable.getSelectedItem();
 
                 if (!oItem) {
-                    MessageBox.warning("Please select an asset first.");
+                    this._showWarning("Please select an asset first.");
                     return;
                 }
 
@@ -385,7 +413,7 @@ sap.ui.define([
                 const oItem = oTable.getSelectedItem();
 
                 if (!oItem) {
-                    MessageBox.warning("Please select an asset first.");
+                    this._showWarning("Please select an asset first.");
                     return;
                 }
 
@@ -433,13 +461,67 @@ sap.ui.define([
                 });
                 oDialog.open();
             },
+            onReturnFromMaintenance: function () {
+                const oTable = this.byId("assetTable");
+                const oItem = oTable.getSelectedItem();
 
+                if (!oItem) {
+                    this._showWarning("Please select an asset first.");
+                    return;
+                }
+
+                const asset = oItem.getBindingContext("assets").getObject();
+
+                const oDialog = new Dialog({
+                    title: "Return from Maintenance",
+                    contentWidth: "500px",
+                    content: [
+                        new VBox({
+                            items: [
+                                new Label({ text: "Asset: " + asset.assetTag }),
+                                new Label({ text: "Resolution Notes" }),
+                                new TextArea({ id: "maintenanceResolveInput", rows: 4 })
+                            ]
+                        })
+                    ],
+                    beginButton: new Button({
+                        text: "Return to Service",
+                        type: "Emphasized",
+                        press: async () => {
+                            // --- FIXED: Removed resolutionNotes so the backend doesn't reject it ---
+                            const response = await fetch(
+                                `/odata/v4/asset-admin/Assets(${asset.ID})/AssetAdminService.CompleteMaintenance`, 
+                                {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({}) // Send empty payload
+                                }
+                            );
+
+                            if (response.ok) {
+                                MessageToast.show("Maintenance completed successfully");
+                                await this._loadAssets();
+                                oDialog.close();
+                            } else {
+                                const errorText = await response.text();
+                                console.error("Backend Error:", errorText);
+                                MessageBox.error("Failed to complete maintenance");
+                            }
+                        }
+                    }),
+                    endButton: new Button({
+                        text: "Cancel",
+                        press: () => oDialog.close()
+                    })
+                });
+                oDialog.open();
+            },
             onRetireAsset: function () {
                 const oTable = this.byId("assetTable");
                 const oItem = oTable.getSelectedItem();
 
                 if (!oItem) {
-                    MessageBox.warning("Please select an asset first.");
+                    this._showWarning("Please select an asset first.");
                     return;
                 }
 
@@ -584,7 +666,7 @@ sap.ui.define([
                 const oItem = oTable.getSelectedItem();
 
                 if (!oItem) {
-                    MessageBox.warning("Please select an employee first.");
+                    this._showWarning("Please select an employee first.");
                     return;
                 }
 
@@ -656,7 +738,7 @@ sap.ui.define([
                 const oItem = oTable.getSelectedItem();
 
                 if (!oItem) {
-                    MessageBox.warning("Please select an employee first.");
+                    this._showWarning("Please select an employee first.");
                     return;
                 }
 
@@ -766,7 +848,7 @@ sap.ui.define([
                 const oItem = oTable.getSelectedItem();
 
                 if (!oItem) {
-                    MessageBox.warning("Please select a department first.");
+                    this._showWarning("Please select a department first.");
                     return;
                 }
 
@@ -823,7 +905,7 @@ sap.ui.define([
                 const oItem = oTable.getSelectedItem();
 
                 if (!oItem) {
-                    MessageBox.warning("Please select a department first.");
+                    this._showWarning("Please select a department first.");
                     return;
                 }
 
@@ -938,7 +1020,7 @@ sap.ui.define([
                 const oItem = oTable.getSelectedItem();
 
                 if (!oItem) {
-                    MessageBox.warning("Please select a vendor first.");
+                    this._showWarning("Please select a vendor first.");
                     return;
                 }
 
@@ -1002,7 +1084,7 @@ sap.ui.define([
                 const oItem = oTable.getSelectedItem();
 
                 if (!oItem) {
-                    MessageBox.warning("Please select a vendor first.");
+                    this._showWarning("Please select a vendor first.");
                     return;
                 }
 
@@ -1117,7 +1199,7 @@ sap.ui.define([
                 const oItem = oTable.getSelectedItem();
 
                 if (!oItem) {
-                    MessageBox.warning("Please select a category first.");
+                    this._showWarning("Please select a category first.");
                     return;
                 }
 
@@ -1180,7 +1262,7 @@ sap.ui.define([
                 const oItem = oTable.getSelectedItem();
 
                 if (!oItem) {
-                    MessageBox.warning("Please select a category first.");
+                    this._showWarning("Please select a category first.");
                     return;
                 }
 
@@ -1338,12 +1420,12 @@ sap.ui.define([
                         press: function () {
                             const email = sap.ui.getCore().byId("reportEmailInput").getValue();
                             if (!email) {
-                                MessageBox.warning("Enter an email address.");
+                                this._showWarning("Enter an email address.");
                                 return;
                             }
                             MessageToast.show("Report shared successfully.");
                             oDialog.close();
-                        }
+                        }.bind(this)
                     }),
                     endButton: new Button({
                         text: "Cancel",
@@ -1369,7 +1451,7 @@ sap.ui.define([
                 const oItem = oTable.getSelectedItem();
 
                 if (!oItem) {
-                    MessageBox.warning("Select a request first.");
+                    this._showWarning("Select a request first.");
                     return;
                 }
 
@@ -1393,7 +1475,7 @@ sap.ui.define([
                 const oItem = oTable.getSelectedItem();
 
                 if (!oItem) {
-                    MessageBox.warning("Select a request first.");
+                    this._showWarning("Select a request first.");
                     return;
                 }
 
@@ -1463,7 +1545,6 @@ sap.ui.define([
             },
 
             // ===== MENU NAVIGATION =====
-
             onMenuSelect: function (oEvent) {
                 const sTitle = oEvent.getParameter("listItem").getTitle();
 

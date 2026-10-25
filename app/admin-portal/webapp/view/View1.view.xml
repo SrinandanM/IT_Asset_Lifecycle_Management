@@ -5,1245 +5,386 @@
     xmlns:core="sap.ui.core"
     xmlns:viz="sap.viz.ui5.controls"
     xmlns:viz.data="sap.viz.ui5.data"
-    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    displayBlock="true"
+    height="100%">
 
-<Page
-    id="portalPage"
-    title="Enterprise Asset Lifecycle Management">
-
+    <Page
+        id="portalPage"
+        title="Enterprise Asset Lifecycle Management"
+        showNavButton="false"
+        enableScrolling="false">
+        
         <content>
-
-            <HBox
-                id="mainLayout"
-                width="100%">
+            <HBox id="mainLayout" width="100%" height="100%" alignItems="Stretch">
 
                 <!-- LEFT NAVIGATION -->
-
- <List
-    id="navigationMenu"
-    width="450px"
-    mode="SingleSelectMaster"
-    selectionChange=".onMenuSelect">
-
-    <StandardListItem
-        id="assetsItem"
-        title="Assets"
-        icon="sap-icon://laptop"
-        type="Active" />
-
-    <StandardListItem
-        id="requestsItem"
-        title="Asset Requests"
-        icon="sap-icon://workflow-tasks"
-        type="Active" />
-
-    <StandardListItem
-        id="employeesItem"
-        title="Employees"
-        icon="sap-icon://employee"
-        type="Active" />
-
-    <StandardListItem
-        id="departmentsItem"
-        title="Departments"
-        icon="sap-icon://building"
-        type="Active" />
-
-    <StandardListItem
-        id="vendorsItem"
-        title="Vendors"
-        icon="sap-icon://supplier"
-        type="Active" />
-
-    <StandardListItem
-        id="categoriesItem"
-        title="Categories"
-        icon="sap-icon://tag"
-        type="Active" />
-
-    <StandardListItem
-    id="reportsItem"
-    title="Reports"
-    icon="sap-icon://business-objects-experience"
-    type="Active" />
-
-    <StandardListItem
-    id="dashboardItem"
-    title="Dashboard"
-    icon="sap-icon://business-objects-experience"
-    type="Active" />
-
-</List>
+                <List
+                    id="navigationMenu"
+                    width="280px"
+                    mode="SingleSelectMaster"
+                    selectionChange=".onMenuSelect"
+                    includeItemInSelection="true">
+                    <StandardListItem id="dashboardItem" title="Dashboard" icon="sap-icon://home" type="Active" />
+                    <StandardListItem id="assetsItem" title="Assets" icon="sap-icon://laptop" type="Active" />
+                    <StandardListItem id="requestsItem" title="Asset Requests" icon="sap-icon://workflow-tasks" type="Active" />
+                    <StandardListItem id="employeesItem" title="Employees" icon="sap-icon://employee" type="Active" />
+                    <StandardListItem id="departmentsItem" title="Departments" icon="sap-icon://building" type="Active" />
+                    <StandardListItem id="vendorsItem" title="Vendors" icon="sap-icon://supplier" type="Active" />
+                    <StandardListItem id="categoriesItem" title="Categories" icon="sap-icon://tag" type="Active" />
+                    <StandardListItem id="reportsItem" title="Reports" icon="sap-icon://business-objects-experience" type="Active" />
+                </List>
 
                 <!-- RIGHT CONTENT -->
+                <VBox id="contentArea" width="100%" height="100%">
 
-                <VBox
-                    id="contentArea"
-                    width="100%"
-                    class="sapUiResponsiveContentPadding">
+                    <!-- DASHBOARD -->
+                    <VBox id="dashboardContainer" visible="true" class="dashboard-wrapper">
+                        <VBox id="headerBox" class="dashboardHeader">
+                            <Title id="dashboardTitle" text="Enterprise Asset Management Dashboard" level="H1" class="sectionTitle"/>
+                            <Text id="dashboardSubTitle" text="Real-Time Asset Lifecycle Monitoring" class="sectionSubtitle"/>
+                        </VBox>
 
-                    <!-- Dashboard Container - shown by default -->
-                    <VBox
-                        id="dashboardContainer"
-                        visible="true"
-                        class="sectionContainer">
-
-                            <!-- HEADER -->
-
-                            <VBox
-                                id="headerBox"
-                                class="dashboardHeader">
-
-                                <Title
-                                    id="dashboardTitle"
-                                    text="Enterprise Asset Management Dashboard"
-                                    level="H1"/>
-
-                                <Text
-                                    id="dashboardSubTitle"
-                                    text="Real-Time Asset Lifecycle Monitoring"/>
-
-                            </VBox>
-
-                            <!-- KPI SECTION -->
-
-                            <VBox
-                                id="dashboardVBox"
-                                class="sapUiMediumMargin">
-
-                                <Title
-                                    id="overviewTitle"
-                                    text="Asset Overview"
-                                    level="H2"/>
-
-                                <HBox
-                                    id="kpiHBox"
-                                    justifyContent="Center"
-                                    wrap="Wrap">
-
-                                    <GenericTile
-                                        id="tileTotal"
-                                        header="Total Assets">
-                                        <TileContent>
-                                            <NumericContent value="{dashboard>/totalAssets}" />
-                                        </TileContent>
-                                    </GenericTile>
-
-                                    <GenericTile
-                                        id="tileAvailable"
-                                        header="Available Assets">
-                                        <TileContent>
-                                            <NumericContent value="{dashboard>/availableAssets}" />
-                                        </TileContent>
-                                    </GenericTile>
-
-                                    <GenericTile
-                                        id="tileAssigned"
-                                        header="Assigned Assets">
-                                        <TileContent>
-                                            <NumericContent value="{dashboard>/assignedAssets}" />
-                                        </TileContent>
-                                    </GenericTile>
-
-                                    <GenericTile
-                                        id="tileMaintenance"
-                                        header="Maintenance Assets">
-                                        <TileContent>
-                                            <NumericContent value="{dashboard>/maintenanceAssets}" />
-                                        </TileContent>
-                                    </GenericTile>
-
-                                    <GenericTile
-                                        id="tileRetired"
-                                        header="Retired Assets">
-                                        <TileContent>
-                                            <NumericContent value="{dashboard>/retiredAssets}" />
-                                        </TileContent>
-                                    </GenericTile>
-
-                                    <GenericTile
-                                        id="tileArchived"
-                                        header="Archived Assets">
-                                        <TileContent>
-                                            <NumericContent value="{dashboard>/archivedAssets}" />
-                                        </TileContent>
-                                    </GenericTile>
-
-                                </HBox>
-
-                            </VBox>
-
-                            <!-- CHART ROW -->
-
-                            <HBox
-                                id="chartRow"
-                                justifyContent="SpaceAround"
-                                wrap="Wrap">
-
-                                <!-- STATUS CHART -->
-
-                                <VBox
-                                    id="statusBox"
-                                    width="48%">
-
-                                    <Title
-                                        id="statusTitle"
-                                        text="Assets By Status"
-                                        level="H2" />
-
-                                    <viz:VizFrame
-                                        id="statusChart"
-                                        vizType="donut"
-                                        width="100%"
-                                        height="400px">
-
-                                        <viz:dataset>
-
-                                            <viz.data:FlattenedDataset
-                                                id="statusDataset"
-                                                data="{dashboard>/statusChart}">
-
-                                                <viz.data:dimensions>
-
-                                                    <viz.data:DimensionDefinition
-                                                        id="statusDimension"
-                                                        name="Status"
-                                                        value="{dashboard>status}" />
-
-                                                </viz.data:dimensions>
-
-                                                <viz.data:measures>
-
-                                                    <viz.data:MeasureDefinition
-                                                        id="statusMeasure"
-                                                        name="Assets"
-                                                        value="{dashboard>assetCount}" />
-
-                                                </viz.data:measures>
-
-                                            </viz.data:FlattenedDataset>
-
-                                        </viz:dataset>
-
-                                        <viz:feeds>
-
-                                            <viz.feeds:FeedItem
-                                                id="statusSizeFeed"
-                                                uid="size"
-                                                type="Measure"
-                                                values="Assets" />
-
-                                            <viz.feeds:FeedItem
-                                                id="statusColorFeed"
-                                                uid="color"
-                                                type="Dimension"
-                                                values="Status" />
-
-                                        </viz:feeds>
-
-                                    </viz:VizFrame>
-
-                                </VBox>
-
-                                <!-- CATEGORY CHART -->
-
-                                <VBox
-                                    id="categoryBox"
-                                    width="48%">
-
-                                    <Title
-                                        id="categoryTitle"
-                                        text="Assets By Category"
-                                        level="H2" />
-
-                                    <viz:VizFrame
-                                        id="categoryChart"
-                                        vizType="column"
-                                        width="100%"
-                                        height="400px">
-
-                                        <viz:dataset>
-
-                                            <viz.data:FlattenedDataset
-                                                id="categoryDataset"
-                                                data="{dashboard>/categoryChart}">
-
-                                                <viz.data:dimensions>
-
-                                                    <viz.data:DimensionDefinition
-                                                        id="categoryDimension"
-                                                        name="Category"
-                                                        value="{dashboard>categoryName}" />
-
-                                                </viz.data:dimensions>
-
-                                                <viz.data:measures>
-
-                                                    <viz.data:MeasureDefinition
-                                                        id="categoryMeasure"
-                                                        name="Assets"
-                                                        value="{dashboard>assetCount}" />
-
-                                                </viz.data:measures>
-
-                                            </viz.data:FlattenedDataset>
-
-                                        </viz:dataset>
-
-                                        <viz:feeds>
-
-                                            <viz.feeds:FeedItem
-                                                id="categoryValueFeed"
-                                                uid="valueAxis"
-                                                type="Measure"
-                                                values="Assets" />
-
-                                            <viz.feeds:FeedItem
-                                                id="categoryDimensionFeed"
-                                                uid="categoryAxis"
-                                                type="Dimension"
-                                                values="Category" />
-
-                                        </viz:feeds>
-
-                                    </viz:VizFrame>
-
-                                </VBox>
-
+                        <VBox id="dashboardVBox">
+                            <HBox id="kpiHBox" wrap="Wrap" class="kpiGrid" justifyContent="Start">
+                                <GenericTile id="tileTotal" header="Total Assets" subheader="All registered assets" class="kpiCard">
+                                    <TileContent><NumericContent value="{dashboard>/totalAssets}" withMargin="false" icon="sap-icon://inventory" valueColor="Neutral" /></TileContent>
+                                </GenericTile>
+                                <GenericTile id="tileAvailable" header="Available" subheader="Ready to assign" class="kpiCard">
+                                    <TileContent><NumericContent value="{dashboard>/availableAssets}" withMargin="false" icon="sap-icon://accept" valueColor="Good" /></TileContent>
+                                </GenericTile>
+                                <GenericTile id="tileAssigned" header="Assigned" subheader="In use by employees" class="kpiCard">
+                                    <TileContent><NumericContent value="{dashboard>/assignedAssets}" withMargin="false" icon="sap-icon://employee" valueColor="Neutral" /></TileContent>
+                                </GenericTile>
+                                <GenericTile id="tileMaintenance" header="Maintenance" subheader="Currently repairing" class="kpiCard">
+                                    <TileContent><NumericContent value="{dashboard>/maintenanceAssets}" withMargin="false" icon="sap-icon://wrench" valueColor="Critical" /></TileContent>
+                                </GenericTile>
+                                <GenericTile id="tileRetired" header="Retired" subheader="End of life" class="kpiCard">
+                                    <TileContent><NumericContent value="{dashboard>/retiredAssets}" withMargin="false" icon="sap-icon://decline" valueColor="Error" /></TileContent>
+                                </GenericTile>
+                                <GenericTile id="tileArchived" header="Archived" subheader="Moved to history" class="kpiCard">
+                                    <TileContent><NumericContent value="{dashboard>/archivedAssets}" withMargin="false" icon="sap-icon://folder" valueColor="Neutral" /></TileContent>
+                                </GenericTile>
                             </HBox>
+                        </VBox>
 
-                            <!-- DEPARTMENT -->
-
-                            <VBox
-                                id="departmentBox"
-                                class="sapUiMediumMarginTop">
-
-                                <Title
-                                    id="departmentTitle"
-                                    text="Assets By Department"
-                                    level="H2" />
-
-                                <viz:VizFrame
-                                    id="departmentChart"
-                                    vizType="bar"
-                                    width="100%"
-                                    height="400px">
-
+                        <HBox id="chartRow" justifyContent="SpaceBetween" wrap="Wrap">
+                            <VBox id="statusBox" width="48%">
+                                <Title id="statusTitle" text="Assets By Status" level="H2" class="sectionTitle" />
+                                <viz:VizFrame id="statusChart" vizType="donut" width="100%" height="400px">
                                     <viz:dataset>
-
-                                        <viz.data:FlattenedDataset
-                                            id="departmentDataset"
-                                            data="{dashboard>/departmentChart}">
-
-                                            <viz.data:dimensions>
-
-                                                <viz.data:DimensionDefinition
-                                                    id="departmentDimension"
-                                                    name="Department"
-                                                    value="{dashboard>departmentName}" />
-
-                                            </viz.data:dimensions>
-
-                                            <viz.data:measures>
-
-                                                <viz.data:MeasureDefinition
-                                                    id="departmentMeasure"
-                                                    name="Assets"
-                                                    value="{dashboard>assetCount}" />
-
-                                            </viz.data:measures>
-
+                                        <viz.data:FlattenedDataset id="statusDataset" data="{dashboard>/statusChart}">
+                                            <viz.data:dimensions><viz.data:DimensionDefinition id="statusDimension" name="Status" value="{dashboard>status}" /></viz.data:dimensions>
+                                            <viz.data:measures><viz.data:MeasureDefinition id="statusMeasure" name="Assets" value="{dashboard>assetCount}" /></viz.data:measures>
                                         </viz.data:FlattenedDataset>
-
                                     </viz:dataset>
-
                                     <viz:feeds>
-
-                                        <viz.feeds:FeedItem
-                                            id="departmentValueFeed"
-                                            uid="valueAxis"
-                                            type="Measure"
-                                            values="Assets" />
-
-                                        <viz.feeds:FeedItem
-                                            id="departmentCategoryFeed"
-                                            uid="categoryAxis"
-                                            type="Dimension"
-                                            values="Department" />
-
+                                        <viz.feeds:FeedItem id="statusSizeFeed" uid="size" type="Measure" values="Assets" />
+                                        <viz.feeds:FeedItem id="statusColorFeed" uid="color" type="Dimension" values="Status" />
                                     </viz:feeds>
-
                                 </viz:VizFrame>
-
                             </VBox>
+                            <VBox id="categoryBox" width="48%">
+                                <Title id="categoryTitle" text="Assets By Category" level="H2" class="sectionTitle" />
+                                <viz:VizFrame id="categoryChart" vizType="column" width="100%" height="400px">
+                                    <viz:dataset>
+                                        <viz.data:FlattenedDataset id="categoryDataset" data="{dashboard>/categoryChart}">
+                                            <viz.data:dimensions><viz.data:DimensionDefinition id="categoryDimension" name="Category" value="{dashboard>categoryName}" /></viz.data:dimensions>
+                                            <viz.data:measures><viz.data:MeasureDefinition id="categoryMeasure" name="Assets" value="{dashboard>assetCount}" /></viz.data:measures>
+                                        </viz.data:FlattenedDataset>
+                                    </viz:dataset>
+                                    <viz:feeds>
+                                        <viz.feeds:FeedItem id="categoryValueFeed" uid="valueAxis" type="Measure" values="Assets" />
+                                        <viz.feeds:FeedItem id="categoryDimensionFeed" uid="categoryAxis" type="Dimension" values="Category" />
+                                    </viz:feeds>
+                                </viz:VizFrame>
+                            </VBox>
+                        </HBox>
 
+                        <VBox id="departmentBox" class="sapUiMediumMarginTop">
+                            <Title id="departmentTitle" text="Assets By Department" level="H2" class="sectionTitle" />
+                            <viz:VizFrame id="departmentChart" vizType="bar" width="100%" height="400px">
+                                <viz:dataset>
+                                    <viz.data:FlattenedDataset id="departmentDataset" data="{dashboard>/departmentChart}">
+                                        <viz.data:dimensions><viz.data:DimensionDefinition id="departmentDimension" name="Department" value="{dashboard>departmentName}" /></viz.data:dimensions>
+                                        <viz.data:measures><viz.data:MeasureDefinition id="departmentMeasure" name="Assets" value="{dashboard>assetCount}" /></viz.data:measures>
+                                    </viz.data:FlattenedDataset>
+                                </viz:dataset>
+                                <viz:feeds>
+                                    <viz.feeds:FeedItem id="departmentValueFeed" uid="valueAxis" type="Measure" values="Assets" />
+                                    <viz.feeds:FeedItem id="departmentCategoryFeed" uid="categoryAxis" type="Dimension" values="Department" />
+                                </viz:feeds>
+                            </viz:VizFrame>
                         </VBox>
-
-                        <!-- EMPLOYEES -->
-
-                        <VBox
-                            id="employeesContainer"
-                            visible="false">
-
-                            <Title
-                                id="employeesTitle"
-                                text="Employee Administration"
-                                level="H2"
-                                titleStyle="H2" />
-
-<Toolbar id="employeeToolbar">
-
-    <Button
-        id="createEmployeeBtn"
-        text="Create Employee"
-        type="Emphasized"
-        press=".onCreateEmployee" />
-
-   <Button
-    text="Edit Selected"
-    type="Attention"
-    icon="sap-icon://edit"
-    press=".onEditEmployee" />
-
-    <Button
-    text="Delete Selected"
-    type="Negative"
-    icon="sap-icon://delete"
-    press=".onDeleteEmployee" />
-
-    <ToolbarSpacer
-        id="employeeToolbarSpacer" />
-
-    <SearchField
-        id="employeeSearch"
-width="320px"
-        liveChange=".onEmployeeSearch"
-        placeholder="Search Employee" />
-
-</Toolbar>
-
-
-                            <Table
-                                id="employeeTable"
-                                mode="SingleSelectMaster"
-                                includeItemInSelection="true"
-                                items="{employees>/}">
-
-
-                                <columns>
-
-                                    <Column id="empCol1">
-                                        <Text
-                                            id="empHdr1"
-                                            text="Employee Number" />
-                                    </Column>
-
-                                    <Column id="empCol2">
-                                        <Text
-                                            id="empHdr2"
-                                            text="Full Name" />
-                                    </Column>
-
-                                    <Column id="empCol3">
-                                        <Text
-                                            id="empHdr3"
-                                            text="Email" />
-                                    </Column>
-
-                                    <Column id="empCol4">
-                                        <Text
-                                            id="empHdr4"
-                                            text="Role" />
-                                    </Column>
-
-                                    <Column id="empCol5">
-                                        <Text
-                                            id="empHdr5"
-                                            text="Status" />
-                                    </Column>
-
-                                </columns>
-
-                                <items>
-
-                                    <ColumnListItem id="empRowTemplate">
-
-                                        <cells>
-
-                                            <Text
-                                                id="empCell1"
-                                                text="{employees>employeeNumber}" />
-
-                                            <Text
-                                                id="empCell2"
-                                                text="{employees>fullName}" />
-
-                                            <Text
-                                                id="empCell3"
-                                                text="{employees>email}" />
-
-                                            <Text
-                                                id="empCell4"
-                                                text="{employees>role}" />
-
-                                            <Text
-                                                id="empCell5"
-                                                text="{employees>status}" />
-
-                                        </cells>
-
-                                    </ColumnListItem>
-
-                                </items>
-
-                            </Table>
-
-                        </VBox>
-
-                        <!-- DEPARTMENTS -->
-
-                        <VBox
-                            id="departmentsContainer"
-                            visible="false">
-
-                            <Title
-                                id="departmentsTitle"
-                                text="Department Management" />
-
-                                <Toolbar id="departmentToolbar">
-
-    <Button
-        id="createDepartmentBtn"
-        text="Create Department"
-        type="Emphasized"
-        press=".onCreateDepartment" />
-
-    <Button
-        id="editDepartmentBtn"
-        text="Edit Selected"
-        press=".onEditDepartment" />
-
-    <Button
-        id="deleteDepartmentBtn"
-        text="Delete Selected"
-        type="Negative"
-        press=".onDeleteDepartment" />
-
-    <ToolbarSpacer />
-
-    <SearchField
-        id="departmentSearch"
-width="320px"
-        liveChange=".onDepartmentSearch"
-        placeholder="Search Department" />
-
-</Toolbar>
-
-                            <Table
-                                id="departmentTable"
-                                mode="SingleSelectMaster"
-                                includeItemInSelection="true"
-                                items="{departments>/}">
-
-                                <columns>
-
-                                    <Column id="deptCol1">
-                                        <Text
-                                            id="deptHdr1"
-                                            text="Department" />
-                                    </Column>
-
-                                    <Column id="deptCol2">
-                                        <Text
-                                            id="deptHdr2"
-                                            text="Cost Center" />
-                                    </Column>
-
-                                    <Column id="deptCol3">
-                                        <Text
-                                            id="deptHdr3"
-                                            text="Active" />
-                                    </Column>
-
-                                </columns>
-
-                                <items>
-
-                                    <ColumnListItem id="deptRowTemplate">
-
-                                        <cells>
-
-                                            <Text
-                                                id="deptCell1"
-                                                text="{departments>departmentName}" />
-
-                                            <Text
-                                                id="deptCell2"
-                                                text="{departments>costCenter}" />
-
-                                            <Text
-                                                id="deptCell3"
-                                                text="{departments>isActive}" />
-
-                                        </cells>
-
-                                    </ColumnListItem>
-
-                                </items>
-
-                            </Table>
-
-                        </VBox>
-
-                        <!-- VENDORS -->
-
-                        <VBox
-                            id="vendorsContainer"
-                            visible="false">
-
-                            <Title
-                                id="vendorsTitle"
-                                text="Vendor Management" />
-
-                                <Toolbar id="vendorToolbar">
-
-    <Button
-        id="createVendorBtn"
-        text="Create Vendor"
-        type="Emphasized"
-        press=".onCreateVendor" />
-
-    <Button
-        id="editVendorBtn"
-        text="Edit Selected"
-        press=".onEditVendor" />
-
-    <Button
-        id="deleteVendorBtn"
-        text="Delete Selected"
-        type="Negative"
-        press=".onDeleteVendor" />
-
-    <ToolbarSpacer />
-
-    <SearchField
-        id="vendorSearch"
-width="320px"
-        liveChange=".onVendorSearch"
-        placeholder="Search Vendor" />
-
-</Toolbar>
-
-                            <Table
-                                id="vendorTable"
-                                mode="SingleSelectMaster"
-                                includeItemInSelection="true"
-                                items="{vendors>/}">
-
-
-                                <columns>
-
-                                    <Column id="vendorCol1">
-                                        <Text
-                                            id="vendorHdr1"
-                                            text="Vendor Name" />
-                                    </Column>
-
-                                    <Column id="vendorCol2">
-                                        <Text
-                                            id="vendorHdr2"
-                                            text="Email" />
-                                    </Column>
-
-                                    <Column id="vendorCol3">
-                                        <Text
-                                            id="vendorHdr3"
-                                            text="Phone" />
-                                    </Column>
-
-                                </columns>
-
-                                <items>
-
-                                    <ColumnListItem id="vendorRowTemplate">
-
-                                        <cells>
-
-                                            <Text
-                                                id="vendorCell1"
-                                                text="{vendors>vendorName}" />
-
-                                            <Text
-                                                id="vendorCell2"
-                                                text="{vendors>email}" />
-
-                                            <Text
-                                                id="vendorCell3"
-                                                text="{vendors>phone}" />
-
-                                        </cells>
-
-                                    </ColumnListItem>
-
-                                </items>
-
-                            </Table>
-
-                        </VBox>
-
-                        <!-- CATEGORIES -->
-
-                        <VBox
-                            id="categoriesContainer"
-                            visible="false">
-
-                            <Title
-                                id="categoriesTitle"
-                                text="Category Management" />
-
-                            <Toolbar id="categoryToolbar">
-
-    <Button
-        id="createCategoryBtn"
-        text="Create Category"
-        type="Emphasized"
-        press=".onCreateCategory" />
-
-    <Button
-        id="editCategoryBtn"
-        text="Edit Selected"
-        press=".onEditCategory" />
-
-    <Button
-        id="deleteCategoryBtn"
-        text="Delete Selected"
-        type="Negative"
-        press=".onDeleteCategory" />
-
-    <ToolbarSpacer />
-
-    <SearchField
-        id="categorySearch"
-width="320px"
-        liveChange=".onCategorySearch"
-        placeholder="Search Category" />
-
-</Toolbar>
-
-
-                            <Table
-                                id="categoryTable"
-                                mode="SingleSelectMaster"
-                                includeItemInSelection="true"
-                                items="{categories>/}">
-
-                                <columns>
-
-                                    <Column id="categoryCol1">
-                                        <Text
-                                            id="categoryHdr1"
-                                            text="Category Name" />
-                                    </Column>
-
-                                    <Column id="categoryCol2">
-                                        <Text
-                                            id="categoryHdr2"
-                                            text="Lifespan" />
-                                    </Column>
-
-                                    <Column id="categoryCol3">
-                                        <Text
-                                            id="categoryHdr3"
-                                            text="Active" />
-                                    </Column>
-
-                                </columns>
-
-                                <items>
-
-                                    <ColumnListItem id="categoryRowTemplate">
-
-                                        <cells>
-
-                                            <Text
-                                                id="categoryCell1"
-                                                text="{categories>categoryName}" />
-
-                                            <Text
-                                                id="categoryCell2"
-                                                text="{categories>lifespanMonths}" />
-
-                                            <Text
-                                                id="categoryCell3"
-                                                text="{categories>active}" />
-
-                                        </cells>
-
-                                    </ColumnListItem>
-
-                                </items>
-
-                            </Table>
-
-                        </VBox>
-
-                        <!-- REPORTS -->
-
-<VBox
-    id="reportsContainer"
-    visible="false">
-
-    <Title
-        id="reportsTitle"
-        text="Reports" />
-
-    <Toolbar
-        id="reportsToolbar">
-
-        <Button
-            id="assetReportBtn"
-            text="Asset Inventory Report"
-            icon="sap-icon://excel-attachment"
-            type="Emphasized"
-            press=".onAssetReport" />
-
-        <Button
-            id="requestReportBtn"
-            text="Asset Request Report"
-            icon="sap-icon://document"
-            press=".onRequestReport" />
-
-        <Button
-            id="employeeAssetReportBtn"
-            text="Employee Asset Report"
-            icon="sap-icon://employee"
-            press=".onEmployeeAssetReport" />
-
-        <Button
-            id="downloadPdfBtn"
-            text="Download PDF"
-            icon="sap-icon://pdf-attachment"
-            type="Emphasized"
-            press=".onDownloadPdf" />
-
-        <Button
-            id="sharePdfBtn"
-            text="Share PDF"
-            icon="sap-icon://share"
-            press=".onSharePdf" />
-
-    </Toolbar>
-
-    <!-- ASSET REPORT -->
-
-    <Table
-        id="assetReportTable"
-        visible="true"
-        growing="true"
-        sticky="ColumnHeaders"
-        items="{assetReports>/}">
-
-        <columns>
-
-            <Column id="assetReportCol1">
-                <Text id="assetReportHdr1" text="Asset Tag" />
-            </Column>
-
-            <Column id="assetReportCol2">
-                <Text id="assetReportHdr2" text="Model" />
-            </Column>
-
-            <Column id="assetReportCol3">
-                <Text id="assetReportHdr3" text="Status" />
-            </Column>
-
-            <Column id="assetReportCol4">
-                <Text id="assetReportHdr4" text="Current Holder" />
-            </Column>
-
-        </columns>
-
-        <items>
-
-            <ColumnListItem id="assetReportRow">
-
-                <cells>
-
-                    <Text
-                        id="assetReportCell1"
-                        text="{assetReports>assetTag}" />
-
-                    <Text
-                        id="assetReportCell2"
-                        text="{assetReports>model}" />
-
-                    <Text
-                        id="assetReportCell3"
-                        text="{assetReports>status}" />
-
-                    <Text
-                        id="assetReportCell4"
-                        text="{assetReports>currentHolderName}" />
-
-                </cells>
-
-            </ColumnListItem>
-
-        </items>
-
-    </Table>
-
-    <!-- REQUEST REPORT -->
-
-    <Table
-        id="requestReportTable"
-        visible="false"
-        growing="true"
-        sticky="ColumnHeaders"
-        items="{requestReports>/}">
-
-        <columns>
-
-            <Column id="requestReportCol1">
-                <Text id="requestReportHdr1" text="Employee" />
-            </Column>
-
-            <Column id="requestReportCol2">
-                <Text id="requestReportHdr2" text="Category" />
-            </Column>
-
-            <Column id="requestReportCol3">
-                <Text id="requestReportHdr3" text="Status" />
-            </Column>
-
-            <Column id="requestReportCol4">
-                <Text id="requestReportHdr4" text="Approval Date" />
-            </Column>
-
-            <Column id="requestReportCol5">
-                <Text id="requestReportHdr5" text="Remarks" />
-            </Column>
-
-        </columns>
-
-        <items>
-
-            <ColumnListItem id="requestReportRow">
-
-                <cells>
-
-                    <Text
-                        id="requestReportCell1"
-                        text="{requestReports>employeeName}" />
-
-                    <Text
-                        id="requestReportCell2"
-                        text="{requestReports>categoryName}" />
-
-                    <Text
-                        id="requestReportCell3"
-                        text="{requestReports>status}" />
-
-                    <Text
-                        id="requestReportCell4"
-                        text="{requestReports>approvalDate}" />
-
-                    <Text
-                        id="requestReportCell5"
-                        text="{requestReports>remarks}" />
-
-                </cells>
-
-            </ColumnListItem>
-
-        </items>
-
-    </Table>
-
-    <!-- EMPLOYEE REPORT -->
-
-    <Table
-        id="employeeReportTable"
-        visible="false"
-        growing="true"
-        sticky="ColumnHeaders"
-        items="{employeeReports>/}">
-
-        <columns>
-
-            <Column id="employeeReportCol1">
-                <Text id="employeeReportHdr1" text="Employee Number" />
-            </Column>
-
-            <Column id="employeeReportCol2">
-                <Text id="employeeReportHdr2" text="Employee Name" />
-            </Column>
-
-            <Column id="employeeReportCol3">
-                <Text id="employeeReportHdr3" text="Role" />
-            </Column>
-
-            <Column id="employeeReportCol4">
-                <Text id="employeeReportHdr4" text="Status" />
-            </Column>
-
-        </columns>
-
-        <items>
-
-            <ColumnListItem id="employeeReportRow">
-
-                <cells>
-
-                    <Text
-                        id="employeeReportCell1"
-                        text="{employeeReports>employeeNumber}" />
-
-                    <Text
-                        id="employeeReportCell2"
-                        text="{employeeReports>fullName}" />
-
-                    <Text
-                        id="employeeReportCell3"
-                        text="{employeeReports>role}" />
-
-                    <Text
-                        id="employeeReportCell4"
-                        text="{employeeReports>status}" />
-
-                </cells>
-
-            </ColumnListItem>
-
-        </items>
-
-    </Table>
-
-</VBox>
-
-
-                        <!-- REQUESTS -->
-
-<VBox
-    id="requestsContainer"
-    visible="false">
-
-    <Title
-        text="Asset Request Management" />
-
-    <Toolbar>
-
-        <Button
-            text="Approve"
-            type="Accept"
-            press=".onApproveRequest" />
-
-        <Button
-            text="Reject"
-            type="Negative"
-            press=".onRejectRequest" />
-
-        <Button
-            text="Refresh"
-            press=".onRefreshRequests" />
-
-        <ToolbarSpacer />
-
-        <SearchField
-    width="320px"
-                liveChange=".onRequestSearch"
-            placeholder="Search Request" />
-
-    </Toolbar>
-
-    <Table
-        id="requestTable"
-        mode="SingleSelectMaster"
-        includeItemInSelection="true"
-        items="{requests>/}">
-
-        <columns>
-
-            <Column>
-                <Text text="Employee" />
-            </Column>
-
-            <Column>
-                <Text text="Category" />
-            </Column>
-
-            <Column>
-                <Text text="Justification" />
-            </Column>
-
-            <Column>
-                <Text text="Status" />
-            </Column>
-
-            <Column>
-                <Text text="Approval Date" />
-            </Column>
-
-        </columns>
-
-        <items>
-
-            <ColumnListItem>
-
-                <cells>
-
-                    <Text text="{requests>employeeName}" />
-
-                    <Text text="{requests>categoryName}" />
-
-                    <Text text="{requests>justification}" />
-
-                    <ObjectStatus
-                        text="{requests>status}" />
-
-                    <Text text="{requests>approvalDate}" />
-
-                </cells>
-
-            </ColumnListItem>
-
-        </items>
-
-    </Table>
-
-</VBox>
-
-                        <!-- ASSETS -->
-
-                        <VBox
-                            id="assetsContainer"
-                            visible="false">
-
-                            <Title
-                                id="assetsTitle"
-                                text="Asset Management"
-                                level="H2" />
-
-                            <Toolbar id="assetToolbar">
-
-                                <Button
-                                    id="createAssetBtn"
-                                    text="Create Asset"
-                                    type="Emphasized"
-                                    press=".onCreateAsset" />
-
-                                <Button
-                                    id="assignAssetBtn"
-                                    text="Assign Asset"
-                                    type="Emphasized"
-                                    press=".onAssignAsset" />
-
-                                <Button
-                                    id="returnAssetBtn"
-                                    text="Return Asset"
-                                    type="Attention"
-                                    press=".onReturnAsset" />
-
-                                <Button
-                                    id="transferAssetBtn"
-                                    text="Transfer Asset"
-                                    type="Attention"
-                                    press=".onTransferAsset" />
-
-                                <Button
-                                    id="maintenanceAssetBtn"
-                                    text="Send for Maintenance"
-                                    type="Attention"
-                                    press=".onSendForMaintenance" />
-
-                                <Button
-                                    id="retireAssetBtn"
-                                    text="Retire Asset"
-                                    type="Negative"
-                                    press=".onRetireAsset" />
-
-                                <ToolbarSpacer />
-
-                                <SearchField
-                                    id="assetSearch"
-                                    width="320px"
-                                    liveChange=".onAssetSearch"
-                                    placeholder="Search Asset" />
-
-                            </Toolbar>
-
-                            <Table
-                                id="assetTable"
-                                mode="SingleSelectMaster"
-                                includeItemInSelection="true"
-                                items="{assets>/}">
-
-                                <columns>
-
-                                    <Column id="assetCol1">
-                                        <Text id="assetHdr1" text="Asset Tag" />
-                                    </Column>
-
-                                    <Column id="assetCol2">
-                                        <Text id="assetHdr2" text="Model" />
-                                    </Column>
-
-                                    <Column id="assetCol3">
-                                        <Text id="assetHdr3" text="Category" />
-                                    </Column>
-
-                                    <Column id="assetCol4">
-                                        <Text id="assetHdr4" text="Status" />
-                                    </Column>
-
-                                    <Column id="assetCol5">
-                                        <Text id="assetHdr5" text="Current Holder" />
-                                    </Column>
-
-                                    <Column id="assetCol6">
-                                        <Text id="assetHdr6" text="Purchase Date" />
-                                    </Column>
-
-                                </columns>
-
-                                <items>
-
-                                    <ColumnListItem id="assetRowTemplate">
-
-                                        <cells>
-
-                                            <Text id="assetCell1" text="{assets>assetTag}" />
-
-                                            <Text id="assetCell2" text="{assets>model}" />
-
-                                            <Text id="assetCell3" text="{assets>categoryName}" />
-
-                                            <ObjectStatus
-                                                id="assetCell4"
-                                                text="{assets>status}" />
-
-                                            <Text id="assetCell5" text="{assets>currentHolderName}" />
-
-                                            <Text id="assetCell6" text="{assets>purchaseDate}" />
-
-                                        </cells>
-
-                                    </ColumnListItem>
-
-                                </items>
-
-                            </Table>
-
-                        </VBox>
-
-                    </Panel>
+                    </VBox>
+
+                    <!-- ASSETS -->
+                    <VBox id="assetsContainer" visible="false" class="dashboard-wrapper">
+                        <Title id="assetsTitle" text="Asset Management" level="H2" class="sectionTitle" />
+                        <Text text="Create, assign, and track organizational assets" class="sectionSubtitle" />
+                        <OverflowToolbar class="actionBar">
+                            <Button id="createAssetBtn" text="Create Asset" icon="sap-icon://add" class="btn btn--primary" press=".onCreateAsset" />
+                            <Button id="assignAssetBtn" text="Assign Asset" icon="sap-icon://employee" class="btn btn--ghost" press=".onAssignAsset" />
+                            <Button id="returnAssetBtn" text="Return Asset" icon="sap-icon://undo" class="btn btn--ghost" press=".onReturnAsset" />
+                            <Button id="transferAssetBtn" text="Transfer Asset" icon="sap-icon://shuffle" class="btn btn--ghost" press=".onTransferAsset" />
+                            
+                            <!-- THE MAINTENANCE BUTTONS -->
+                            <Button id="maintenanceAssetBtn" text="Send for Maintenance" icon="sap-icon://wrench" class="btn btn--ghost" press=".onSendForMaintenance" />
+                            <Button id="returnMaintenanceBtn" text="Return from Maint." icon="sap-icon://accept" class="btn btn--ghost" press=".onReturnFromMaintenance" />
+                            
+                            <Button id="retireAssetBtn" text="Retire Asset" icon="sap-icon://delete" class="btn btn--danger" press=".onRetireAsset" />
+                            <ToolbarSpacer />
+                            <SearchField id="assetSearch" width="250px" liveChange=".onAssetSearch" placeholder="Search Asset" class="searchField" />
+                        </OverflowToolbar>
+                        <Table id="assetTable" mode="SingleSelectMaster" includeItemInSelection="true" items="{assets>/}" class="enhancedTable">
+                            <columns>
+                                <Column><Text text="Asset Tag" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Model" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Category" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Status" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Current Holder" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Purchase Date" class="tableColumnHeader" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem type="Active">
+                                    <cells>
+                                        <Text text="{assets>assetTag}" class="tableCellBold" />
+                                        <Text text="{assets>model}" class="tableCell" />
+                                        <Text text="{assets>categoryName}" class="tableCell" />
+                                        <ObjectStatus text="{assets>status}" state="{= ${assets>status} === 'ASSIGNED' ? 'Success' : ${assets>status} === 'MAINTENANCE' ? 'Warning' : ${assets>status} === 'AVAILABLE' ? 'Information' : 'Error' }" class="statusBadge" />
+                                        <Text text="{assets>currentHolderName}" class="tableCell" />
+                                        <Text text="{assets>purchaseDate}" class="tableCell" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </VBox>
+
+                    <!-- REQUESTS -->
+                    <VBox id="requestsContainer" visible="false" class="dashboard-wrapper">
+                        <Title text="Asset Request Management" level="H2" class="sectionTitle" />
+                        <Text text="Review, approve, or reject employee asset requests" class="sectionSubtitle" />
+                        <OverflowToolbar class="actionBar">
+                            <Button text="Approve" icon="sap-icon://accept" class="btn btn--primary" press=".onApproveRequest" />
+                            <Button text="Reject" icon="sap-icon://decline" class="btn btn--danger" press=".onRejectRequest" />
+                            <Button text="Refresh" icon="sap-icon://refresh" class="btn btn--ghost" press=".onRefreshRequests" />
+                            <ToolbarSpacer />
+                            <SearchField width="250px" liveChange=".onRequestSearch" placeholder="Search Request" class="searchField" />
+                        </OverflowToolbar>
+                        <Table id="requestTable" mode="SingleSelectMaster" includeItemInSelection="true" items="{requests>/}" class="enhancedTable">
+                            <columns>
+                                <Column><Text text="Employee" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Category" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Justification" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Status" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Approval Date" class="tableColumnHeader" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem type="Active">
+                                    <cells>
+                                        <Text text="{requests>employeeName}" class="tableCellBold" />
+                                        <Text text="{requests>categoryName}" class="tableCell" />
+                                        <Text text="{requests>justification}" class="tableCell" />
+                                        <ObjectStatus text="{requests>status}" state="{= ${requests>status} === 'APPROVED' ? 'Success' : ${requests>status} === 'REJECTED' ? 'Error' : 'Warning' }" class="statusBadge" />
+                                        <Text text="{requests>approvalDate}" class="tableCell" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </VBox>
+
+                    <!-- EMPLOYEES -->
+                    <VBox id="employeesContainer" visible="false" class="dashboard-wrapper">
+                        <Title id="employeesTitle" text="Employee Administration" level="H2" class="sectionTitle" />
+                        <Text text="Manage employee records and system access" class="sectionSubtitle" />
+                        <OverflowToolbar class="actionBar">
+                            <Button id="createEmployeeBtn" text="Create Employee" icon="sap-icon://add" class="btn btn--primary" press=".onCreateEmployee" />
+                            <Button text="Edit Selected" icon="sap-icon://edit" class="btn btn--ghost" press=".onEditEmployee" />
+                            <Button text="Delete Selected" icon="sap-icon://delete" class="btn btn--danger" press=".onDeleteEmployee" />
+                            <ToolbarSpacer />
+                            <SearchField id="employeeSearch" width="250px" liveChange=".onEmployeeSearch" placeholder="Search Employee" class="searchField" />
+                        </OverflowToolbar>
+                        <Table id="employeeTable" mode="SingleSelectMaster" includeItemInSelection="true" items="{employees>/}" class="enhancedTable">
+                            <columns>
+                                <Column><Text text="Employee Number" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Full Name" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Email" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Role" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Status" class="tableColumnHeader" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem type="Active">
+                                    <cells>
+                                        <Text text="{employees>employeeNumber}" class="tableCellBold" />
+                                        <Text text="{employees>fullName}" class="tableCell" />
+                                        <Text text="{employees>email}" class="tableCell" />
+                                        <Text text="{employees>role}" class="tableCell" />
+                                        <Text text="{employees>status}" class="tableCell" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </VBox>
+
+                    <!-- DEPARTMENTS -->
+                    <VBox id="departmentsContainer" visible="false" class="dashboard-wrapper">
+                        <Title id="departmentsTitle" text="Department Management" level="H2" class="sectionTitle" />
+                        <Text text="Manage organizational departments and cost centers" class="sectionSubtitle" />
+                        <OverflowToolbar class="actionBar">
+                            <Button id="createDepartmentBtn" text="Create Department" icon="sap-icon://add" class="btn btn--primary" press=".onCreateDepartment" />
+                            <Button id="editDepartmentBtn" text="Edit Selected" icon="sap-icon://edit" class="btn btn--ghost" press=".onEditDepartment" />
+                            <Button id="deleteDepartmentBtn" text="Delete Selected" icon="sap-icon://delete" class="btn btn--danger" press=".onDeleteDepartment" />
+                            <ToolbarSpacer />
+                            <SearchField id="departmentSearch" width="250px" liveChange=".onDepartmentSearch" placeholder="Search Department" class="searchField" />
+                        </OverflowToolbar>
+                        <Table id="departmentTable" mode="SingleSelectMaster" includeItemInSelection="true" items="{departments>/}" class="enhancedTable">
+                            <columns>
+                                <Column><Text text="Department" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Cost Center" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Active" class="tableColumnHeader" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem type="Active">
+                                    <cells>
+                                        <Text text="{departments>departmentName}" class="tableCellBold" />
+                                        <Text text="{departments>costCenter}" class="tableCell" />
+                                        <Text text="{departments>isActive}" class="tableCell" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </VBox>
+
+                    <!-- VENDORS -->
+                    <VBox id="vendorsContainer" visible="false" class="dashboard-wrapper">
+                        <Title id="vendorsTitle" text="Vendor Management" level="H2" class="sectionTitle" />
+                        <Text text="Maintain vendor directory and contact information" class="sectionSubtitle" />
+                        <OverflowToolbar class="actionBar">
+                            <Button id="createVendorBtn" text="Create Vendor" icon="sap-icon://add" class="btn btn--primary" press=".onCreateVendor" />
+                            <Button id="editVendorBtn" text="Edit Selected" icon="sap-icon://edit" class="btn btn--ghost" press=".onEditVendor" />
+                            <Button id="deleteVendorBtn" text="Delete Selected" icon="sap-icon://delete" class="btn btn--danger" press=".onDeleteVendor" />
+                            <ToolbarSpacer />
+                            <SearchField id="vendorSearch" width="250px" liveChange=".onVendorSearch" placeholder="Search Vendor" class="searchField" />
+                        </OverflowToolbar>
+                        <Table id="vendorTable" mode="SingleSelectMaster" includeItemInSelection="true" items="{vendors>/}" class="enhancedTable">
+                            <columns>
+                                <Column><Text text="Vendor Name" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Email" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Phone" class="tableColumnHeader" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem type="Active">
+                                    <cells>
+                                        <Text text="{vendors>vendorName}" class="tableCellBold" />
+                                        <Text text="{vendors>email}" class="tableCell" />
+                                        <Text text="{vendors>phone}" class="tableCell" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </VBox>
+
+                    <!-- CATEGORIES -->
+                    <VBox id="categoriesContainer" visible="false" class="dashboard-wrapper">
+                        <Title id="categoriesTitle" text="Category Management" level="H2" class="sectionTitle" />
+                        <Text text="Define asset categories and their expected lifespan" class="sectionSubtitle" />
+                        <OverflowToolbar class="actionBar">
+                            <Button id="createCategoryBtn" text="Create Category" icon="sap-icon://add" class="btn btn--primary" press=".onCreateCategory" />
+                            <Button id="editCategoryBtn" text="Edit Selected" icon="sap-icon://edit" class="btn btn--ghost" press=".onEditCategory" />
+                            <Button id="deleteCategoryBtn" text="Delete Selected" icon="sap-icon://delete" class="btn btn--danger" press=".onDeleteCategory" />
+                            <ToolbarSpacer />
+                            <SearchField id="categorySearch" width="250px" liveChange=".onCategorySearch" placeholder="Search Category" class="searchField" />
+                        </OverflowToolbar>
+                        <Table id="categoryTable" mode="SingleSelectMaster" includeItemInSelection="true" items="{categories>/}" class="enhancedTable">
+                            <columns>
+                                <Column><Text text="Category Name" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Lifespan (Months)" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Active" class="tableColumnHeader" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem type="Active">
+                                    <cells>
+                                        <Text text="{categories>categoryName}" class="tableCellBold" />
+                                        <Text text="{categories>lifespanMonths}" class="tableCell" />
+                                        <Text text="{categories>active}" class="tableCell" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </VBox>
+
+                    <!-- REPORTS -->
+                    <VBox id="reportsContainer" visible="false" class="dashboard-wrapper">
+                        <Title id="reportsTitle" text="Reports &amp; Analytics" level="H2" class="sectionTitle" />
+                        <Text text="Generate and export system-wide data reports" class="sectionSubtitle" />
+                        <OverflowToolbar class="actionBar">
+                            <Button id="assetReportBtn" text="Asset Inventory" icon="sap-icon://excel-attachment" class="btn btn--primary" press=".onAssetReport" />
+                            <Button id="requestReportBtn" text="Asset Requests" icon="sap-icon://document" class="btn btn--ghost" press=".onRequestReport" />
+                            <Button id="employeeAssetReportBtn" text="Employee Assets" icon="sap-icon://employee" class="btn btn--ghost" press=".onEmployeeAssetReport" />
+                            <ToolbarSpacer />
+                            <Button id="downloadPdfBtn" text="Export PDF" icon="sap-icon://pdf-attachment" class="btn btn--primary" press=".onDownloadPdf" />
+                            <Button id="sharePdfBtn" text="Share Report" icon="sap-icon://share" class="btn btn--ghost" press=".onSharePdf" />
+                        </OverflowToolbar>
+                        <Table id="assetReportTable" visible="true" growing="true" sticky="ColumnHeaders" items="{assetReports>/}" class="enhancedTable">
+                            <columns>
+                                <Column><Text text="Asset Tag" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Model" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Status" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Current Holder" class="tableColumnHeader" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{assetReports>assetTag}" class="tableCellBold" />
+                                        <Text text="{assetReports>model}" class="tableCell" />
+                                        <ObjectStatus text="{assetReports>status}" class="statusBadge" />
+                                        <Text text="{assetReports>currentHolderName}" class="tableCell" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                        <Table id="requestReportTable" visible="false" growing="true" sticky="ColumnHeaders" items="{requestReports>/}" class="enhancedTable">
+                            <columns>
+                                <Column><Text text="Employee" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Category" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Status" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Approval Date" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Remarks" class="tableColumnHeader" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{requestReports>employeeName}" class="tableCell" />
+                                        <Text text="{requestReports>categoryName}" class="tableCell" />
+                                        <ObjectStatus text="{requestReports>status}" class="statusBadge" />
+                                        <Text text="{requestReports>approvalDate}" class="tableCell" />
+                                        <Text text="{requestReports>remarks}" class="tableCell" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                        <Table id="employeeReportTable" visible="false" growing="true" sticky="ColumnHeaders" items="{employeeReports>/}" class="enhancedTable">
+                            <columns>
+                                <Column><Text text="Employee Number" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Employee Name" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Role" class="tableColumnHeader" /></Column>
+                                <Column><Text text="Status" class="tableColumnHeader" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{employeeReports>employeeNumber}" class="tableCellBold" />
+                                        <Text text="{employeeReports>fullName}" class="tableCell" />
+                                        <Text text="{employeeReports>role}" class="tableCell" />
+                                        <Text text="{employeeReports>status}" class="tableCell" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </VBox>
 
                 </VBox>
-
             </HBox>
-
         </content>
-
     </Page>
-
 </mvc:View>
