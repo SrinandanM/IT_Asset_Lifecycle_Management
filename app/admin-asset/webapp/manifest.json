@@ -52,6 +52,18 @@
         "sap.fe.templates": {}
       }
     },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ObjectPage.ObjectPage": {
+            "controllerName": "adminasset.ext.controller.AssetListExtensions"
+          },
+          "sap.fe.templates.ListReport.ListReport": {
+            "controllerName": "adminasset.ext.controller.ReportExtensions"
+          }
+        }
+      }
+    },
     "contentDensities": {
       "compact": true,
       "cozy": true

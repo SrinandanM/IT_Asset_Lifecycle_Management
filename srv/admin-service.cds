@@ -84,4 +84,23 @@ entity DepartmentAssetChart  as projection on db.DepartmentAssetChart;
 entity AssetKPIs             as projection on db.AssetKPIs;
 
 action RefreshDashboard();
+
+    /* =========================================
+       REPORTS & PDF
+       ========================================= */
+
+type DownloadReportResult {
+    content: String;
+    filename: String;
+    type: String;
+};
+
+type ShareReportResult {
+    success: Boolean;
+    message: String;
+    timestamp: String;
+};
+
+action DownloadReport(reportType: String) returns DownloadReportResult;
+action ShareReport(email: String, reportType: String) returns ShareReportResult;
 }
