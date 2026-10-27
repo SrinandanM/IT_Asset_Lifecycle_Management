@@ -25,7 +25,7 @@
 #contentArea { height: 100% !important; overflow-y: auto !important; background-color: var(--bg) !important; }
 
 .dashboard-wrapper {
-    padding: 32px 40px !important;
+    padding: 48px 40px 32px 40px !important;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -42,27 +42,37 @@
 #navigationMenu .sapMListUl {
     background-color: var(--navy) !important;
 }
+
 #navigationMenu .sapMLIB {
     background-color: var(--navy) !important;
     border-left: 4px solid transparent !important;
     border-bottom: 1px solid var(--navy-hover) !important;
-    height: 60px !important;
+    min-height: 72px !important;
 }
+
 #navigationMenu .sapMLIB:hover {
     background-color: var(--navy-hover) !important;
     border-left-color: var(--primary) !important;
 }
 #navigationMenu .sapMLIB.sapMLIBSelected {
-    background-color: var(--navy-hover) !important;
-    border-left-color: var(--primary) !important;
+    background-color: #1E293B !important;
+    border-left: 5px solid #0A6ED1 !important;
 }
-#navigationMenu .sapMSLITitle, 
+#navigationMenu .sapMSLITitle,
 #navigationMenu .sapMText,
 #navigationMenu .sapMLIBContent .sapUiIcon {
     color: #FFFFFF !important;
-    font-weight: 500 !important;
-    font-size: 15px !important;
+    font-weight: 600 !important;
+    font-size: 17px !important;
 }
+
+#navigationMenu .sapMSLIIcon {
+    font-size: 18px !important;
+    margin-right: 12px !important;
+}
+
+
+
 #navigationMenu .sapMSLIIcon {
     color: #94A3B8 !important;
 }
@@ -97,18 +107,54 @@
 }
 .kpiCard {
     flex: 1 1 calc(33.333% - 24px) !important;
-    min-width: 250px !important;
-    background: var(--card) !important;
+
+    min-width: 320px !important;
+    min-height: 240px !important;
+
+    background: #FFFFFF !important;
     border-radius: 12px !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
     border: 1px solid var(--border) !important;
-    transition: transform 0.2s !important;
-    padding: 8px !important;
+
+    padding: 28px !important;
+
+    border-top: 5px solid #0A6ED1 !important;
 }
-.kpiCard:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1) !important;
+
+#tileAvailable {
+    border-top: 5px solid #16A34A !important;
 }
+
+#tileAssigned {
+    border-top: 5px solid #0A6ED1 !important;
+}
+
+#tileMaintenance {
+    border-top: 5px solid #F59E0B !important;
+}
+
+#tileRetired {
+    border-top: 5px solid #DC2626 !important;
+}
+
+#tileArchived {
+    border-top: 5px solid #64748B !important;
+}
+.kpiCard .sapMNCValue {
+    font-size: 52px !important;
+    font-weight: 800 !important;
+}
+
+.kpiCard .sapMGTHdrTxt {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+}
+
+.kpiCard .sapMGTSubHdrTxt {
+    font-size: 13px !important;
+    color: #64748B !important;
+}
+
 .kpiCard .sapMGT,
 .kpiCard .sapMGTHdr,
 .kpiCard .sapMGTContent {
@@ -124,11 +170,18 @@
     background: var(--card) !important;
     border-radius: 8px !important;
     border: 1px solid #CBD5E1 !important;
+
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05) !important;
-    padding: 28px 32px !important; 
-    margin-bottom: 40px !important; 
+
+    padding: 20px 24px !important;
+
+    min-height: 72px !important;
+
+    margin-bottom: 40px !important;
+
     display: flex !important;
-    align-items: center !important; 
+    align-items: center !important;
+
     gap: 16px !important;
 }
 
@@ -205,6 +258,10 @@
     padding: 12px 16px !important; 
     vertical-align: middle !important; 
 }
+.kpiCard:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0,0,0,.12) !important;
+}
 
 /* --- ENLARGED FONTS --- */
 
@@ -273,44 +330,14 @@
    INCREASE ACTION BAR HEIGHT (Top & Bottom Space)
    ========================================= */
 
-.actionBar {
-    /* 40px top/bottom padding, 32px left/right */
-    padding: 40px 32px !important; 
-    
-    /* Keeps buttons vertically centered in the new taller space */
-    align-items: center !important; 
-    
-    /* Adds even more space below the toolbar before the table */
-    margin-bottom: 48px !important; 
-}
+
 /* =========================================
    PERFECT BUTTON TEXT CENTERING
    ========================================= */
 
 /* Target the inner wrapper of the button */
-.btn .sapMBtnInner {
-    display: flex !important;
-    align-items: center !important;     /* Centers vertically */
-    justify-content: center !important; /* Centers horizontally */
-    text-align: center !important;
-}
 
-/* Ensure the text content itself doesn't have extra margins pushing it off-center */
-.btn .sapMBtnContent {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    line-height: normal !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
 
-/* Ensure icons align perfectly with the text if both are present */
-.btn .sapMBtnIcon {
-    margin-right: 8px !important; /* Space between icon and text */
-    display: flex !important;
-    align-items: center !important;
-}
 /* =========================================
    PREMIUM BLUE HEADER BANNER
    ========================================= */
@@ -337,4 +364,28 @@
     color: rgba(255, 255, 255, 0.85) !important;
     font-size: 15px !important;
     margin-bottom: 0 !important;
+}
+
+.sidebarContainer{
+    width:320px !important;
+    min-width:320px !important;
+    background:#0F172A !important;
+    height:100vh !important;
+}
+
+.sidebarBranding{
+    background:linear-gradient(135deg,#0A6ED1,#0854A8) !important;
+    padding:32px 24px !important;
+}
+
+
+.sidebarLogo{
+    color:#FFFFFF !important;
+    font-size:32px !important;
+    font-weight:800 !important;
+}
+
+.sidebarSubtitle{
+    color:rgba(255,255,255,.85) !important;
+    font-size:14px !important;
 }

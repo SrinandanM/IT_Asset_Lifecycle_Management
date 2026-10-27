@@ -17,8 +17,24 @@
             <HBox id="mainLayout" width="100%" height="100%" alignItems="Stretch" class="mainLayout">
 
                 <!-- NAVIGATION SIDEBAR -->
-                <List
-                    id="navigationMenu"
+              <VBox
+    id="sidebarContainer"
+    class="sidebarContainer">
+
+    <VBox class="sidebarBranding">
+
+        <Title
+            text="EALM"
+            class="sidebarLogo"/>
+
+        <Text
+            text="Employee Portal"
+            class="sidebarSubtitle"/>
+
+    </VBox>
+
+    <List
+        id="navigationMenu"
                     width="18rem"
                     mode="SingleSelectMaster"
                     selectionChange=".onMenuSelect"
@@ -26,20 +42,17 @@
                     class="navigationMenu"
                     ariaLabelledBy="employeePage">
 
-                    <StandardListItem id="dashboardItem" title="{i18n>navDashboard}" icon="sap-icon://home" type="Active" />
                     <StandardListItem id="assetsItem" title="{i18n>navAssets}" icon="sap-icon://laptop" type="Active" />
                     <StandardListItem id="requestsItem" title="{i18n>navRequests}" icon="sap-icon://workflow-tasks" type="Active" />
                     <StandardListItem id="profileItem" title="{i18n>navProfile}" icon="sap-icon://employee" type="Active" />
                 </List>
+                </VBox>
 
                 <!-- MAIN CONTENT AREA -->
                 <VBox id="contentArea" width="100%" height="100%" class="contentArea">
 
                     <!-- Page Header -->
-                    <VBox class="contentHeader">
-                        <Title id="contentTitle" text="{view>/contentTitle}" level="H1" class="contentMainTitle" />
-                        <Text id="contentText" text="{view>/contentSubtitle}" class="contentSubtitle" />
-                    </VBox>
+
 
                     <!-- IconTabBar with hidden header handles the switching perfectly -->
                     <IconTabBar id="mainTabBar" headerMode="Hidden" expanded="true" class="contentPanelApp">
@@ -87,14 +100,6 @@
                                         </HBox>
 
                                         <HBox wrap="Wrap" class="kpiRow">
-                                            <VBox class="kpiBox">
-                                                <Text text="{i18n>kpiReadyToAssign}" class="kpiBoxLabel" />
-                                                <Text text="{i18n>kpiApprovedRequests}" class="kpiBoxSublabel" />
-                                                <HBox alignItems="Center" class="kpiBoxValueRow">
-                                                    <core:Icon src="sap-icon://accept" class="kpiBoxIcon iconPurple" />
-                                                    <Text text="{dashboard>/myApprovedRequests/readyToAssign}" class="kpiBoxValue" />
-                                                </HBox>
-                                            </VBox>
                                             <VBox class="kpiBox">
                                                 <Text text="{i18n>kpiAssignedAssets}" class="kpiBoxLabel" />
                                                 <Text text="{i18n>kpiTotalAssigned}" class="kpiBoxSublabel" />

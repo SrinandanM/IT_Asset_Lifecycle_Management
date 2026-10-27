@@ -47,10 +47,10 @@
    SIDEBAR NAVIGATION (Bigger & Wider)
    ========================================= */
 .sidebarNav {
-  background-color: var(--bg-card) !important;
-  border-right: 1px solid var(--color-gray-200) !important;
-  width: 300px !important; /* Increased width from 280px */
-  padding: var(--space-l) 0 !important; /* More padding at the top/bottom */
+  background-color: #0F172A !important;
+  border-right: none !important;
+  width: 300px !important;
+  padding: var(--space-l) 0 !important;
 }
 
 .sidebarNav .sapMSLI { 
@@ -64,16 +64,31 @@
   border-left: 6px solid var(--color-primary) !important; /* Thicker selected border */
 }
 
-.sidebarNav .sapMSLIIcon { 
-  color: var(--color-primary) !important; 
-  font-size: 26px !important; /* Bigger icons (was 22px) */
-  margin-right: var(--space-l) !important; /* More space between icon and text */
+.sidebarNav .sapMSLIIcon {
+  color: #60A5FA !important;
+  font-size: 24px !important;
+  margin-right: var(--space-l) !important;
+}
+.sidebarNav .sapMSLISelected {
+  background-color: #1E293B !important;
+  border-left: 5px solid #0A6ED1 !important;
 }
 
-.sidebarNav .sapMSLITitle { 
-  font-size: 18px !important; /* Bigger text (was 15px) */
-  font-weight: 600 !important; 
-  color: var(--color-secondary) !important; 
+.sidebarNav .sapMSLISelected .sapMSLITitle {
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+.sidebarNav .sapMSLISelected .sapMSLIIcon {
+  color: #60A5FA !important;
+}
+
+
+
+.sidebarNav .sapMSLITitle {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
 }
 /* HEADINGS */
 .mainContentTitle.sapMTitle { font-size: 28px !important; font-weight: 700 !important; margin: var(--space-l) var(--space-l) var(--space-xs) var(--space-l) !important; }
@@ -114,25 +129,54 @@
     margin-top: 24px !important;
     margin-bottom: 40px !important;
 }
-
 .customKpiCard {
     background-color: #FFFFFF !important;
+
+    width: 320px !important;
+    height: 220px !important;
+
+    border-radius: 12px !important;
     border: 1px solid #E2E8F0 !important;
-    border-radius: 10px !important;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
-    padding: 24px !important; 
-    
-    /* ADJUSTED SIZES HERE */
-    width: 270px !important;   /* Wider (was 250px) */
-    height: 170px !important;  /* Taller top-to-bottom (was 150px) */
-    
-    transition: all 0.2s ease-in-out !important;
+    border-top: 5px solid #0A6ED1 !important;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+
+    padding: 24px !important;
+
+    transition: all 0.25s ease-in-out !important;
+
     cursor: pointer !important;
+
     box-sizing: border-box !important;
+
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
 }
+.customKpiCard:nth-child(1){
+    border-top:5px solid #0A6ED1 !important;
+}
+
+.customKpiCard:nth-child(2){
+    border-top:5px solid #F59E0B !important;
+}
+
+.customKpiCard:nth-child(3){
+    border-top:5px solid #16A34A !important;
+}
+
+.customKpiCard:nth-child(4){
+    border-top:5px solid #DC2626 !important;
+}
+
+.customKpiCard:nth-child(5){
+    border-top:5px solid #2563EB !important;
+}
+
+.customKpiCard:nth-child(6){
+    border-top:5px solid #64748B !important;
+}
+
 
 .customKpiCard:hover {
     box-shadow: 0 6px 16px rgba(0,0,0,0.1) !important;
@@ -142,11 +186,11 @@
 
 .kpi-title {
     font-family: var(--font-family) !important;
-    font-size: 16px !important; 
+    font-size: 18px !important;
     font-weight: 700 !important;
     color: #1E293B !important;
-    line-height: 1.2 !important;
-    margin-bottom: 6px !important;
+    line-height: 1.3 !important;
+    margin-bottom: 8px !important;
 }
 
 .kpi-subtitle {
@@ -167,18 +211,21 @@
 }
 
 .kpi-icon {
-    font-size: 30px !important; 
+    font-size: 36px !important;
+    margin-right: 18px !important;
+    line-height: 1 !important;
     margin-right: 16px !important;
     line-height: 1 !important;
 }
 
 .kpi-number {
     font-family: var(--font-family) !important;
-    font-size: 36px !important; 
-    font-weight: 600 !important;
+    font-size: 42px !important;
+    font-weight: 700 !important;
     color: #1E293B !important;
     line-height: 1 !important;
 }
+
 /* =========================================
    CHARTS
    ========================================= */
@@ -284,13 +331,35 @@
 }
 
 .sapMListTblCell .sapMText,
-.sapMListTblCell .sapMLnk,
-.sapMListTblCell .sapMObjStatusText {
-  font-size: 16px !important; 
-  font-weight: 600 !important; 
+.sapMListTblCell .sapMLnk {
+  font-size: 16px !important;
+  font-weight: 600 !important;
   color: var(--color-secondary) !important;
   line-height: 1.4 !important;
 }
+
+.sapMListTblCell .sapMObjStatusText {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+}
+
+.sapMObjStatusSuccess .sapMObjStatusText {
+    color: #16A34A !important;
+}
+
+.sapMObjStatusError .sapMObjStatusText {
+    color: #DC2626 !important;
+}
+
+.sapMObjStatusWarning .sapMObjStatusText {
+    color: #F59E0B !important;
+}
+
+.sapMObjStatusInformation .sapMObjStatusText {
+    color: #2563EB !important;
+}
+
 
 /* =========================================
    RESPONSIVE
@@ -303,4 +372,23 @@
 @media (max-width: 768px) {
   .sidebarNav { width: 100% !important; border-right: none !important; border-bottom: 1px solid var(--color-gray-200) !important; }
   .customKpiCard { width: 100% !important; margin: var(--space-s) 0 !important; }
+}
+.sidebarContainer{
+    width:300px !important;
+    background:#0F172A !important;
+}
+
+.sidebarBranding{
+    background:linear-gradient(135deg,#0A6ED1,#0854A8);
+    padding:24px;
+}
+
+.sidebarLogo{
+    color:white !important;
+    font-size:24px !important;
+    font-weight:800 !important;
+}
+
+.sidebarSubtitle{
+    color:rgba(255,255,255,.85) !important;
 }

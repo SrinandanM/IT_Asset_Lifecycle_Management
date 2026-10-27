@@ -198,12 +198,23 @@ _initializeEmployee: async function () {
         },
 
         _getSectionMeta: function (sItemId) {
-            const map = {
-                dashboardItem: { key: "dashboard", title: "Dashboard", subtitle: "Employee Self Service Dashboard" },
-                assetsItem: { key: "assets", title: "My Assets", subtitle: "Your Assigned Assets" },
-                requestsItem: { key: "requests", title: "My Requests", subtitle: "Your Asset Requests" },
-                profileItem: { key: "profile", title: "My Profile", subtitle: "Your Employee Profile" }
-            };
+ const map = {
+    assetsItem: {
+        key: "assets",
+        title: "My Assets",
+        subtitle: "Your Assigned Assets"
+    },
+    requestsItem: {
+        key: "requests",
+        title: "My Requests",
+        subtitle: "Your Asset Requests"
+    },
+    profileItem: {
+        key: "profile",
+        title: "My Profile",
+        subtitle: "Your Employee Profile"
+    }
+};
             return map[sItemId];
         },
 

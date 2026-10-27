@@ -21,15 +21,28 @@
                 renderType="Bare">
 
                 <!-- NAVIGATION SIDEBAR -->
-                <List
-                    id="navigationMenu"
-                    mode="SingleSelectMaster"
-                    selectionChange=".onMenuSelect"
-                    class="sidebarNav">
+               <VBox
+    id="sidebarContainer"
+    class="sidebarContainer">
 
-                    <StandardListItem
-                        title="Dashboard"
-                        icon="sap-icon://home" />
+    <VBox class="sidebarBranding">
+
+        <Title
+            text="EALM"
+            class="sidebarLogo"/>
+
+        <Text
+            text="Manager Portal"
+            class="sidebarSubtitle"/>
+
+    </VBox>
+
+    <List
+        id="navigationMenu"
+        mode="SingleSelectMaster"
+        selectionChange=".onMenuSelect"
+        class="sidebarNav">
+
 
                     <StandardListItem
                         title="Employees"
@@ -48,6 +61,7 @@
                         icon="sap-icon://employee" />
 
                 </List>
+                </VBox>
 
                 <!-- MAIN CONTENT AREA -->
                 <VBox
@@ -55,17 +69,7 @@
                     height="100%"
                     class="contentArea"
                     renderType="Bare">
-                    <Title
-                        id="contentTitle"
-                        text="Dashboard"
-                        level="H1"
-                        class="mainContentTitle" />
-
-                    <Text
-                        id="contentText"
-                        text="Manager Dashboard"
-                        visible="true"
-                        class="mainContentSubTitle" />
+ 
 
                     <Panel
                         width="100%"

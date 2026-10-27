@@ -180,7 +180,10 @@ sap.ui.define([
             onCreateAsset: function () {
                 const oDialog = new Dialog({
                     title: "Create Asset",
-                    contentWidth: "500px",
+                    contentWidth: "700px",
+draggable: true,
+resizable: true,
+
                     content: [
                         new VBox({
                             items: [
@@ -279,7 +282,10 @@ sap.ui.define([
 
                     const oDialog = new Dialog({
                         title: "Assign Asset",
-                        contentWidth: "500px",
+                        contentWidth: "700px",
+draggable: true,
+resizable: true,
+
                         content: [
                             new VBox({
                                 items: [
@@ -353,7 +359,10 @@ sap.ui.define([
 
                 const oDialog = new Dialog({
                     title: "Return Asset",
-                    contentWidth: "500px",
+                    contentWidth: "700px",
+draggable: true,
+resizable: true,
+
                     content: [
                         new VBox({
                             items: [
@@ -409,7 +418,10 @@ sap.ui.define([
 
                 const oDialog = new Dialog({
                     title: "Transfer Asset",
-                    contentWidth: "500px",
+                    contentWidth: "700px",
+draggable: true,
+resizable: true,
+
                     content: [
                         new VBox({
                             items: [
@@ -466,7 +478,10 @@ sap.ui.define([
 
                 const oDialog = new Dialog({
                     title: "Send for Maintenance",
-                    contentWidth: "500px",
+                    contentWidth: "700px",
+draggable: true,
+resizable: true,
+
                     content: [
                         new VBox({
                             items: [
@@ -519,7 +534,10 @@ sap.ui.define([
 
                 const oDialog = new Dialog({
                     title: "Return from Maintenance",
-                    contentWidth: "500px",
+                    contentWidth: "700px",
+draggable: true,
+resizable: true,
+
                     content: [
                         new VBox({
                             items: [
@@ -574,7 +592,10 @@ sap.ui.define([
 
                 const oDialog = new Dialog({
                     title: "Retire Asset",
-                    contentWidth: "500px",
+                    contentWidth: "700px",
+draggable: true,
+resizable: true,
+
                     content: [
                         new VBox({
                             items: [
@@ -646,7 +667,10 @@ sap.ui.define([
             onCreateEmployee: function () {
                 const oDialog = new Dialog({
                     title: "Create Employee",
-                    contentWidth: "500px",
+                    contentWidth: "700px",
+draggable: true,
+resizable: true,
+
                     content: [
                         new VBox({
                             items: [
@@ -719,7 +743,10 @@ sap.ui.define([
 
                 const oDialog = new Dialog({
                     title: "Edit Employee",
-                    contentWidth: "500px",
+                    contentWidth: "700px",
+draggable: true,
+resizable: true,
+
                     content: [
                         new VBox({
                             items: [
@@ -1009,7 +1036,10 @@ sap.ui.define([
             onCreateVendor: function () {
                 const oDialog = new Dialog({
                     title: "Create Vendor",
-                    contentWidth: "500px",
+                    contentWidth: "700px",
+draggable: true,
+resizable: true,
+
                     content: [
                         new VBox({
                             items: [
@@ -1073,7 +1103,10 @@ sap.ui.define([
 
                 const oDialog = new Dialog({
                     title: "Edit Vendor",
-                    contentWidth: "500px",
+                    contentWidth: "700px",
+draggable: true,
+resizable: true,
+
                     content: [
                         new VBox({
                             items: [

@@ -43,69 +43,74 @@
 
 /* PAGE STYLING */
 .sapMPage {
-    background: #F8FAFC !important;
+    background: var(--color-background) !important;
     min-height: 100vh;
 }
 
 /* ===================================================
    NAVIGATION SIDEBAR (LIGHT THEME)
    =================================================== */
+.sidebarContainer {
+    width: 300px !important;
+    min-height: 100vh !important;
+    background: #0F172A !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
 
 .navigationMenu {
-    background: #FFFFFF !important;
-    border-right: 1px solid #E2E8F0 !important;
-    border-radius: 0 !important;
-    padding: 1rem 0 !important;
+    background: #0F172A !important;
+    border-right: none !important;
+    padding: 0 !important;
     margin: 0 !important;
-    min-width: 250px;
-    box-shadow: none;
+    width: 100% !important;
+    min-width: 100% !important;
 }
 
 .navigationMenu .sapMSLI {
     color: #334155 !important;
     border-left: 4px solid transparent !important;
+    border-bottom: 1px solid #F1F5F9;
     transition: all var(--transition-short);
     padding: 0.75rem 1.5rem !important;
-    border-bottom: 1px solid #F1F5F9;
 }
 
 .navigationMenu .sapMSLI:hover {
-    background: #F8FAFC !important;
-    border-left-color: #0A6ED1 !important;
+    background: var(--color-background) !important;
+    border-left-color: var(--color-primary) !important;
 }
 
 .navigationMenu .sapMSLI.sapMLISelected {
-    background: #EFF6FF !important;
-    border-left-color: #0A6ED1 !important;
+    background: #1E293B !important;
+    border-left: 5px solid #0A6ED1 !important;
 }
 
 .navigationMenu .sapMSLI .sapMSLITitle {
-    color: #334155 !important;
-    font-weight: 500 !important;
-    font-size: 15px !important;
+    color: #FFFFFF !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
 }
 
 .navigationMenu .sapMSLI.sapMLISelected .sapMSLITitle {
-    color: #0A6ED1 !important;
+    color: var(--color-primary) !important;
     font-weight: 600 !important;
 }
 
 .navigationMenu .sapMSLI .sapMSLIImgIcon {
-    color: #64748B !important;
+    color: var(--color-text-tertiary) !important;
     font-size: 1.25rem !important;
 }
 
 .navigationMenu .sapMSLI.sapMLISelected .sapMSLIImgIcon {
-    color: #0A6ED1 !important;
+    color: var(--color-primary) !important;
 }
 
 /* ===================================================
    CONTENT AREA
    =================================================== */
-
 .contentArea {
-    background: #F8FAFC;
-    padding: var(--spacing-xl);
+    background: var(--color-background);
+    padding: 0 24px 24px 24px !important;
     overflow-y: auto;
     flex: 1;
 }
@@ -123,102 +128,153 @@
 
 .contentSubtitle {
     font-size: 16px !important;
-    color: var(--color-text-tertiary);
-    margin-top: 0.5rem !important;
+    color: var(--color-text-tertiary) !important;
     margin: 0 !important;
+    margin-top: 0.5rem !important;
 }
 
 /* ===================================================
    DASHBOARD — LARGER KPI CARDS & BIGGER FONTS
    =================================================== */
-
-/* CRITICAL FIX: Do not put display:flex here, it breaks SAPUI5 tab switching */
 .dashboardWrapper {
     width: 100%;
-    background: #FFFFFF;
-    border-radius: 8px;
+    background: var(--color-surface);
+    border-radius: var(--radius-sm);
 }
 
-/* --- Blue Top Banner (MADE MUCH BIGGER) --- */
+/* --- Blue Top Banner --- */
 .dashboardBanner {
     background: linear-gradient(90deg, #0A6ED1 0%, #1D4ED8 100%);
     padding: 3.5rem 4rem; 
-    border-radius: 12px;
-    margin-bottom: 2.5rem;
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-2xl);
     box-shadow: 0 6px 20px rgba(10, 110, 209, 0.25);
 }
 
-.dashboardBanner .bannerTitle .sapMTitle {
+.bannerTitle {
     color: #FFFFFF !important;
-    font-size: 38px !important; 
+    font-size: 32px !important;
     font-weight: 700 !important;
-    margin-bottom: 0.75rem;
 }
 
-.dashboardBanner .bannerSubtitle .sapMText {
-    color: rgba(255, 255, 255, 0.9) !important;
-    font-size: 20px !important; 
+
+.bannerSubtitle {
+    color: rgba(255,255,255,.9) !important;
+    font-size: 16px !important;
     font-weight: 500 !important;
 }
 
-/* --- Section Header with Underline --- */
+/* --- Section Header Block --- */
 .sectionHeaderBlock {
-    margin-bottom: 2rem;
-    padding: 0 0.5rem;
+    margin-bottom: var(--spacing-xl);
+    padding: 0 var(--spacing-sm);
 }
 
-.sectionHeaderTitle .sapMTitle {
-    font-size: 28px !important; 
-    font-weight: 600 !important;
+.sectionHeaderTitle {
+    font-size: 24px !important;
+    font-weight: 700 !important;
     color: #1E293B !important;
 }
 
 .sectionHeaderUnderline {
     width: 80px;
     height: 4px;
-    background: #0A6ED1;
+    background: var(--color-primary);
     border-radius: 2px;
     margin-top: 8px;
 }
-
-/* --- KPI Boxes (Larger & Taller with Bigger Text) --- */
-.kpiRow {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
+.sidebarBranding {
+    background: linear-gradient(135deg,#0A6ED1,#0854A8);
+    padding: 24px;
 }
 
+.sidebarLogo {
+    color: #FFFFFF !important;
+    font-size: 26px !important;
+    font-weight: 800 !important;
+}
+
+.sidebarSubtitle {
+    color: rgba(255,255,255,.9) !important;
+    font-size: 14px !important;
+}
+
+/* --- KPI Boxes --- */
+.kpiRow {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 24px !important;
+    gap: 20px !important;
+    margin-bottom: 20px !important;
+}
 .kpiBox {
-    flex: 1 1 calc(33.33% - 1.5rem); 
-    min-width: 300px;
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    border-radius: 12px;
-    padding: 2rem 2.5rem; 
-    box-sizing: border-box;
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    flex: 1 !important;
+
+    min-width: 280px !important;
+
+    height: 240px !important;
+
+    background: #FFFFFF !important;
+
+    border-radius: 12px !important;
+
+    border: 1px solid #E2E8F0 !important;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.08) !important;
+
+    padding: 32px !important;
+
+    transition: all .2s ease !important;
+}
+
+
+.kpiRow:first-of-type .kpiBox:nth-child(1){
+    border-top: 5px solid #0A6ED1 !important;
+}
+
+.kpiRow:first-of-type .kpiBox:nth-child(2){
+    border-top: 5px solid #F59E0B !important;
+}
+
+.kpiRow:first-of-type .kpiBox:nth-child(3){
+    border-top: 5px solid #16A34A !important;
+}
+
+.kpiRow:last-of-type .kpiBox:nth-child(1){
+    border-top: 5px solid #7C3AED !important;
+}
+
+.kpiRow:last-of-type .kpiBox:nth-child(2){
+    border-top: 5px solid #64748B !important;
+}
+
+.kpiRow:last-of-type .kpiBox:nth-child(3){
+    border-top: 5px solid #DC2626 !important;
 }
 
 .kpiBox:hover {
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+    box-shadow: var(--shadow-md);
     transform: translateY(-3px);
 }
 
-.kpiBoxLabel .sapMText {
-    font-size: 18px !important; 
+.kpiBoxLabel {
+    font-size: 17px !important;
     font-weight: 700 !important;
     color: #1E293B !important;
-    margin-bottom: 6px;
+
+    text-transform: uppercase;
+
+    font-weight: 700 !important;
+    color: #1E293B !important;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
-
-.kpiBoxSublabel .sapMText {
-    font-size: 16px !important; 
+.kpiBoxSublabel {
+    font-size: 15px !important;
     color: #64748B !important;
-    margin-bottom: 1.5rem;
+
+    color: #64748B !important;
+    margin-top: 4px !important;
 }
 
 .kpiBoxValueRow {
@@ -228,16 +284,16 @@
 }
 
 .kpiBoxIcon {
-    font-size: 44px; 
-    width: 44px;
-    height: 44px;
+    font-size: 36px !important;
+    width: 36px !important;
+    height: 36px !important;
 }
 
-.kpiBoxValue .sapMText {
-    font-size: 52px !important; 
+.kpiBoxValue {
+    font-size: 42px !important;
     font-weight: 700 !important;
     color: #1E293B !important;
-    line-height: 1;
+    line-height: 1 !important;
 }
 
 /* KPI Icon accent colors */
@@ -245,23 +301,23 @@
 .iconYellow  { color: #F59E0B !important; }
 .iconGreen   { color: #10B981 !important; }
 .iconPurple  { color: #7C3AED !important; }
-.iconGray    { color: #94A3B8 !important; }
+.iconGray    { color: var(--color-text-disabled) !important; }
 .iconRed     { color: #EF4444 !important; }
 
 /* --- Bottom Panels --- */
 .dashboardPanels {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem;
+    gap: var(--spacing-lg);
 }
 
 .panelCard {
     flex: 1 1 calc(50% - 0.75rem);
     min-width: 320px;
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    border-radius: 12px;
-    padding: 2.5rem; 
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-2xl); 
     box-sizing: border-box;
     box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
 }
@@ -275,15 +331,15 @@
 .panelUnderline {
     width: 60px;
     height: 4px;
-    background: #0A6ED1;
+    background: var(--color-primary);
     border-radius: 2px;
-    margin: 8px 0 1.5rem 0;
+    margin: 8px 0 var(--spacing-lg) 0;
 }
 
 .panelBody {
     display: flex;
     flex-direction: column;
-    gap: 1rem; 
+    gap: var(--spacing-md); 
 }
 
 .panelRow {
@@ -291,9 +347,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 2rem; 
-    background: #F8FAFC;
-    border-radius: 8px;
-    border-left: 5px solid #0A6ED1;
+    background: var(--color-background);
+    border-radius: var(--radius-sm);
+    border-left: 5px solid var(--color-primary);
 }
 
 .panelRowLabel .sapMText {
@@ -306,37 +362,20 @@
 
 .panelRowValue .sapMText {
     font-size: 28px !important; 
-    color: #0A6ED1 !important;
+    color: var(--color-primary) !important;
     font-weight: 700 !important;
 }
 
-/* CRITICAL FIX: Do not put display:block here */
 .sectionContainer {
     padding: 0;
 }
 
-/* --- Responsive breakpoints --- */
-@media (max-width: 1200px) {
-    .kpiBox { flex: 1 1 calc(50% - 1.5rem); } 
-}
-
-@media (max-width: 800px) {
-    .kpiBox { flex: 1 1 100%; } 
-    .panelCard { flex: 1 1 100%; }
-    .kpiBoxValue .sapMText { font-size: 40px !important; }
-    .dashboardBanner { padding: 2rem; }
-    .dashboardBanner .bannerTitle .sapMTitle { font-size: 28px !important; }
-}
-
-@media (max-width: 520px) {
-    .kpiBox { padding: 1.5rem; }
-}
-
 /* ===================================================
-   PROFILE CARD
+   PROFILE CARD & RESPONSIVE BREAKPOINTS
    =================================================== */
-
 .profileCard {
+    max-width: 950px;
+    margin: auto;
     background: var(--color-surface);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
@@ -346,404 +385,18 @@
     animation: cardEnter var(--transition-long) forwards;
 }
 
-.profileCardHeader {
-    background: linear-gradient(135deg, var(--color-primary) 0%, #0856a8 100%);
-    padding: var(--spacing-lg);
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-lg);
-    color: white;
+/* Responsive Viewports */
+@media (max-width: 1200px) {
+    .kpiBox { flex: 1 1 calc(50% - 1.5rem); } 
 }
 
-.profileCardHeaderTitle {
-    color: white !important;
-    font-size: 18px !important;
-    font-weight: 600 !important;
-    margin: 0 !important;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+@media (max-width: 800px) {
+    .kpiBox, .panelCard { flex: 1 1 100%; }
+    .kpiBoxValue .sapMText { font-size: 40px !important; }
+    .dashboardBanner { padding: var(--spacing-xl); }
+    .dashboardBanner .bannerTitle .sapMTitle { font-size: 28px !important; }
 }
 
-.profileContent {
-    padding: var(--spacing-lg);
-}
-
-.profileRow {
-    display: flex;
-    gap: var(--spacing-md);
-    padding: var(--spacing-md);
-    border-bottom: 1px solid #F1F5F9;
-    transition: background var(--transition-short);
-    align-items: flex-start;
-}
-
-.profileRow:last-child {
-    border-bottom: none;
-}
-
-.profileRow:hover {
-    background: #F8FAFC;
-    border-radius: var(--radius-md);
-}
-
-.profileRowIcon {
-    width: 24px;
-    height: 24px;
-    color: var(--color-primary);
-    flex-shrink: 0;
-    margin-top: 4px;
-}
-
-.profileRowContent {
-    flex: 1;
-}
-
-.profileRowLabel {
-    font-size: 12px;
-    color: var(--color-text-disabled);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 0.25rem !important;
-}
-
-.profileRowValue {
-    font-size: 16px;
-    color: var(--color-text-primary);
-    font-weight: 500;
-}
-
-/* ===================================================
-   DATA TABLES
-   =================================================== */
-
-.dataTable {
-    border-collapse: collapse;
-    width: 100%;
-    background: var(--color-surface);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--color-border);
-}
-
-.dataTable .sapMListTblHeaderCell {
-    background: #F1F5F9 !important;
-    color: var(--color-text-secondary) !important;
-    font-weight: 600 !important;
-    font-size: 14px !important;
-    border-bottom: 2px solid var(--color-border) !important;
-}
-
-.dataTableRow {
-    border-bottom: 1px solid var(--color-border);
-    transition: background var(--transition-short);
-}
-
-.dataTableRow:hover {
-    background: #F8FAFC !important;
-}
-
-.tableColumnHeader {
-    font-weight: 600 !important;
-    color: var(--color-text-secondary) !important;
-    font-size: 14px !important;
-}
-
-.tableCellBold {
-    font-weight: 600 !important;
-    color: var(--color-text-primary) !important;
-    font-size: 15px !important;
-}
-
-.tableCell {
-    color: var(--color-text-tertiary) !important;
-    font-size: 15px !important;
-}
-
-.tableCellHint {
-    color: var(--color-text-disabled) !important;
-    font-size: 13px !important;
-}
-
-.tableCellPrimary {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-.tableCellValue {
-    font-size: 15px !important;
-}
-
-.tableCellValue--bold {
-    font-weight: 600 !important;
-    color: var(--color-text-primary) !important;
-}
-
-.tableAvatar {
-    width: 32px;
-    height: 32px;
-}
-
-.tableActions {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.iconBtn {
-    border: 1px solid var(--color-border) !important;
-    border-radius: var(--radius-sm) !important;
-    transition: all var(--transition-short);
-}
-
-.iconBtn:hover {
-    background: #F1F5F9 !important;
-    border-color: var(--color-primary) !important;
-    color: var(--color-primary) !important;
-}
-
-.iconBtn--small {
-    padding: 4px !important;
-    min-width: 32px !important;
-    height: 32px !important;
-}
-
-/* ===================================================
-   STATUS BADGES
-   =================================================== */
-
-.statusBadge {
-    border-radius: var(--radius-sm);
-    padding: 6px 14px;
-    font-size: 12px;
-    font-weight: 600;
-    display: inline-block;
-}
-
-.statusBadge--success {
-    background: #D1FAE5 !important;
-    color: #065F46 !important;
-}
-
-.statusBadge--warning {
-    background: #FEF3C7 !important;
-    color: #92400E !important;
-}
-
-.statusBadge--error {
-    background: #FEE2E2 !important;
-    color: #7F1D1D !important;
-}
-
-.statusBadge--info {
-    background: #CFFAFE !important;
-    color: #164E63 !important;
-}
-
-.statusBadge--inline {
-    border-radius: 6px;
-    padding: 4px 12px;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-/* ===================================================
-   BUTTONS
-   =================================================== */
-
-.btn {
-    border-radius: var(--radius-sm);
-    font-weight: 600;
-    padding: 12px 24px;
-    transition: all var(--transition-short);
-    font-size: 15px;
-    cursor: pointer;
-    border: none;
-}
-
-.btn--primary {
-    background: var(--color-primary) !important;
-    color: white !important;
-}
-
-.btn--primary:hover {
-    background: var(--color-primary-dark) !important;
-    box-shadow: 0 4px 12px rgba(10, 110, 209, 0.3);
-    transform: translateY(-2px);
-}
-
-.btn--secondary {
-    background: white !important;
-    color: var(--color-primary) !important;
-    border: 2px solid var(--color-primary) !important;
-}
-
-.btn--secondary:hover {
-    background: #EFF6FF !important;
-    transform: translateY(-2px);
-}
-
-.btn--ghost {
-    background: transparent !important;
-    color: var(--color-text-secondary) !important;
-    border: 1px solid var(--color-border) !important;
-}
-
-.btn--ghost:hover {
-    background: #F8FAFC !important;
-    border-color: var(--color-primary) !important;
-    color: var(--color-primary) !important;
-}
-
-.btn--sm {
-    padding: 8px 16px;
-    font-size: 13px;
-}
-
-/* ===================================================
-   FORMS & DIALOGS
-   =================================================== */
-
-.dialogForm {
-    padding: var(--spacing-xl);
-    gap: var(--spacing-lg);
-}
-
-.formSection {
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-lg);
-}
-
-.formSectionTitle {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: var(--spacing-md);
-}
-
-.formContainer {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
-}
-
-.formInput {
-    width: 100% !important;
-    border-radius: var(--radius-sm) !important;
-    border: 1px solid var(--color-border) !important;
-    padding: 12px 14px !important;
-    font-size: 16px !important;
-    transition: all var(--transition-short);
-}
-
-.formInput:focus {
-    border-color: var(--color-primary) !important;
-    box-shadow: 0 0 0 3px rgba(10, 110, 209, 0.1) !important;
-}
-
-.formDivider {
-    height: 1px;
-    background: var(--color-border);
-    margin: var(--spacing-md) 0;
-}
-
-/* ===================================================
-   RESPONSIVE DESIGN
-   =================================================== */
-
-@media (max-width: 1024px) {
-    .navigationMenu {
-        min-width: 250px;
-    }
-}
-
-@media (max-width: 768px) {
-    #mainLayout {
-        flex-direction: column !important;
-    }
-
-    .navigationMenu {
-        width: 100% !important;
-        height: auto !important;
-        margin-bottom: var(--spacing-md);
-        display: flex;
-        flex-direction: row;
-        overflow-x: auto;
-    }
-
-    .contentArea {
-        padding: var(--spacing-md);
-    }
-
-    .profileCard {
-        margin-bottom: var(--spacing-lg);
-    }
-}
-
-@media (max-width: 480px) {
-    .contentMainTitle {
-        font-size: 28px !important;
-    }
-
-    .profileRow {
-        flex-direction: column;
-        gap: var(--spacing-sm);
-    }
-
-    .profileRowIcon {
-        margin-top: 0;
-    }
-
-    .btn {
-        padding: 10px 16px;
-        font-size: 14px;
-    }
-}
-
-/* ===================================================
-   ACCESSIBILITY
-   =================================================== */
-
-.kpiCard:focus-within,
-.profileCard:focus-within,
-.dataTable:focus-within {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-}
-
-.btn:focus,
-.formInput:focus {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-}
-
-.navigationMenu .sapMSLI:focus {
-    outline: 2px solid var(--color-primary);
-    outline-offset: -2px;
-}
-
-/* ===================================================
-   ICONTABBAR FIX FOR DASHBOARD
-   =================================================== */
-.contentPanelApp {
-    background: transparent !important;
-}
-
-.contentPanelApp .sapMITBContent {
-    background: transparent !important;
-    padding: 0 !important;
-    height: auto !important;
-}
-
-.contentPanelApp .sapMITBHead {
-    display: none !important; /* Hides the tab headers */
-}
-
-.contentPanelApp .sapMITH {
-    background: transparent !important;
-    box-shadow: none !important;
-    border: none !important;
+@media (max-width: 520px) {
+    .kpiBox { padding: var(--spacing-lg); }
 }
