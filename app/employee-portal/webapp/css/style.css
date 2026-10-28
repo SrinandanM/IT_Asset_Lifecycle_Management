@@ -374,15 +374,45 @@
    PROFILE CARD & RESPONSIVE BREAKPOINTS
    =================================================== */
 .profileCard {
-    max-width: 950px;
-    margin: auto;
-    background: var(--color-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    background: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.08);
     overflow: hidden;
-    margin-bottom: var(--spacing-2xl);
-    border: 1px solid var(--color-border);
-    animation: cardEnter var(--transition-long) forwards;
+}
+.profileCardHeader{
+    background: linear-gradient(
+        135deg,
+        #0A6ED1,
+        #0854A8
+    );
+    padding: 32px;
+}
+.profileCardHeaderTitle{
+    color:white !important;
+    font-size:28px !important;
+    font-weight:700 !important;
+}
+.profileContent{
+    padding:32px;
+}
+.profileRow{
+    padding:16px;
+    margin-bottom:12px;
+    border-radius:10px;
+    background:#F8FAFC;
+    border-left:4px solid #0A6ED1;
+}
+.profileRowLabel{
+    font-size:13px !important;
+    color:#64748B !important;
+}
+.profileRowValue{
+    font-size:18px !important;
+    font-weight:600 !important;
+    color:#1E293B !important;
 }
 
 /* Responsive Viewports */

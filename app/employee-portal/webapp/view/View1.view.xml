@@ -234,8 +234,13 @@
                                     </VBox>
                                     <VBox class="profileCard">
                                         <VBox class="profileCardHeader">
-                                            <Title text="{i18n>profileCardHeader}" level="H3" class="profileCardHeaderTitle" />
-                                        </VBox>
+<Title
+    text="{profile>/fullName}"
+    level="H2"
+    class="profileCardHeaderTitle"/>
+    <Text
+    text="{profile>/role}"
+    class="profileHeaderRole"/>                                        </VBox>
                                         <VBox class="profileContent">
                                             <HBox class="profileRow">
                                                 <core:Icon src="sap-icon://customer" class="profileRowIcon" />
