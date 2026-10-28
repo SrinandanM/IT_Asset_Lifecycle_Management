@@ -1470,18 +1470,102 @@ resizable: true,
                 doc.text("Asset Lifecycle Report", 10, y);
                 y += 15;
 
-                if (this.byId("assetReportTable").getVisible()) {
-                    const data = this.getView().getModel("assetReports").getData();
-                    data.forEach(asset => {
-                        doc.setFontSize(10);
-                        doc.text("Asset Tag: " + (asset.assetTag || ""), 10, y);
-                        y += 7;
-                        doc.text("Model: " + (asset.model || ""), 10, y);
-                        y += 7;
-                        doc.text("Status: " + (asset.status || ""), 10, y);
-                        y += 12;
-                    });
-                } else if (this.byId("requestReportTable").getVisible()) {
+if (this.byId("assetReportTable").getVisible()) {
+
+    const data =
+        this.getView()
+            .getModel("assetReports")
+            .getData();
+
+    const pageHeight =
+        doc.internal.pageSize.height;
+
+    // Header
+    doc.setFillColor(10, 110, 209);
+    doc.rect(0, 0, 210, 20, "F");
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(16);
+
+    doc.text(
+        "ASSET INVENTORY REPORT",
+        10,
+        13
+    );
+
+    doc.setTextColor(0, 0, 0);
+
+    y = 30;
+
+    doc.setFontSize(10);
+    doc.text(
+        "Generated On : " +
+        new Date().toLocaleString(),
+        10,
+        y
+    );
+
+    y += 10;
+
+    // Table Header
+    doc.setFont(undefined, "bold");
+
+    doc.text("Asset Tag", 10, y);
+    doc.text("Model", 70, y);
+    doc.text("Status", 140, y);
+
+    y += 4;
+
+    doc.line(10, y, 190, y);
+
+    y += 8;
+
+    doc.setFont(undefined, "normal");
+
+    data.forEach(asset => {
+
+        if (y > pageHeight - 20) {
+
+            doc.addPage();
+
+            y = 20;
+
+            doc.setFont(undefined, "bold");
+
+            doc.text("Asset Tag", 10, y);
+            doc.text("Model", 70, y);
+            doc.text("Status", 140, y);
+
+            y += 4;
+
+            doc.line(10, y, 190, y);
+
+            y += 8;
+
+            doc.setFont(undefined, "normal");
+        }
+
+        doc.text(
+            asset.assetTag || "",
+            10,
+            y
+        );
+
+        doc.text(
+            asset.model || "",
+            70,
+            y
+        );
+
+        doc.text(
+            asset.status || "",
+            140,
+            y
+        );
+
+        y += 8;
+    });
+} else if (this.byId("requestReportTable").getVisible()) {
                     const data = this.getView().getModel("requestReports").getData();
                     data.forEach(req => {
                         doc.text("Employee: " + (req.employeeName || ""), 10, y);
@@ -1535,18 +1619,102 @@ resizable: true,
                             doc.text("Asset Lifecycle Report", 10, y);
                             y += 15;
 
-                            if (this.byId("assetReportTable").getVisible()) {
-                                const data = this.getView().getModel("assetReports").getData();
-                                data.forEach(asset => {
-                                    doc.setFontSize(10);
-                                    doc.text("Asset Tag: " + (asset.assetTag || ""), 10, y);
-                                    y += 7;
-                                    doc.text("Model: " + (asset.model || ""), 10, y);
-                                    y += 7;
-                                    doc.text("Status: " + (asset.status || ""), 10, y);
-                                    y += 12;
-                                });
-                            } else if (this.byId("requestReportTable").getVisible()) {
+ if (this.byId("assetReportTable").getVisible()) {
+
+    const data =
+        this.getView()
+            .getModel("assetReports")
+            .getData();
+
+    const pageHeight =
+        doc.internal.pageSize.height;
+
+    // Header
+    doc.setFillColor(10, 110, 209);
+    doc.rect(0, 0, 210, 20, "F");
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(16);
+
+    doc.text(
+        "ASSET INVENTORY REPORT",
+        10,
+        13
+    );
+
+    doc.setTextColor(0, 0, 0);
+
+    y = 30;
+
+    doc.setFontSize(10);
+    doc.text(
+        "Generated On : " +
+        new Date().toLocaleString(),
+        10,
+        y
+    );
+
+    y += 10;
+
+    // Table Header
+    doc.setFont(undefined, "bold");
+
+    doc.text("Asset Tag", 10, y);
+    doc.text("Model", 70, y);
+    doc.text("Status", 140, y);
+
+    y += 4;
+
+    doc.line(10, y, 190, y);
+
+    y += 8;
+
+    doc.setFont(undefined, "normal");
+
+    data.forEach(asset => {
+
+        if (y > pageHeight - 20) {
+
+            doc.addPage();
+
+            y = 20;
+
+            doc.setFont(undefined, "bold");
+
+            doc.text("Asset Tag", 10, y);
+            doc.text("Model", 70, y);
+            doc.text("Status", 140, y);
+
+            y += 4;
+
+            doc.line(10, y, 190, y);
+
+            y += 8;
+
+            doc.setFont(undefined, "normal");
+        }
+
+        doc.text(
+            asset.assetTag || "",
+            10,
+            y
+        );
+
+        doc.text(
+            asset.model || "",
+            70,
+            y
+        );
+
+        doc.text(
+            asset.status || "",
+            140,
+            y
+        );
+
+        y += 8;
+    });
+} else if (this.byId("requestReportTable").getVisible()) {
                                 const data = this.getView().getModel("requestReports").getData();
                                 data.forEach(req => {
                                     doc.text("Employee: " + (req.employeeName || ""), 10, y);
