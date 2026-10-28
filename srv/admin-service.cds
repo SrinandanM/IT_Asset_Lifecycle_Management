@@ -1,7 +1,7 @@
 using { asset.lifecycle.db as db } from '../db/schema';
 
-service AssetAdminService {
-
+service AssetAdminService 
+ {
     /* =========================================
        MASTER DATA
        ========================================= */
@@ -16,7 +16,6 @@ entity AssetCategories as projection on db.AssetCategories;
     /* =========================================
        ASSET MANAGEMENT
        ========================================= */
-@odata.draft.enabled
 entity Assets as projection on db.Assets {
     *,
     currentHolder.fullName as currentHolderName,

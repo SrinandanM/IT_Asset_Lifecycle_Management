@@ -4,6 +4,7 @@
   "description": "Welcome to your new CAP project.",
   "main": "index.js",
   "scripts": {
+    "start": "cds-serve",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch-asset-admin": "cds watch --open asset.admin.assetadmin/index.html?sap-ui-xx-viewCache=false --livereload false",
     "watch-project1": "cds watch --open project1/index.html?sap-ui-xx-viewCache=false --livereload false",
@@ -27,15 +28,19 @@
   "dependencies": {
     "@cap-js/hana": "^3.1.2",
     "@sap/cds": "^10.1.1",
+    "@sap/xssec": "^4",
     "hana": "^0.0.2",
     "jspdf": "^4.2.1",
     "nodemailer": "^6.9.7",
+    "passport": "^0.7.0",
     "pdfkit": "^0.13.0"
   },
+
   "workspaces": [
     "app/*"
   ],
   "devDependencies": {
+    "@sap/cds-dk": "^10",
     "cds-plugin-ui5": "^0.17.0"
   },
   "sapux": [

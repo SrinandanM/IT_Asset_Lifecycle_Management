@@ -7,18 +7,18 @@
     xmlns:viz.data="sap.viz.ui5.data"
     xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
 
-    <Page
-        id="managerPage"
-        title="Manager Portal"
-        class="sapUiNoContentPadding">
+<Page
+    id="managerPage"
+    title="Manager Portal"
+    enableScrolling="true"
+    class="sapUiNoContentPadding">
 
         <content>
 
-            <HBox
-                id="mainLayout"
-                width="100%"
-                height="100%"
-                renderType="Bare">
+<HBox
+    id="mainLayout"
+    width="100%"
+    renderType="Bare">
 
                 <!-- NAVIGATION SIDEBAR -->
                <VBox
@@ -64,11 +64,10 @@
                 </VBox>
 
                 <!-- MAIN CONTENT AREA -->
-                <VBox
-                    width="100%"
-                    height="100%"
-                    class="contentArea"
-                    renderType="Bare">
+<VBox
+    width="100%"
+    class="contentArea"
+    renderType="Bare">
  
 
                     <Panel

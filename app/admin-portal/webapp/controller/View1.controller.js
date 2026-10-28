@@ -177,8 +177,27 @@ sap.ui.define([
                 this.getView().setModel(oModel, "assets");
             },
 
-            onCreateAsset: function () {
-                const oDialog = new Dialog({
+onCreateAsset: async function () {
+    
+    const catResponse = await fetch(
+    "/odata/v4/asset-admin/AssetCategories"
+);
+
+const catData = await catResponse.json();
+
+const aCategoryItems = catData.value.map(cat =>
+    new Item({
+        key: cat.ID,
+        text: cat.categoryName
+    })
+);
+
+const oCategorySelect = new Select({
+    id: "categorySelect",
+    width: "100%",
+    items: aCategoryItems
+});
+    const oDialog = new Dialog({
                     title: "Create Asset",
                     contentWidth: "700px",
 draggable: true,
@@ -193,8 +212,9 @@ resizable: true,
                                 new Input({ id: "modelInput" }),
                                 new Label({ text: "Serial Number" }),
                                 new Input({ id: "serialNumberInput" }),
-                                new Label({ text: "Category" }),
-                                new Input({ id: "categoryIdInput" }),
+new Label({ text: "Category" }),
+oCategorySelect,
+
                                 new Label({ text: "Purchase Date" }),
                                 new Input({ id: "purchaseDateInput", type: "Date" }),
                                 new Label({ text: "Acquisition Cost" }),
@@ -205,15 +225,16 @@ resizable: true,
                     beginButton: new Button({
                         text: "Save",
                         press: async () => {
-                            const payload = {
-                                assetTag: sap.ui.getCore().byId("assetTagInput").getValue(),
-                                model: sap.ui.getCore().byId("modelInput").getValue(),
-                                serialNumber: sap.ui.getCore().byId("serialNumberInput").getValue(),
-                                categoryID: sap.ui.getCore().byId("categoryIdInput").getValue(),
-                                purchaseDate: sap.ui.getCore().byId("purchaseDateInput").getValue(),
-                                acquisitionCost: parseFloat(sap.ui.getCore().byId("costInput").getValue()),
-                                status: "AVAILABLE"
-                            };
+     const payload = {
+    assetTag: sap.ui.getCore().byId("assetTagInput").getValue(),
+    model: sap.ui.getCore().byId("modelInput").getValue(),
+    serialNumber: sap.ui.getCore().byId("serialNumberInput").getValue(),
+category_ID:
+    sap.ui.getCore().byId("categorySelect").getSelectedKey(),
+    purchaseDate: sap.ui.getCore().byId("purchaseDateInput").getValue(),
+    purchaseCost: parseFloat(sap.ui.getCore().byId("costInput").getValue()),
+    status: "AVAILABLE"
+};
 
                             const response = await fetch(
                                 "/odata/v4/asset-admin/Assets",

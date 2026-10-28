@@ -1,7 +1,6 @@
 using { asset.lifecycle.db as db } from '../db/schema';
 
 service AssetManagerService {
-
     /* =========================================
        EMPLOYEE MANAGEMENT
        ========================================= */

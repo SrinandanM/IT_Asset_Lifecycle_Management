@@ -13,11 +13,10 @@
         id="portalPage"
         title="Enterprise Asset Lifecycle Management"
         showNavButton="false"
-        enableScrolling="false">
+enableScrolling="true">
         
         <content>
-            <HBox id="mainLayout" width="100%" height="100%" alignItems="Stretch">
-
+<HBox id="mainLayout" width="100%" alignItems="Stretch">
             
 <!-- LEFT NAVIGATION -->
 
@@ -61,9 +60,9 @@
 </VBox>                
 
                 <!-- RIGHT CONTENT -->
-                <VBox id="contentArea" width="100%" height="100%">
 
-                    <!-- DASHBOARD -->
+
+    <VBox id="contentArea" width="100%">                    <!-- DASHBOARD -->
 <VBox id="dashboardContainer" visible="true" class="dashboard-wrapper">
     
     <!-- NEW: Blue Header Banner -->
@@ -94,6 +93,7 @@
             <GenericTile id="tileArchived" header="Archived" subheader="Moved to history" class="kpiCard">
                 <TileContent><NumericContent value="{dashboard>/archivedAssets}" withMargin="false" icon="sap-icon://folder" valueColor="Neutral" /></TileContent>
             </GenericTile>
+
         </HBox>
         <Panel
     headerText="Quick Insights"

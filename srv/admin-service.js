@@ -13,6 +13,14 @@ const {
     ArchiveRecords
 } = this.entities;
 
+this.after('CREATE', 'Assets', async () => {
+    await this.send('RefreshDashboard');
+});
+
+this.after('UPDATE', 'Assets', async () => {
+    await this.send('RefreshDashboard');
+});
+
 this.before('CREATE', 'Employees', async (req) => {
 
     const existingEmployee =

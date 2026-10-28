@@ -20,16 +20,20 @@
 /* =========================================
    1. GLOBAL LAYOUT & PAGE
    ========================================= */
-.sapMPageEnableScrolling { overflow: hidden !important; }
-#mainLayout { height: 100% !important; background-color: var(--bg) !important; }
-#contentArea { height: 100% !important; overflow-y: auto !important; background-color: var(--bg) !important; }
-
+.sapMPageEnableScrolling {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+#mainLayout { min-height: 100% !important; background-color: var(--bg) !important; }
+#contentArea {
+    overflow-y: auto !important;
+    background-color: var(--bg) !important;
+}
 .dashboard-wrapper {
     padding: 48px 40px 32px 40px !important;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    height: 100%;
 }
 
 /* =========================================

@@ -749,10 +749,10 @@ new Title({
 MessageBox.success(
     "Employee created successfully."
 );
+await this._loadEmployees();
+await this._loadDashboard();
 
-                await this._loadEmployees();
-
-                oDialog.close();
+oDialog.close();
 
             }
 
@@ -995,10 +995,10 @@ onEditEmployee: async function () {
                     "Employee updated successfully."
                 );
 
-                await this._loadEmployees();
+await this._loadEmployees();
+await this._loadDashboard();
 
-                oDialog.close();
-
+oDialog.close();
             }
 
         }),
@@ -1231,9 +1231,10 @@ onCreateRequest: async function () {
                     "Asset Request submitted successfully."
                 );
 
-                await this._loadRequests();
+await this._loadRequests();
+await this._loadDashboard();
 
-                oDialog.close();
+oDialog.close();
 
             }
 
@@ -1257,6 +1258,9 @@ onCreateRequest: async function () {
 onRefreshAssets: async function () {
 
     await this._loadAssets();
+
+    await this._loadDashboard();
+
 
 },
 
@@ -1621,11 +1625,13 @@ beginButton:
                 "Asset assigned successfully."
             );
 
-            await this._loadApprovedRequests();
+await this._loadApprovedRequests();
 
-            await this._loadAssets();
+await this._loadAssets();
 
-            oDialog.close();
+await this._loadDashboard();
+
+oDialog.close();
             oDialog.destroy();
 
         }

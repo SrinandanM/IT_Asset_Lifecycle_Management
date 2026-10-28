@@ -1,7 +1,7 @@
 using { asset.lifecycle.db as db } from '../db/schema';
 
-service AssetEmployeeService {
-
+service AssetEmployeeService 
+{
     /* =========================================
        EMPLOYEE SELF SERVICE
        ========================================= */
